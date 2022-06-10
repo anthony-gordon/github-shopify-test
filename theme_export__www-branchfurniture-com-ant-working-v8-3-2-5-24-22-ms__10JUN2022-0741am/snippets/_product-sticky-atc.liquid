@@ -1,0 +1,73 @@
+<style>
+  #stickyATC {visibility: hidden;background:#fff;box-shadow: 0px 5px 25px rgba(0, 0, 0, 0.09);width:100%;position:fixed;top:0;z-index:999;-webkit-transform: translateY(-150%); transform: translateY(-150%);}
+  body.stickyATC-enabled #stickyATC {visibility: visible; -webkit-transform: translateY(0); transform: translateY(0);}
+  body.stickyATC-enabled .header-drop {visibility: hidden;transform: translateY(-150%);-webkit-transform: translateY(-150%)}
+  #stickyATC .container {padding-top:1em;padding-bottom:1em}
+  #stickyATC .title {font-family: {{settings.heading_font}};font-size:2.143em}
+  #stickyATC .title {}
+
+  #stickyATC .options {flex-wrap:nowrap}
+  #stickyATC .swatch {min-width:initial;width:auto;padding-left:1em;margin-bottom:0}
+  #stickyATC .swatch-element {margin:0 1em 10px 0}
+  #stickyATC .swatch-element.other {margin:0 1em 0 0}
+  #stickyATC .swatch-element.other label {padding:0.5em 1em}
+  #stickyATC .swatch-element.other label .specs,
+  #stickyATC .swatch-element.other label .note {display:none}
+  #stickyATC .swatch .variants-wrap {flex-wrap:nowrap;width:auto;align-items: flex-end;}
+  #stickyATC .btn {padding:1.2em 2em}
+  #stickyATC .stamped-main-badge {margin-bottom:0!important}
+  #stickyATC .cta {margin-left: 1em;}
+</style>
+<div id="stickyATC" class="ease-animation-slow medium-down--hide">
+    <div class="container flex justify-content-between align-items-center">
+        <div>
+            <div class="title">{{ currentProduct.title }}</div>
+            <span class="stamped-product-reviews-badge stamped-main-badge" data-id="{{ product.id }}" style="display: block;margin-top: 10px;margin-bottom:10px;"  data-product-sku="{{product.handle}}"></span>
+        </div>
+        <div class="flex align-items-center">
+            <div class="variants">
+                {% include '_product_variants_new', isSticky:true  %}
+            </div>
+            <div class="cta">
+              	{% if chatWithSales %}
+              		<button class="btn chat-with-sales-button">Chat with Sales</button>
+                {% else %}
+                <div class="content-available">
+                    <button type="submit" class="btn">Add to cart</button>
+                </div>
+                <div class="content-soldout hide">
+                    <a href="#" class="btn chat-trigger">Contact Sales</a>
+                </div>
+              	{% endif %}
+            </div>
+        </div>
+        
+    </div>
+</div>
+
+<script>
+    
+    $(function(){
+        var stickyATC = $('#stickyATC');
+        var productWrap = $('.product-wrap');
+        $(window).scroll($.throttle(15, function(){
+            
+            if($(window).width() > 900){
+                productWrap = $('.product-wrap');
+                if( $(this).scrollTop() >= (productWrap.offset().top + productWrap.height() - 200) ) {
+                    $('body').addClass('stickyATC-enabled');
+                } else {
+                    $('body').removeClass('stickyATC-enabled');
+                }
+            }
+            
+        
+        }));
+
+        stickyATC.find('button[type="submit"]').on('click', function(e){
+            productWrap.find('#add-to-cart-button').click();
+        })
+
+    })
+    
+</script>

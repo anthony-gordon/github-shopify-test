@@ -1,0 +1,94 @@
+<div class="hlxn-fi-section">
+  
+    
+      <div class="hlxn-fi-content-text">
+        {% if section.settings.title != blank %}
+        <h1 class="hlxn-fi-title">{{ section.settings.title }}</h1>
+        {% endif %}
+        {% if section.settings.heading != blank %}
+        <p class="hlxn-fi-heading">{{ section.settings.heading }}</p>
+        {% endif %}
+        {% if section.settings.link_text != blank %}
+        <a href="{{ section.settings.link }}" class="c-fi-link">{{ section.settings.link_text }}</a>
+        {% endif %}
+        {% if section.settings.subheading != blank %}
+        <div class="hlxn-fi-subheading">{{ section.settings.subheading }}</div>
+        {% endif %}
+      </div>
+      {% if section.settings.img %}
+      <div class="hlxn-img-container">
+        <img src="{{ section.settings.img | img_url: 'master' }}" alt="" class="hlxn-fi-img" loading="lazy"/>
+      </div>
+      {% endif %}
+  
+  
+</div>
+
+{% schema %}
+  {
+    "name": "Feature Image",
+    "settings": [
+    {
+      "type": "header",
+      "content": "Image"
+    },
+{
+      "id": "bg_color",
+      "type": "color",
+      "label": "Bg Color",
+	  "default": "#e8e7e3"
+    },
+    {
+      "id": "img",
+      "type": "image_picker",
+      "label": "Image"
+    },
+    {
+      "type": "header",
+      "content": "Text"
+    },
+    {
+      "id": "title",
+      "type": "textarea",
+      "label": "Title",
+	  "default": "Exceptional Office<br>Furniture, <i>Half The Price.</i>"
+    },
+    {
+      "id": "heading",
+      "type": "textarea",
+      "label": "Heading",
+      "default": "Build a beautiful office without breaking the bank."
+    },
+    {
+      "id": "link_text",
+      "type": "text",
+      "label": "Button Text",
+      "default": "Shop now"
+    },
+    {
+      "id": "link",
+      "type": "url",
+      "label": "Button Link",
+      "default": "/"
+    },
+    {
+      "id": "subheading",
+      "type": "richtext",
+      "label": "Subheading",
+	  "default": "<p>Are you a team? Build your office</p>"
+    }
+	],
+  "presets": [
+    {
+      "name": "Feature Image",
+      "category": "Custom"
+    }
+  ]
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

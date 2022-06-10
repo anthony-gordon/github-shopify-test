@@ -1,0 +1,273 @@
+<div id="cart" class="two-columns container {% if cart.items == empty %}empty{% endif %}">
+
+  <style>
+    #cart.empty {margin: 120px auto; padding: 0; text-align: center;}
+    #cart.empty .head {font-size: 6em; margin-bottom: 0.3em;}
+    #cart.empty .title {font-size: 1.2em; margin-bottom: 2em;}
+
+    #cart {padding: 4em 1.5rem;}
+    #cart h1, #cart h2 {font-size: 2.5em; margin-bottom: 1em;}
+
+    @media all and (max-width: 600px){
+      #cart h1, #cart h2 {text-align: center; font-size: 2em;}
+      #cart {padding: 2em 1.5rem;}
+    }
+
+    #cart {padding: 4em 1.5rem;}
+    #cart h1, #cart h2 {font-size: 2.5em; margin-bottom: 1em;}
+
+    #cart .grid.main {margin-left: -4em;}
+    #cart .grid.main > .grid__item {padding-left: 4em;}
+
+    #cart .summary {padding: 0.4em; background: {{settings.cart_item_bg_color}}; text-align: center;}
+    #cart .summary .subtotal {font-size: 1.2em; font-weight: 700; width: 100%; padding-bottom: 1em; margin-bottom: 1.5em; border-bottom: 1px solid; }
+    #cart .summary .addnote {margin: 2em 0;}
+    #cart .summary .addnote label {text-transform: none; font-weight: 400;}
+    #cart .summary .addnote textarea {margin-top: 1em; height: 8em; padding: 0.5em; }
+    #cart .summary .additional-message {margin-bottom: 2em;}
+    #cart .summary .return-policy-button {font-weight: bold; margin-bottom: 2em; color: {{ settings.content_main_color}}; }
+    .isNotMobile #cart .summary .return-policy-button:hover {color: {{ settings.content_text_color}} }
+    #return-policy {max-width: 700px; text-align: center; padding: 30px;} 
+    #return-policy .title {font-size: 1.2em; text-transform: {{settings.heading_font_transform}}; color: {{ settings.content_heading_color}}; padding-bottom: 1em; margin-bottom: 1.5em; border-bottom: 1px solid #eee; }
+    #cart .summary .additional-checkout-buttons {margin-top: 2em; position: relative; z-index: 1;}
+    #cart .summary .additional-checkout-buttons span {display: block; font-size: 0.7em; text-transform: uppercase; font-weight: 700; color: #999; margin-bottom: 1em;}
+    #cart .summary .buttons .btn {width: 100%; margin-bottom: 1em; padding-left: 0; padding-right: 0;}
+
+    #cart .item {position: relative; padding: 2em 0; border-bottom: 1px solid {{settings.content_text_color}};}
+    #cart .item:last-child {border: 0;}
+    #cart .item img {width: 100%; display: block; background: {{settings.content_second_color}};}
+    #cart .item .title-price-wrap {margin-bottom: 1em; padding-right: 4em;}
+    #cart .item .title {padding-right: 0.5em; }
+    #cart .item .name {font-size: 1.9em; line-height: 120%; {% if settings.heading_font_custom != "" %}{{settings.heading_font_custom_name}}{% else %}font-family: {{settings.heading_font.family}}, {{settings.heading_font.fallback_families}};{% endif %} }
+    #cart .item .variants {line-height: 200%;}
+    #cart .item .variants strong {text-transform: uppercase;}
+    #cart .item .remove {position: absolute; top: 2.2em; right: 0;}
+    #cart .item .remove svg {font-size: 1.8em;}
+    #cart .item .quantity {display: inline-block; margin-bottom: 1em;}
+    #cart .item .quantity-box {font-size: 0.8em;}
+    #cart .item .quantity-box > div {background: #fff;}
+    #cart .item .price {font-size: 1.4em; font-weight: 500; text-align: right;}
+    #cart .item .edit-item {text-decoration: underline; font-size: 1.1em; display: block; line-height: 150%; padding-left: 1em; font-weight: 500;}
+    #cart .item .swatch {position: relative; display: block; width: 1.5em; height: 1.5em; margin-left: 0.5em; border: 1px solid; border-radius: 50%;}
+    #cart .item .swatch .tooltip {text-align:center; line-height: 120%; white-space: nowrap; background:{{settings.content_main_color}}; color:#fff; bottom:80%; padding: 0.5em 0.8em; font-size: 10px; font-weight: 500; {% if settings.enable_color_swatches == true %}display: block;{% else %}display:none;{% endif %} position:absolute; left: 50%; -webkit-transform: translateX(-50%) translateY(5px); transform: translateX(-50%) translateY(5px); margin-bottom:10px; filter:alpha(opacity=0); -khtml-opacity: 0; -moz-opacity: 0; opacity:0; visibility:hidden; -webkit-transition: all .25s ease-out; -moz-transition: all .25s ease-out; -ms-transition: all .25s ease-out; -o-transition: all .25s ease-out; transition: all .25s ease-out; z-index: 10000;}
+    #cart .item .swatch .tooltip:after {content:" "; border: 10px solid transparent; border-top: 10px solid {{settings.content_main_color}}; border-bottom: 0; bottom: -8px; height:0; left:50%; margin-left: -10px; position:absolute; width:0;}
+    .isNotMobile #cart .item .swatch:hover .tooltip, #cart .item .swatch.active .tooltip {filter:alpha(opacity=100); -khtml-opacity:1; -moz-opacity:1; opacity:1; visibility:visible; bottom: 100%; -webkit-transform: translateX(-50%) translateY(0); transform: translateX(-50%) translateY(0);}
+
+    @media all and (max-width: 600px){
+      #cart {padding: 2em 1rem;}
+      #cart .item .name {font-size: 1.2em;}
+      #cart .item .price {font-weight: 400;}
+      #cart .item .remove {top: 1.2em;}
+      #cart .item .remove svg {font-size: 1.2em;}
+      #cart .item .price {font-size: 1.1em;}
+      #cart h1, #cart h2 {text-align: center; font-size: 2em; margin-bottom: 0.5em;}
+      #cart .item {padding: 1em 0;}
+      #cart .item .title-price-wrap {padding-right: 2em;}
+      #cart .summary {padding: 1em 0 0; margin-top: 1em; border-top: 1px solid;}
+      #cart .item .wrap > .grid {margin-left: -15px}
+      #cart .item .wrap > .grid > .grid__item {padding-left: 15px}
+      #cart .item .edit-item {padding: 0; margin-top: 0.5em;}
+    }
+  </style>
+  {%- unless cart.items == empty -%} 
+  <script>
+    $(function(){
+      var checkInstructionsNote = function() {
+        if($('#chk-is-instructions').is(':checked')) {
+          $('#is-instructions').val('Yes');
+          $('#instructions-note').show();
+        } else {
+          $('#is-instructions').val('No');
+          $('#instructions-note').hide();
+          $('#instructions-note').find('textarea').val("");
+        }
+      }
+      $(document).on('click', '#chk-is-instructions',function(){
+        checkInstructionsNote();
+      });
+      checkInstructionsNote();
+
+      $(document).on('click', '#cart .remove-from-cart', function(e){
+        removeClydeCart(e);
+        
+        $(this).closest('.item').find('input[type=number]').val(0);
+        updateCart();
+        return false;
+      });
+
+      $(document).on('change', '#cart input[type=number]', function(e){
+        updateClydeCart(e)
+        updateCart();
+      });
+
+      /********* UPDATE QUANTITY WITHOUT REFRESHING *********/
+      function updateCart(){
+        $('#loading-overlay').show();
+
+        $.ajax({
+          type: 'POST',
+          url: '/cart/update.js',
+          data: $('#cart .main-form').serialize(),
+          dataType: 'json'
+        }).fail(function(){console.log('error');}).done(function(){
+          $.ajax({
+            type: 'GET',
+            url: '/cart?view=update',
+            cache: false,
+            success: function(data){
+              $('#loading-overlay').hide();
+              $('#cart').remove();
+              $('.content-wrapper').append(data);
+              setupClydeCartPrompts();
+            }
+          });
+//           updateCartDesc();
+          $('#add-cart-overlay').fadeOut();
+        });
+      }
+
+      /********* EDIT ITEM *********/
+/********* EDIT ITEM *********/
+      $(document).on('click', '#cart .edit-item', function(){
+        var url = $(this).data('url');
+        var qty = $(this).data('qty');
+        var variantId = $(this).data('variant');
+        var itemKey = $(this).data('item-key');
+
+        $('#loading-overlay').show();
+
+        $.ajax({
+          url: url,
+          cache: false
+        }).success(function(data){
+          $('#loading-overlay').hide();
+          Simplistic.openModal(data, 'quick-view');
+          $('.quick-view [name=quantity]').val(qty).change();
+
+          $('.quick-view #add-to-cart-button').text('SAVE CHANGES');
+          setInterval(function(){
+            if ($('.quick-view #add-to-cart-button').text() && $('.quick-view #add-to-cart-button').text().toLowerCase().indexOf('add to cart') > -1) {
+            	$('.quick-view #add-to-cart-button').text('SAVE CHANGES');
+            }
+          }, 50);
+
+          $('.quick-view .initialized').on('productLoaded', function(){
+            $('.quick-view .initialized').data('productjs').setVariant(variantId);
+          });
+
+          $('.quick-view .add-to-cart-form').submit(function(){
+            $('#loading-overlay').show();            
+            var form = $(this);
+            $.ajax({
+              type: 'POST',
+              url: '/cart/change.js',
+              dataType: 'json',
+              data: {id: itemKey, quantity: 0}
+            }).success(function(){
+              addToCartQuickView(form, function(){
+                console.log("addToCart")
+                //if(modal) modal.close();
+                location.reload();
+              });
+            });
+            return false;
+          });
+        });
+        return false;
+      });
+      if (window.Clyde) {
+          window.Clyde.init({
+      	key: 'ck_live_Nhd6Ubcd9jWbn5BQ',
+                type: 'list',
+                pageKey: 'cart',
+                 skipGeoIp: true
+    	}, function() {
+
+            setupClydeCartPrompts();
+          });
+      }
+    });
+  </script>
+  {%- endunless -%}
+
+  
+  {%- if cart.items == empty -%}
+  
+  <h1 class="visuallyhidden">My Office</h1>
+  
+  <div class="head">{% include 'icons', icon: 'product-tag' %}</div>
+  <div class="title">Your shopping cart is empty.</div>
+  <a href="/collections/all" class="btn">Start Shopping</a>
+  
+  {%- else -%}
+  
+  <h1>My Office</h1>
+  
+  {%- include 'color_swatches_css' -%}
+  
+  <form action="/cart" method="post" id="cartform" class="main-form">
+
+    <div class="grid main">
+      
+      <div class="grid__item four-sixths medium--one-whole small--one-whole">
+
+        <div class="items">
+        {%- for item in cart.items -%}
+          {% if item.product.title contains 'Clyde Protection Plan' %}
+              {% assign item_type = 'contract' %}
+            {% else %}
+              {% assign item_type = 'product' %}
+            {% endif %}
+          {%- include 'cart_item' -%}
+        {%- endfor -%}
+        </div>
+        
+      </div>
+      
+      <div class="grid__item two-sixths medium--one-whole small--one-whole">
+        
+        <div class="summary">
+          <div class="subtotal flex align-items-center justify-content-between">
+            <div class="label">Subtotal</div>
+            <div class="number">{{ cart.total_price | money }}</div>
+          </div>
+          {%- if settings.allow_note -%}      
+          <div class="addnote">
+            <div>
+              <input type="checkbox" id="chk-is-instructions" class="checkbox-custom" {%- if cart.note != nil and cart.note != "" -%} checked="checked" {%- endif -%} />
+              <label for="chk-is-instructions" class="checkbox-custom-label flex align-items-center justify-content-center">Add special instructions to your order</label>
+            </div>
+            <div id="instructions-note">
+              <textarea id="note" name="note" maxlength="100" aria-label="Special Instructions">{{ cart.note }}</textarea>
+            </div>
+          </div>
+          {%- endif -%}
+
+          {%- if settings.cart_additional_msg != "" -%}
+          <div class="additional-message">{{ settings.cart_additional_msg }}</div>
+          {%- endif -%}
+
+          {%- if settings.cart_return_policy != "" -%}
+          <div class="hide"><div id="return-policy"><div class="title">Return Policy</div>{{ settings.cart_return_policy }}</div></div>
+          <div class="return-policy-button"><a href="#" onclick="Simplistic.openModal($('#return-policy')); return false;">RETURN POLICY</a></div>
+          {%- endif-%}
+
+          <div class="buttons">
+            <a href="/collections/all" class="btn one-half small--one-whole v2">Continue shopping</a>
+            <button type="submit" class="btn one-whole" name="checkout">Checkout</button>
+            {%- if additional_checkout_buttons -%}
+            <div class="additional-checkout-buttons">
+              <span>Or check out using:</span>
+              {{ content_for_additional_checkout_buttons }}
+            </div>
+            {%- endif -%}
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+  </form>
+
+  {%- endif -%}
+</div>

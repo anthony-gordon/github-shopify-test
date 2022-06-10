@@ -1,0 +1,89 @@
+<style>
+  .collection-wrapper .carousel-wrapper {padding: 0 2em;}
+  .collection-wrapper .collection-item {padding: 4em 0; border-bottom: 1px solid;}
+  .collection-wrapper .collection-item:last-child {border-bottom: none; }
+  .collection-wrapper .collection-item .details {text-align: center;}
+  .collection-wrapper .collection-item .details .description {font-weight: 500;}
+  .collection-wrapper .collection-img .img {padding-top: 100%; background-size: cover; background-position: center; background-repeat: no-repeat;}
+  .collection-wrapper .slick-slider .slick-track {margin: 0;}
+
+  @media all and (max-width: 900px){
+    .collection-wrapper .collection-item {padding: 2em 0; border: 0;}
+    .collection-wrapper .collection-item .details {margin-bottom: 2em; padding: 0 1em;}
+    .collection-wrapper .collection-item .details h2 {margin-bottom: 0.2em;}
+    .collection-wrapper .collection-item .container {padding: 0;}
+    .collection-wrapper .collection-item .carousel-wrapper {padding: 0;}
+    .collection-wrapper .slick-slider .slick-track {margin: auto;}
+  }
+</style>
+
+<div class="collections-list">
+  {%- for link in linklists['collections-workplace-list'].links -%}
+    {%- assign col = link.object -%}
+    <div class="collection-item">
+      <div class="container">
+        <div class="grid row-reverse align-items-center">
+          <div class="grid__item one-quarter medium-down--one-whole">
+            <div class="wrap details">
+              <h2>{{col.title}}</h2>
+              <div class="description">{{col.description}}</div>
+            </div>
+          </div>
+          <div class="grid__item three-quarters medium-down--one-whole">
+            <div class="carousel-wrapper">
+              <div class="carousel slick-pending" data-prodqtty="{{col.products.size}}">
+                {%- if col.products.size < 3 and col.image != blank -%}
+                  <div class="collection-img medium-down--hide">
+                    <div class="img lazyload" data-bgset="{% include 'lazy_src', image: col.image %}"></div>
+                  </div>
+                {%- endif -%}
+                {%- for prod in col.products -%}
+                    {%- include 'product_item', currentProduct: prod, quickview: settings.allow_quick_view, isCarousel: true  -%}
+                {%- endfor -%}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  {%- endfor -%}
+</div>
+<script>
+  $(function(){
+    $('.collection-wrapper .carousel').each(function(){
+      var prodqtty = $(this).data('prodqtty');
+      $(this).slick({
+        autoplay: false,
+        speed: 700,
+        slidesToShow: 3,
+        slidesToScroll: 3,
+        prevArrow: '{% include 'icons', icon: 'arrow-left' %}',
+        nextArrow: '{% include 'icons', icon: 'arrow-right' %}',
+        responsive: [
+          {
+            breakpoint: 600,
+            settings: {
+              slidesToShow: 1,
+              slidesToScroll: 1,
+              arrows: false,
+              centerMode: true,
+              centerPadding: '25%',
+        	  slide: '.product-item'
+            }
+          },
+          {
+            breakpoint: 900,
+            settings: {
+              slidesToShow: 2,
+              slidesToScroll: 1,
+              arrows: false,
+              centerMode: true,
+              centerPadding: '15%',
+        	  slide: '.product-item'
+            }
+          }
+        ]
+      });
+    });
+  });
+</script>

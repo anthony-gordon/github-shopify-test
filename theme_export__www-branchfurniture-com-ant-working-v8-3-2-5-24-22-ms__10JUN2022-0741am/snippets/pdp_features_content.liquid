@@ -1,0 +1,198 @@
+<style>
+  .popups-banner {margin-bottom: 0 !important;}
+  
+  .pdp-features {text-align: center; position: relative; overflow: hidden;}
+  .pdp-features-auxiliar {padding: 1em 0;}
+  .pdp-features .spacers .item {width: 100%; min-height: 90vh;}
+  
+  .pdp-features .layout {position: absolute; top: 0; left: 0; width: 100%; height: 100vh;}
+  #shopify-section-{{ section.id }} .pdp-features .layout .head {position: absolute; z-index: 2; top: 0; left: 0; width: 100%; padding: {{section.settings.padding_desktop}};}
+  #shopify-section-{{ section.id }} .pdp-features .layout .buttons {position: absolute; z-index: 2; bottom: 0; left: 0; width: 100%; padding: {{section.settings.padding_desktop}};}
+  .pdp-features .layout .img {position: absolute; width: 100%; top: calc(50% + 2em); left: 50%; max-width: 55em; height: calc(100vh - 20em); -webkit-transform: translateX(-50%) translateY(-50%); transform: translateX(-50%) translateY(-50%); background-size: contain; background-position: center; background-repeat: no-repeat; }
+  .pdp-features .layout.bottom {z-index: 6;}
+  .pdp-features .layout .buttons {padding: 0 15px;}
+  .pdp-features .layout .btn:not(:last-child) {margin-right: 1em;}
+  
+  .pdp-features .content {position: absolute; top: 0; left: 0; width: 100%; height: 100vh;}
+  .pdp-features .content .slide {position: absolute; top: 0; left: 0; width: 100%; height: 100vh; text-align: center; -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)"; filter: alpha(opacity=0);-moz-opacity: 0;-khtml-opacity: 0; opacity: 0; -webkit-transition: opacity 0.6s ease-out; -moz-transition: opacity 0.6s ease-out; -o-transition: opacity 0.6s ease-out; -ms-transition: opacity 0.6s ease-out; transition: opacity 0.6s ease-out;}
+  .pdp-features .content .slide .feature {position: absolute; width: 100%; top: calc(50% + 2em); left: 50%; max-width: 55em; max-height: 32em; height: calc(100vh - 20em);  -webkit-transform: translateX(-50%) translateY(-50%); transform: translateX(-50%) translateY(-50%);}
+  .pdp-features .content .slide .feature .line {position: absolute; height: 1px; background: {{settings.content_main_color}}; transform-origin: 0% 0%;}
+  .pdp-features .content .slide .feature .dot {position: absolute; width: 1.5em; height: 1.5em; border-radius: 50%; border: 2px solid #fff; background: {{settings.content_third_color}}; -webkit-transform: translateX(-50%) translateY(-50%); transform: translateX(-50%) translateY(-50%);}
+  .pdp-features .content .slide .feature .description {position: absolute; width: 44%; text-align: left;}
+  .pdp-features .content .slide .feature .description .closeup {width: 8.6em; height: 8.6em; margin-bottom: 1em; border-radius: 50%; background-size: cover; background-position: center; background-repeat: no-repeat;}
+  .pdp-features .content .slide .feature .description.img-right {text-align: right;}
+  .pdp-features .content .slide .feature .description.img-right .closeup {margin-left: auto;}
+  .pdp-features .content .slide .feature .description .text {margin: 0 1em;}
+  .pdp-features .content .slide.visible {-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)"; filter: alpha(opacity=100);-moz-opacity: 1;-khtml-opacity: 1; opacity: 1; } 
+  
+  .pdp-features.fixed {position: static;}
+  .pdp-features.fixed .layout {position: fixed; top: 0;}
+  .pdp-features.fixed .content {position: fixed; top: 0;}
+  .pdp-features.fixed .content .slide {position: absolute; top: 0;}
+  
+  .pdp-features.end .layout {position: absolute; top: auto; bottom: 0;}
+  .pdp-features.end .content {position: absolute; top: auto; bottom: 0;}
+  .pdp-features.end .content .slide {position: absolute; top: auto; bottom: 0; -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)"; filter: alpha(opacity=100);-moz-opacity: 1;-khtml-opacity: 1; opacity: 1;}
+  .pdp-features.end .spacers {height: 100vh;}
+  .pdp-features.end .spacers .slide {position: absolute; top: auto; bottom: 0;}
+  
+  @media all and (max-width: 1200px) and (min-width: 900px){
+    .pdp-features .content {font-size: 1.15vw;}
+    .pdp-features .layout .img {font-size: 1.15vw;}
+  }
+  
+  
+  @media all and (max-height: 750px) and (min-width: 900px){
+    .pdp-features .content {font-size: 1.82vh;}
+  }
+
+  @media all and (max-width: 900px) {
+    .pdp-features-auxiliar {padding: 0;}
+    #shopify-section-{{ section.id }} .pdp-features {padding: {{section.settings.padding_mobile}};}
+    #shopify-section-{{ section.id }} .pdp-features .layout .head {position: static; padding: 0;}
+    #shopify-section-{{ section.id }} .pdp-features .layout .buttons {position: static; padding: 0 15px;}
+    .pdp-features .layout {position: static !important; height: auto;}
+    .pdp-features .layout .head .main-title {margin-bottom: 1em;}
+    .pdp-features .layout .img {display: none;}
+    .pdp-features .layout .btn {display: block; width: 100%; margin: auto; max-width: 28em;}
+    .pdp-features .layout .btn:not(:last-child) {margin: auto; margin-bottom: 1em;}
+    .pdp-features .content {position: static !important; height: auto;}
+    .pdp-features .content .slide {position: static !important; height: auto; -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)"; filter: alpha(opacity=100);-moz-opacity: 1;-khtml-opacity: 1; opacity: 1;}
+    .pdp-features .content .slide .feature {position: static !important; height: auto; margin-bottom: 3em; max-width: 100%; -webkit-transform: none; transform: none;}
+    .pdp-features .content .slide .feature .line {display: none;}
+    .pdp-features .content .slide .feature .dot {display: none;}
+    .pdp-features .content .slide .feature .description {position: static; width: 100% !important; max-width: 28em; padding: 0 15px; margin: 0 auto; text-align: center;}
+    .pdp-features .content .slide .feature .description .text {margin: 0;}
+    .pdp-features .content .slide .feature .description .closeup {width: 70%; height: auto; padding-top: 70%; margin: 0 auto 1em !important;}
+    .pdp-features .content .slide .feature .description.img-right {text-align: center;}
+    .pdp-features .spacers {display: none;}
+    .pdp-features .slick-slider .slick-dots {margin: 1em 0 2em;}
+    .pdp-features .slick-slider .slick-dots li button {background: {{settings.content_third_color}};}
+  }
+</style>
+
+{%- assign specSheet = 'specs-' | append: product.handle | append: '.pdf' -%}
+ 
+<section class="pdp-features">
+  <div class="layout top">
+    {%- if section.settings.title != "" -%}
+    <div class="head">
+      <h2 class="main-title">{{section.settings.title}}</h2>
+    </div>
+    {%- endif -%}
+    <div class="lazyload main-image img" data-bgset="{% include 'lazy_src', image: section.settings.image %}"></div>
+  </div>
+  <div class="content">
+    <div class="slide empty visible"></div>
+    {%- for block in section.blocks -%}
+    <div class="slide active">
+        <div class="feature">
+          <div class="line" style="left: {{block.settings.dot_left}}; top: {{block.settings.dot_top}}; width: {{block.settings.line_width}}; transform: rotate({{block.settings.line_rotate}});"></div>
+          <div class="dot" style="left: {{block.settings.dot_left}}; top: {{block.settings.dot_top}};"></div>
+          <div class="description {% if block.settings.img_alignment == "img-right" %}img-right{% endif %}" style="left: {{block.settings.description_left}}; top: {{block.settings.description_top}}; width: {{block.settings.description_width}};">
+            <div class="closeup lazyload" data-bgset="{% include 'lazy_src', image: block.settings.image %}"></div>
+            <div class="text">{{block.settings.description}}</div>
+          </div>
+        </div>
+    </div>
+    {%- endfor -%}
+  </div>
+  <div class="spacers">
+    <div class="item"></div>
+    {%- for block in section.blocks -%}
+    <div class="item"></div>
+    {%- endfor -%}
+  </div>
+  <div class="layout bottom">
+    {%- if section.settings.button1 != "" or section.settings.button2 != "" -%}
+    <div class="buttons">
+      {%- if section.settings.button1 != "" -%}
+      <a href="{{ specSheet | file_url }}" target="_blank" class="btn specs-trigger">
+        {{ section.settings.button1 }}
+      </a>
+      {%- endif -%}
+      {%- if section.settings.button2 != "" -%}
+      <a href="{{ section.settings.link2 }}" class="btn v2">
+        {{ section.settings.button2 }}
+      </a>
+      {%- endif -%}
+    </div>
+    {%- endif -%}
+  </div>
+</section>
+<div class="pdp-features-auxiliar"></div>
+<script>
+  $(function(){
+    var beginEnd = function(){
+      if(window.innerWidth > 900){
+        if($('#shopify-section-{{ section.id }} .pdp-features .content').hasClass('slick-initialized')){
+           $('#shopify-section-{{ section.id }} .pdp-features .content').slick('unslick');
+        }
+        var slidesQuantity = ({{section.blocks.size}} + 1);
+        if(!$('#shopify-section-{{ section.id }} .pdp-features').hasClass('end')){
+          var begin = $('#shopify-section-{{ section.id }} .pdp-features').offset().top;
+          var end = $('#shopify-section-{{ section.id }} .pdp-features').next().position().top - $(window).height();
+          if($(window).scrollTop() >= begin && $(window).scrollTop() <= end){
+            $('#shopify-section-{{ section.id }} .pdp-features').addClass('fixed').removeClass('end');
+          }else{
+            if($(window).scrollTop() > end){
+              var currentScroll = $(window).scrollTop();
+              $('#shopify-section-{{ section.id }} .pdp-features').addClass('end').removeClass('fixed');
+              $('#shopify-section-{{ section.id }} .pdp-features .content .slide').addClass('visible');
+              $(window).scrollTop(currentScroll - (($('.pdp-features .spacers .item:first').height() * slidesQuantity) - $(window).height() ));
+            }else{
+              $('#shopify-section-{{ section.id }} .pdp-features').removeClass('fixed').removeClass('end');
+            }
+          }
+        }
+      }else{
+        if(!$('#shopify-section-{{ section.id }} .pdp-features .content').hasClass('slick-initialized')){
+           $('#shopify-section-{{ section.id }} .pdp-features .content').slick({
+              autoplay: false,
+              infinite: true,
+              slidesToShow: 1,
+              pauseOnHover: true,
+              slidesToScroll: 1,
+              slide: '.slide.active',
+              speed: 700,
+              dots: true,
+              arrows: false
+            });
+        }      
+      }
+    }
+    var currentPrev = function(){
+      if(window.innerWidth > 900 && !$('#shopify-section-{{ section.id }} .pdp-features').hasClass('end')){
+        $('#shopify-section-{{ section.id }} .pdp-features .spacers .item').each(function(){
+          var currentSpacer = $(this);
+          var currentContent = $('#shopify-section-{{ section.id }} .pdp-features .content .slide:eq(' + currentSpacer.index() + ')');
+          var lastScrollTop = 0;
+          var slideAppear = currentSpacer.offset().top - (currentSpacer.height() / 1.5);
+          if($(window).scrollTop() > slideAppear){
+            currentContent.addClass('visible');
+
+            var st = $(window).scrollTop();
+            if(st > lastScrollTop){
+              /*  scroll up */
+              currentContent.next().removeClass('visible');
+            }else{
+              /*  scroll down */
+              currentContent.prev().addClass('visible');
+            }
+          }
+          lastScrollTop = st;
+        });
+      }
+    }
+    beginEnd();
+    currentPrev();
+    $(window).scroll(function(){
+      beginEnd();
+      currentPrev();
+    });
+    $(window).resize(function(){
+      beginEnd();
+      currentPrev();
+    });
+  });
+</script>

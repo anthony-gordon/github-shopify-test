@@ -1,0 +1,133 @@
+{% for block in section.blocks %}
+  {% if block.settings.collection == collection.handle or block.settings.all_collections == true %}
+	{% assign block_collection = block %}
+    {% break %}
+  {% endif %}
+{% endfor %}
+
+{% if block_collection.settings.enabled %}
+<div class="section--value-usps" style="background-color: {{ block_collection.settings.bg_color }}">
+  <div class="container">
+    <div class="list-usps">
+      {% for i in (1..4) %}
+      {% assign img_id = 'icon_' | append: forloop.index %}
+      {% assign img = block_collection.settings[img_id] %}
+      
+      {% assign label_id = 'icon_text_' | append: forloop.index %}
+      {% assign label = block_collection.settings[label_id] %}      
+      
+      {% if img != blank %}
+      <div class="item-usp">
+        <div class="item-wrap">
+          <img alt="{{ img.alt }}" src="{{ img | img_url: 'x1024' }}" loading="lazy" />
+        </div>
+        <div>{{ label }}</div>
+      </div>
+      {% endif %}
+      {% endfor %}
+    </div>
+  </div>
+</div>
+{% endif %}
+
+{% schema %}
+  {
+    "name": "Collection Value USPs",
+    "settings": [],
+	"blocks": [
+	  {
+		"type": "value-usps",
+		"name": "Value USPs",
+		"settings": [
+          {
+            "type": "collection",
+            "id": "collection",
+            "label": "Assign Collection"
+          },
+          {
+            "type": "checkbox",
+            "id": "all_collections",
+            "label": "Show on all collections?"
+          },
+          {
+            "type": "checkbox",
+            "id": "enabled",
+            "label": "Enabled?"
+          },
+		  {
+			"type": "color",
+			"id": "bg_color",
+			"label": "Section Background color",
+			"default": "#F3F0ED"
+		  },
+		  {
+			"type": "header",
+			"content": "Value Icon#1"
+		  },
+          {
+            "type": "image_picker",
+            "id": "icon_1",
+            "label": "Icon Image 1"
+          },
+          {
+            "type": "text",
+            "id": "icon_text_1",
+            "label": "Icon Text 1",
+			"default": "Icon Label"
+          },
+		  {
+			"type": "header",
+			"content": "Value Icon#2"
+		  },
+          {
+            "type": "image_picker",
+            "id": "icon_2",
+            "label": "Icon Image 2"
+          },
+          {
+            "type": "text",
+            "id": "icon_text_2",
+            "label": "Icon Text 2",
+			"default": "Icon Label"
+          },
+		  {
+			"type": "header",
+			"content": "Value Icon#3"
+		  },
+          {
+            "type": "image_picker",
+            "id": "icon_3",
+            "label": "Icon Image 3"
+          },
+          {
+            "type": "text",
+            "id": "icon_text_3",
+            "label": "Icon Text 3",
+			"default": "Icon Label"
+          },
+		  {
+			"type": "header",
+			"content": "Value Icon#4"
+		  },
+          {
+            "type": "image_picker",
+            "id": "icon_4",
+            "label": "Icon Image 4"
+          },
+          {
+            "type": "text",
+            "id": "icon_text_4",
+            "label": "Icon Text 4",
+			"default": "Icon Label"
+          }
+		]
+	  }
+	]
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

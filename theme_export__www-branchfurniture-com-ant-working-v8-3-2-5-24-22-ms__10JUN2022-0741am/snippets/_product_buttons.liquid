@@ -1,0 +1,191 @@
+<style>
+  .sticky-el {
+    visibility: hidden;
+    opacity: 0;
+    height: 0;
+    width: 100vw;;
+    background-color: white;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 15px;
+    z-index: 100;
+    box-shadow: 0px -5px 25px rgba(0,0,0,0.09);
+    transition: all .5s ease-in;
+    font-family: "Quicksand"
+
+  }
+
+  .sticky-el-grow {
+    visibility: visible;
+    height: 85px;
+    opacity: 1;
+    transition: all .5s ease-in;
+  }
+
+  .hlxn-sticky-price {
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    font-weight: 600;
+    margin: 0;
+  }
+
+  .hlxn-sticky-show {
+    display: grid !important;
+  }
+
+  .sticky-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    justify-content: center;
+  }
+
+  .sticky-grid>div{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .hlxn-sticky-hide {
+    visibility: hidden;
+  }
+
+  .btn-side {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .sticky-left-side :is(p, strong, h4) {
+    font-size: 1.1rem !important;
+  }
+
+  .hlxn-less-weight {
+    font-family: "Quicksand", sans-serif;
+  }
+
+  .hlxn-sticky-price {
+    display: inline-block;
+    font-size .9rem;
+    white-space: nowrap;
+    line-height: 1.4rem;
+  }
+
+  .single-line-header {
+    font-family: "Quicksand", sans-serif;
+    display: flex;
+    justify-content: start;
+    font-size: 1rem !important;
+    transform: translateX(-2px);
+    margin-top: 2px;
+  }
+
+  .single-line-header p:nth-child(3) {
+    margin-right: 3px !important;
+  }
+  
+  .single-line-header p {
+    line-height: 1rem;
+    display: inline-block;
+    margin: 0 2px;
+  }
+
+  .sticky-left-side {
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: flex-start;
+  }
+  
+  .sticky-left-side :is(div) {
+	line-height: 0;
+  }
+
+  .sticky-left-side h4 {
+    margin: 0;
+    font-family: "Quicksand", sans-serif;
+  }
+
+  .sticky-left-side strong {
+    text-transform: capitalize;
+  }
+
+  .sticky-grid {
+    margin: 0;
+  }
+  
+  .space {
+    margin-left: 10px !important;
+  }
+  
+  #add-to-cart-button {
+    min-width: 115px;
+  }
+  
+  #add-to-cart-button.btn.invert {
+    background-color: rgba(0, 0, 0, 0);
+    color: #314438;
+    border: 2px solid #314438;
+  }
+  
+  #add-to-cart-button.btn.invert:hover {
+    color: rgb(243 238 234);
+  	background-color: #314438;
+  }
+</style>
+
+<div class="flex-1 {% unless newPdp %}small--one-whole{% endunless %}">
+  {% if chatWithSales and mobileSticky %}
+  <button class="btn chat-with-sales-button">Chat with Sales</button>
+  {% else %}
+  <div class="content-available">
+    <button type="submit" name="add" id="add-to-cart-button" class="btn {% if chatWithSales %}invert{% endif %}">Add to cart</button>
+  </div>
+  <div class="content-soldout hide">
+    <a href="#" class="btn chat-trigger">Contact Sales</a>
+  </div>
+  {% endif %}
+</div>
+
+{% if settings.enable_mobile_sticky_atc %}
+<script>
+  
+//   function isVisible(elem) {
+//   const { top, bottom } = elem.getBoundingClientRect();
+//   const vHeight = (window.innerHeight || document.documentElement.clientHeight);
+
+//   return (
+//     (top > 0 || bottom > 0) &&
+//     top < vHeight
+//   );
+// }
+  
+  
+  
+  var stickyATC = document.getElementById("sticky-atc");
+  var staticATC = document.getElementById("static-atc");
+  var btn = document.getElementById("add-to-cart-button");
+  var form = document.getElementById("hlxn-atc-form");
+
+  if (window.innerWidth < 900) {
+    document.addEventListener("scroll", (event) => {
+      var gorgiasBadge = document.querySelector("#gorgias-chat-container iframe#chat-button");
+      // if (!isVisible(staticATC) && gorgiasBadge){
+      if (gorgiasBadge){
+        gorgiasBadge.style.marginBottom = "50px";
+        gorgiasBadge.style.transition = "all .5s ease-in";
+        stickyATC.classList.add("hlxn-sticky-show");
+        stickyATC.classList.add("sticky-el-grow");
+      } 
+      // if (isVisible(staticATC)) {
+      //   gorgiasBadge.style.marginBottom = 0;
+      //   stickyATC.classList.remove("hlxn-sticky-show");
+      //   stickyATC.classList.remove("sticky-el-grow");
+      // }
+
+    }, {passive: true});
+  }
+
+</script>
+{% endif %}

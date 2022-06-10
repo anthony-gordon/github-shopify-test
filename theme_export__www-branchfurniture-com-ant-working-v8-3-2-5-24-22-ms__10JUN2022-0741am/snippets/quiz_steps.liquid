@@ -1,0 +1,344 @@
+<div class="steps">
+  
+  <section id="step1" class="step s1 active">
+    <div class="step-content-wrap">
+      <div class="heading">
+        <h2>Are you furnishing your <br> home office or a corporate office?</h2>
+      </div>
+      <div class="options flex flex-wrap justify-content-center" role="radiogroup">
+        <div class="item ease-animation" role="radio" aria-checked="false" tabindex="0" data-hubspot="Home Office">
+          <div class="wrap medium-down--flex align-items-center">
+            <img alt="" class="checked-icon" src="{{"quiz-checked.png" | asset_url}}" />
+            {%- if section.settings.step1_image1 -%}
+            <img class="lazyload" alt="" src="{{"placeholder.png" | asset_url}}" data-srcset="{% include 'lazy_src', image: section.settings.step1_image1 %}" />
+            {%- endif -%}
+            <div class="title">Home Office</div>
+          </div>
+        </div>
+        <div class="item ease-animation" role="radio" aria-checked="false" tabindex="0" data-hubspot="Corporate Office">
+          <div class="wrap medium-down--flex align-items-center">
+            <img alt="" class="checked-icon" src="{{"quiz-checked.png" | asset_url}}" />
+            {%- if section.settings.step1_image2 -%}
+            <img class="lazyload" alt="" src="{{"placeholder.png" | asset_url}}" data-srcset="{% include 'lazy_src', image: section.settings.step1_image2 %}" />
+            {%- endif -%}
+            <a href="{{page.quiz}}">
+	            <div class="title">Corporate Office</div>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <section id="step1" class="step s2">
+    <div class="step-content-wrap">
+      <div class="heading">
+        <h2>How Can We Help?</h2>
+      </div>
+      <div class="options flex flex-wrap justify-content-center" role="radiogroup">
+        <div class="item ease-animation" role="radio" aria-checked="false" tabindex="0" data-hubspot="New Office">
+          <div class="wrap medium-down--flex align-items-center">
+            <img alt="" class="checked-icon" src="{{"quiz-checked.png" | asset_url}}" />
+            {%- if section.settings.step1_image1 -%}
+            <img class="lazyload" alt="" src="{{"placeholder.png" | asset_url}}" data-srcset="{% include 'lazy_src', image: section.settings.step1_image1 %}" />
+            {%- endif -%}
+            <div class="title">Furnishing A New Office</div>
+          </div>
+        </div>
+        <div class="item ease-animation" role="radio" aria-checked="false" tabindex="0" data-hubspot="Existing Office">
+          <div class="wrap medium-down--flex align-items-center">
+            <img alt="" class="checked-icon" src="{{"quiz-checked.png" | asset_url}}" />
+            {%- if section.settings.step1_image2 -%}
+            <img class="lazyload" alt="" src="{{"placeholder.png" | asset_url}}" data-srcset="{% include 'lazy_src', image: section.settings.step1_image2 %}" />
+            {%- endif -%}
+            <div class="title">Updating Your Current Office</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="step2" class="step s2">
+    <div class="step-content-wrap">
+      <div class="heading">
+        <h2>What do you need to furnish?</h2>
+        <div class="text">Select all that apply:</div>
+      </div>
+      <div class="options checkbox flex flex-wrap justify-content-center">
+        <div class="item ease-animation" role="checkbox" aria-checked="false" tabindex="0" data-step-related="3" data-hubspot="Workstations">
+          <div class="wrap">
+            <img alt="" class="checked-icon" src="{{"quiz-checked.png" | asset_url}}" />
+            {%- if section.settings.step2_image1 -%}
+            <img class="lazyload lazypreload" alt="" src="{{"placeholder.png" | asset_url}}" data-srcset="{% include 'lazy_src', image: section.settings.step2_image1 %}" />
+            {%- endif -%}
+            <div class="title">Workstations</div>
+            <div class="text">Desks, chairs, storage.</div>
+          </div>
+        </div>
+        <div class="item ease-animation" role="checkbox" aria-checked="false" tabindex="0" data-step-related="4" data-hubspot="Conference Rooms">
+          <div class="wrap">
+            <img alt="" class="checked-icon" src="{{"quiz-checked.png" | asset_url}}" />
+            {%- if section.settings.step2_image2 -%}
+            <img class="lazyload lazypreload" alt="" src="{{"placeholder.png" | asset_url}}" data-srcset="{% include 'lazy_src', image: section.settings.step2_image2 %}" />
+            {%- endif -%}
+            <div class="title">Conference Rooms</div>
+            <div class="text">Tables, chairs, accessories.</div>
+          </div>
+        </div>
+        <div class="item ease-animation" role="checkbox" aria-checked="false" tabindex="0" data-step-related="5" data-hubspot="Reception & Lounge">
+        <div class="wrap">
+          <img alt="" class="checked-icon" src="{{"quiz-checked.png" | asset_url}}" />
+          {%- if section.settings.step2_image3 -%}
+          <img class="lazyload lazypreload" alt="" src="{{"placeholder.png" | asset_url}}" data-srcset="{% include 'lazy_src', image: section.settings.step2_image3 %}" />
+          {%- endif -%}
+          <div class="title">Reception & Lounge</div>
+          <div class="text">Couches, coffee tables, etc.</div>
+        </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <section id="step3" class="step s3 disabled">
+    <div class="step-content-wrap">
+      <div class="heading">
+        <h2>Workstation needs:</h2>
+        <div class="text">
+          <div class="">
+            <div class="label">
+              How many people on your team need workstations?
+            </div>
+            <div class="quantity-box">
+              <div class="flex justify-content-center small--justify-content-between">
+                <button class="minus animation" aria-label="Decrease the quantity"><span>-</span></button>
+                <input type="number" step="1" name="quantity" value="1" title="Qty" min="1" aria-label="Quantity" />
+                <button class="plus animation" aria-label="Increase the quantity"><span>+</span></button>
+              </div>
+            </div>
+          </div>
+          <div>Select all that apply:</div>
+        </div>
+      </div>
+      <div class="options checkbox">
+        <div class="item ease-animation">
+          <div class="wrap flex align-items-center">
+            <img alt="" class="checked-icon" src="{{"quiz-checked.png" | asset_url}}" />
+            {%- if section.settings.step3_image1 -%}
+            <img class="lazyload lazypreload" alt="" src="{{"placeholder.png" | asset_url}}" data-srcset="{% include 'lazy_src', image: section.settings.step3_image1 %}" />
+            {%- endif -%}
+            <div class="info">
+              <div class="title">Chairs</div>
+              <div class="variants radio large--flex medium--flex flex-wrap justify-content-center" role="radiogroup">
+                <div class="variant" role="radio" aria-checked="false" tabindex="0" data-tag="quiz-ergonomic-chair" data-hubspot="Ergonomic Chair">ergonomic chair</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="item ease-animation">
+          <div class="wrap flex align-items-center">
+            <img alt="" class="checked-icon" src="{{"quiz-checked.png" | asset_url}}" />
+            {%- if section.settings.step3_image2 -%}
+            <img class="lazyload lazypreload" alt="" src="{{"placeholder.png" | asset_url}}" data-srcset="{% include 'lazy_src', image: section.settings.step3_image2 %}" />
+            {%- endif -%}
+            <div class="info">
+              <div class="title">Desks</div>
+              <div class="variants radio large--flex medium--flex flex-wrap justify-content-center" role="radiogroup">
+                <div class="variant" role="radio" aria-checked="false" tabindex="0" data-tag="quiz-office-desk|quiz-privacy-panel" data-hubspot="Office Desk">office desk</div>
+                <div class="variant" role="radio" aria-checked="false" tabindex="0" data-tag="quiz-standing-desk|quiz-privacy-panel" data-hubspot="Standing Desk">standing desk</div>
+                <div class="variant" role="radio" aria-checked="false" tabindex="0" data-tag="quiz-quad-desk|quiz-privacy-panel-quad" data-people="4" data-hubspot="Quad Desk">quad desk</div>
+                <div class="variant" role="radio" aria-checked="false" tabindex="0" data-tag="quiz-office-desk|quiz-privacy-panel" data-hubspot="Desk">not sure</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="item ease-animation">
+          <div class="wrap flex align-items-center">
+            <img alt="" class="checked-icon" src="{{"quiz-checked.png" | asset_url}}" />
+            {%- if section.settings.step3_image3 -%}
+            <img class="lazyload lazypreload" alt="" src="{{"placeholder.png" | asset_url}}" data-srcset="{% include 'lazy_src', image: section.settings.step3_image3 %}" />
+            {%- endif -%}
+            <div class="info">
+              <div class="title">Storage</div>
+              <div class="variants radio large--flex medium--flex flex-wrap justify-content-center" role="radiogroup">
+                <div class="variant" role="radio" aria-checked="false" tabindex="0" data-tag="quiz-cabinet-storage" data-hubspot="Filling Cabinet">filling cabinet</div>
+                <div class="variant" role="radio" aria-checked="false" tabindex="0" data-tag="quiz-credenza-storage" data-hubspot="Credenza">credenza</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <section id="step4" class="step s4 disabled">
+    <div class="step-content-wrap">
+      <div class="heading">
+        <h2>Conference Room Needs</h2>
+        <div class="text">How many conference rooms are you furnishing? You selected <span class="rooms-quantity"><i>0</i> conference rooms</span></div>
+      </div>
+      <div class="options flex flex-wrap justify-content-center">
+        <div class="item ease-animation" data-hubspot="Small Table">
+          <div class="wrap">
+            <img alt="" class="checked-icon" src="{{"quiz-checked.png" | asset_url}}" />
+            {%- if section.settings.step4_image1 -%}
+            <img class="lazyload lazypreload" alt="" src="{{"placeholder.png" | asset_url}}" data-srcset="{% include 'lazy_src', image: section.settings.step4_image1 %}" />
+            {%- endif -%}
+            <div class="title">Small</div>
+            <div class="text">2-4 people</div>
+            <div class="quantity-box">
+              <div class="flex justify-content-center small--justify-content-between">
+                <button class="minus animation" aria-label="Decrease the quantity"><span>-</span></button>
+                <input type="number" step="1" name="quantity" value="0" title="Qty" min="0" aria-label="Quantity" data-table="quiz-conference-small-table" data-chair="quiz-conference-chair" data-chairs-per-table="2" />
+                <button class="plus animation" aria-label="Increase the quantity"><span>+</span></button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="item ease-animation" data-hubspot="Medium Table">
+          <div class="wrap">
+            <img alt="" class="checked-icon" src="{{"quiz-checked.png" | asset_url}}" />
+            {%- if section.settings.step4_image2 -%}
+            <img class="lazyload lazypreload" alt="" src="{{"placeholder.png" | asset_url}}" data-srcset="{% include 'lazy_src', image: section.settings.step4_image2 %}" />
+            {%- endif -%}
+            <div class="title">Medium</div>
+            <div class="text">4-8 people</div>
+            <div class="quantity-box">
+              <div class="flex justify-content-center small--justify-content-between">
+                <button class="minus animation" aria-label="Decrease the quantity"><span>-</span></button>
+                <input type="number" step="1" name="quantity" value="0" title="Qty" min="0" aria-label="Quantity" data-table="quiz-conference-medium-table" data-chair="quiz-conference-chair" data-chairs-per-table="3" />
+                <button class="plus animation" aria-label="Increase the quantity"><span>+</span></button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="item ease-animation" data-hubspot="Large Table">
+          <div class="wrap">
+            <img alt="" class="checked-icon" src="{{"quiz-checked.png" | asset_url}}" />
+            {%- if section.settings.step4_image3 -%}
+            <img class="lazyload lazypreload" alt="" src="{{"placeholder.png" | asset_url}}" data-srcset="{% include 'lazy_src', image: section.settings.step4_image3 %}" />
+            {%- endif -%}
+            <div class="title">Large</div>
+            <div class="text">8-12 people</div>
+            <div class="quantity-box">
+              <div class="flex justify-content-center small--justify-content-between">
+                <button class="minus animation" aria-label="Decrease the quantity"><span>-</span></button>
+                <input type="number" step="1" name="quantity" value="0" title="Qty" min="0" aria-label="Quantity" data-table="quiz-conference-large-table" data-chair="quiz-conference-chair" data-chairs-per-table="4" />
+                <button class="plus animation" aria-label="Increase the quantity"><span>+</span></button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <section id="step5" class="step s5 disabled">
+    <div class="step-content-wrap">
+      <div class="heading">
+        <h2>Reception and Lounge Space</h2>
+        <div class="text">How many open spaces do you want to furnish? You selected <span class="rooms-quantity">1 space</span></div>
+      </div>
+      <div class="space-engine flex flex-wrap align-items-start justify-content-center">
+        <div class="spaces-prev flex flex-wrap direction-column align-items-start justify-content-start"></div>
+        <div class="space-last">
+          <div class="space-card open" data-space="1">
+            <div class="space-title" tabindex="0">Space <span class="space-number">1</span></div>
+            <button class="remove" aria-label="Remove space">{% include 'icons', icon: 'close' %}</button>
+            <div class="questions-wrap">
+              <div class="question space-size">
+                <div class="label" id="space1-question1-label">How big is the open area?</div>
+                <div class="listbox-wrap">
+                  <button class="listbox-trigger" aria-haspopup="space1-question1" aria-expanded="false" aria-labelledby="space1-question1-label"><span>Small (kitchen sized)</span> {% include 'icons', icon: 'arrow-down' %}</button>
+                  <div role="listbox" tabindex="0" id="space1-question1" aria-labelledby="space1-question1-label" aria-activedescendant="space1-question1-option1">
+                    <div role="option" id="space1-question1-option1" data-space-size="Small" class="selected" aria-selected="true" tabindex="0">Small (kitchen sized)</div>
+                    <div role="option" id="space1-question1-option2" data-space-size="Medium" tabindex="0">Medium (living-room sized)</div>
+                    <div role="option" id="space1-question1-option3" data-space-size="Large" tabindex="0">Large (backyard-sized)</div>
+                  </div>
+                </div>
+              </div>
+              <div class="question space-use">
+                <div class="label" id="space1-question2-label">What will your team tipically use this space for?</div>
+                <div class="listbox-wrap">
+                  <button class="listbox-trigger" aria-haspopup="space1-question2" aria-expanded="false" aria-labelledby="space1-question2-label"><span>Reception Area</span> {% include 'icons', icon: 'arrow-down' %}</button>
+                  <div role="listbox" tabindex="0" id="space1-question2" aria-labelledby="space1-question1-label" aria-activedescendant="space1-question2-option1">
+                    <div role="option" id="space1-question2-option1" data-space-use="Reception" aria-selected="true" tabindex="0">Reception Area</div>
+                    <div role="option" id="space1-question2-option2" data-space-use="Lounge" tabindex="0">Casual Conversation / Lounge</div>
+                    <div role="option" id="space1-question2-option3" data-space-use="Collaboration" tabindex="0">Collaboration and Breakout Sessions</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <button class="add-space"><i class="flex align-items-center justify-content-center ease-animation">+</i><span>Add new space</span></button>
+      </div>
+    </div>
+  </section>
+  
+  <section id="step6" class="step s6">
+    <div class="step-content-wrap">
+      <div class="heading">
+        <h2>What's your timeline?</h2>
+      </div>
+      <div class="options flex direction-column align-items-center flex-wrap" role="radiogroup">
+        <div class="item ease-animation" role="radio" aria-checked="false" tabindex="0" data-hubspot="As soon as possible">
+          <div class="wrap">
+            <img alt="" class="checked-icon" src="{{"quiz-checked.png" | asset_url}}" />
+            <div class="title">As soon as possible</div>
+          </div>
+        </div>
+        <div class="item ease-animation" role="radio" aria-checked="false" tabindex="0" data-hubspot="Within a few weeks">
+          <div class="wrap">
+            <img alt="" class="checked-icon" src="{{"quiz-checked.png" | asset_url}}" />
+            <div class="title">Within a few weeks</div>
+          </div>
+        </div>
+        <div class="item ease-animation" role="radio" aria-checked="false" tabindex="0" data-hubspot="Within a month or more">
+          <div class="wrap">
+            <img alt="" class="checked-icon" src="{{"quiz-checked.png" | asset_url}}" />
+            <div class="title">Within a month or more</div>
+          </div>
+        </div>
+        <div class="item ease-animation" role="radio" aria-checked="false" tabindex="0" data-hubspot="Not sure">
+          <div class="wrap">
+            <img alt="" class="checked-icon" src="{{"quiz-checked.png" | asset_url}}" />
+            <div class="title">Not sure</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <section id="step7" class="step s7">
+    <div class="step-content-wrap">
+      <div class="heading">
+        <h2>One last step...</h2>
+        <div class="text">We'll use this info to save your answers</div>
+      </div>
+      <div class="form-wrap">
+        <div class="error-msg"></div>
+        {%- if settings.use_klaviyo_form -%}
+        <form class="form" action="//manage.kmail-lists.com/subscriptions/subscribe" data-ajax-submit="//manage.kmail-lists.com/ajax/subscriptions/subscribe" method="GET" target="_blank" novalidate="novalidate">
+          <input type="hidden" name="g" value="{{settings.klaviyo_list_id}}">
+          <input type="hidden" name="$fields" value="source">
+          <input type="hidden" name="source" value="Build Your Office">
+          <input type="text" placeholder="Your Name" name="name" class="required name cart-attribute" data-cart-attribute="Name" aria-label="Enter your Name" aria-required="true" autocomplete="given-name" />
+          <input type="text" placeholder="Company Name (optional)" name="company-name" class="company cart-attribute" data-cart-attribute="Company" aria-label="Enter your company name" autocomplete="company" />
+          <input type="text" placeholder="Phone Number (optional)" name="phone" class="phone cart-attribute" data-cart-attribute="Phone Number" aria-label="Enter your phone number" autocomplete="tel" />
+          <input type="email" placeholder="Email Address" name="email" id="email-input" class="required email cart-attribute" data-cart-attribute="Email" aria-label="Enter your email address" aria-required="true" autocomplete="email" />
+          <button class="btn" type="submit">See Results</button>
+        </form>
+        {%- else -%}
+        <form class="form">
+          <input type="text" placeholder="Your Name" name="name" class="required name cart-attribute" data-cart-attribute="Name" aria-label="Enter your Name" aria-required="true" autocomplete="given-name" />
+          <input type="text" placeholder="Company Name (optional)" name="company" class="company cart-attribute" data-cart-attribute="Company" aria-label="Enter your company name" autocomplete="company" />
+          <input type="text" placeholder="Phone Number (optional)" name="phone" class="phone cart-attribute" data-cart-attribute="Phone Number" aria-label="Enter your phone number" autocomplete="tel" />
+          <input type="email" placeholder="Email Address" name="email" class="email required cart-attribute" data-cart-attribute="Email" aria-label="Enter your Email Address" aria-required="true" autocomplete="email" />
+          <button class="btn" type="submit">See Results</button>
+        </form>
+        {%- endif -%}
+      </div>
+    </div>
+  </section>
+  
+</div>

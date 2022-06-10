@@ -1,0 +1,172 @@
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+
+<!-- Clyde initializer -->
+  <script>
+    var f={};function isEnableUrl(e){var t=!0;return"https://api.joinclyde.com/scripts/shopify-storefront.min.js?shop=bureau-office.myshopify.com"==e&&(t=!1),t}f.insertBefore=Element.prototype.insertBefore,Element.prototype.insertBefore=function(){return"SCRIPT"==arguments[0].tagName?isEnableUrl(arguments[0].src)?f.insertBefore.apply(this,arguments):document.createTextNode(""):"IFRAME"==arguments[0].tagName?isEnableUrl(arguments[0].src)?f.insertBefore.apply(this,arguments):document.createTextNode(""):"FORM"==arguments[0].tagName?isEnableUrl(arguments[0].action)?f.insertBefore.apply(this,arguments):document.createTextNode(""):"A"==arguments[0].tagName?isEnableUrl(arguments[0].href)?f.insertBefore.apply(this,arguments):document.createTextNode(""):f.insertBefore.apply(this,arguments)};
+  </script>
+<!-- End Clyde initializer -->
+
+<script src="https://js.joinclyde.com/widget.js"></script>
+  
+  {% if template contains 'product' %}
+  
+
+  
+  <!-- GeoIP app speed booster -->
+  {{ 'https://kite.spicegems.org/0/js/scripttags/bureau-office/static/country-redirect.js' | script_tag }}
+  
+  <!-- Affirm -->
+  <script>
+    _affirm_config = {
+      public_api_key:  "TRD7NHDJS5YD3M0D",
+      script:          "https://cdn1.affirm.com/js/v2/affirm.js"
+    };
+    (function(l,g,m,e,a,f,b){var d,c=l[m]||{},h=document.createElement(f),n=document.getElementsByTagName(f)[0],k=function(a,b,c){return function(){a[b]._.push([c,arguments])}};c[e]=k(c,e,"set");d=c[e];c[a]={};c[a]._=[];d._=[];c[a][b]=k(c,a,b);a=0;for(b="set add save post open empty reset on off trigger ready setProduct".split(" ");a<b.length;a++)d[b[a]]=k(c,e,b[a]);a=0;for(b=["get","token","url","items"];a<b.length;a++)d[b[a]]=function(){};h.async=!0;h.src=g[f];n.parentNode.insertBefore(h,n);delete g[f];d(g);l[m]=c})(window,_affirm_config,"affirm","checkout","ui","script","ready");
+    // Use your live public API Key and https://cdn1.affirm.com/js/v2/affirm.js script to point to Affirm production environment.
+  </script>
+  <!-- End Affirm -->
+  
+  <script type="text/javascript">
+  $(document).ready(function() {
+//    if ($(window).width() < 550 ) {
+    $('#hideshow').click(function(){
+         $('.add-to-cart-form').css('display','none');
+         $('.product-info').addClass('no-pad');
+         $('.product-info').addClass('bgborder');
+         $('.contents-outer').css('position','relative');
+         $('#contents').css('display','block');
+         $('#contents').css('position','relative');
+    });
+    $('#hideshow2').click(function() {
+         $('.add-to-cart-form').css('display','block');
+         $('.product-info').removeClass('no-pad');
+         $('.product-info').removeClass('bgborder');
+         $('.contents-outer').css('position','absolute');
+         $('#contents').css('display','none');
+         $('#contents').css('position','absolute');
+    });
+// }else {
+
+
+//
+//    $('#hideshow').click(function(){
+//         $('#contents').toggle();
+//    });
+//    $('#hideshow2').click(function() {
+//         $('#contents').toggle();
+//    });
+// }
+
+
+
+});
+  </script>
+  {% endif %}
+
+<!--Gorgias Chat Widget Start-->
+  
+  <script id="gorgias-chat-widget-install">!function(_){_.GORGIAS_CHAT_APP_ID="5288",_.GORGIAS_CHAT_BASE_URL="us-east1-898b.production.gorgias.chat",_.GORGIAS_API_BASE_URL="config.gorgias.chat";var e=new XMLHttpRequest;e.open("GET","https://config.gorgias.chat/applications/5288",!0),e.onload=function(t){if(4===e.readyState)if(200===e.status){var n=JSON.parse(e.responseText);if(!n.application||!n.bundleVersion)throw new Error("Missing fields in the response body - https://config.gorgias.chat/applications/5288");if(_.GORGIAS_CHAT_APP=n.application,_.GORGIAS_CHAT_BUNDLE_VERSION=n.bundleVersion,n&&n.texts&&(_.GORGIAS_CHAT_TEXTS=n.texts),n&&n.sspTexts&&(_.GORGIAS_CHAT_SELF_SERVICE_PORTAL_TEXTS=n.sspTexts),!document.getElementById("gorgias-chat-container")){var o=document.createElement("div");o.id="gorgias-chat-container",document.body.appendChild(o);var r=document.createElement("script");r.setAttribute("defer",!0),r.src="https://client-builds.production.gorgias.chat/{bundleVersion}/static/js/main.js".replace("{bundleVersion}",n.bundleVersion),document.body.appendChild(r)}}else console.error("Failed request GET - https://config.gorgias.chat/applications/5288")},e.onerror=function(_){console.error(_)},e.send()}(window||{});</script>
+  
+<!--Gorgias Chat Widget End-->
+  
+<script>
+  window.addEventListener('load', function(){
+    jQuery('#add-to-cart-button').click(function(){
+ gtag('event', 'conversion', {'send_to': 'AW-771034636/7q_hCJv84dYBEIyc1O8C'});
+    });
+  });
+
+//   $(function(){
+//     var mm2 = $(".custom-main-menu2").html();
+//     setTimeout(function(){
+//       $(".custom-header-drop2").html(mm2);
+//     }, 500);
+// //     $(".custom-header-drop2 .main-menu .item.mega-menu-trigger a").on("click", function(){
+// //       alert("asadas");
+// //     });
+//     $(document).on('mouseenter mouseleave', '.custom-header-drop2 .item', function () {
+//       $(this).children(".submenu").slideToggle(200);
+//     });
+
+//   });
+
+  $(function(){
+    $(".main-menu .item").each(function(){
+      if($(this).hasClass("mega-menu-trigger")){
+        var a = $(this).children("a");
+        a.html(a.text() + ' <i class="fa fa-caret-down custom-header-icon-drop"></i>');
+      }
+    });
+//     $(".main-menu .item").hover(function(){
+//       $(this).children("a").children("i").toggleClass("custom-header-icon-drop-toggle");
+//     }, function(){
+//     $(this).children("a").children("i").toggleClass("custom-header-icon-drop-toggle");
+//     });
+
+    $(document).on('mouseenter mouseleave', '.main-menu .item', function () {
+      $(this).children("a").children("i").toggleClass("custom-header-icon-drop-toggle");
+      $(this).parents(".header").toggleClass("custom-header-border-opacity");
+      $(this).find(".submenu").toggleClass("custom-header-border-opacity");
+    });
+
+
+    $(".c-v-main-overlay").hover(function(){
+      $(".c-v-play").addClass("c-v-toggle");
+    }, function(){
+    $(".c-v-play").removeClass("c-v-toggle");
+    });
+
+    var countt = 0;
+    $(".c-fc-flex-item").each(function(){
+      countt++;
+    });
+    if(countt % 2 == 1){
+      $(".c-fc-flex-item").eq(countt - 1).addClass("c-fc-w-toggle");
+    }
+
+  });
+</script>
+  <!--  Helixian Change - Defer the script tag this js adds  -->
+  <!--LinkedIn manager-->
+  <script type="text/javascript">
+_linkedin_partner_id = "2579897";
+window._linkedin_data_partner_ids = window._linkedin_data_partner_ids || [];
+window._linkedin_data_partner_ids.push(_linkedin_partner_id);
+</script><script type="text/javascript">
+(function(){var s = document.getElementsByTagName("script")[0];
+var b = document.createElement("script");
+b.type = "text/javascript";b.defer = true;
+b.src = "https://snap.licdn.com/li.lms-analytics/insight.min.js";
+s.parentNode.insertBefore(b, s);})();
+</script>
+<noscript>
+<img height="1" width="1" style="display:none;" alt="" src="https://px.ads.linkedin.com/collect/?pid=2579897&fmt=gif" />
+</noscript>
+    <!--end of LinkedIn manager-->
+
+
+{% comment %}
+{{ '//cdn.shopify.com/s/files/1/0194/1736/6592/t/1/assets/booster-page-speed-optimizer.js?23' | script_tag }}
+{% endcomment %}
+
+<!--Loginhood CA Privacy Footer link-->
+
+<script>
+  function setCaPrivacyNoticeLink() {
+  var footerLinks = document.querySelectorAll('.links.last .sublinks');
+  var finalListColumn = footerLinks[0];
+  if (finalListColumn) {
+    var newFooterLink = document.createElement('a');
+    newFooterLink.href = 'javascript: __cmpLoginhood("displayConsentPopup")';
+    newFooterLink.classList.add('item');
+    newFooterLink.innerText = 'CA Privacy';
+    finalListColumn.appendChild(newFooterLink);
+  }
+}
+ setCaPrivacyNoticeLink();
+</script>
+  
+<!--  Helixian Change - Defer the script tag this js adds  -->
+<!--AccessiBe Script -->
+<script>(function(){ var s = document.createElement('script'), e = ! document.body ? document.querySelector('head') : document.body; s.src = 'https://acsbapp.com/apps/app/dist/js/app.js'; s.defer = true; s.onload = function(){ acsbJS.init({ statementLink : '', footerHtml : '', hideMobile : true, hideTrigger : false, language : 'en', position : 'left', leadColor : '#314438', triggerColor : '#314438', triggerRadius : '50%', triggerPositionX : 'left', triggerPositionY : 'bottom', triggerIcon : 'help', triggerSize : 'small', triggerOffsetX : 20, triggerOffsetY : 20, mobile : { triggerSize : 'small', triggerPositionX : 'right', triggerPositionY : 'center', triggerOffsetX : 10, triggerOffsetY : 0, triggerRadius : '50%' } }); }; e.appendChild(s);}());</script>

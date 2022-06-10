@@ -1,0 +1,140 @@
+{%- if section.settings.show -%}
+<style>  
+  #shopify-section-{{ section.id }} .related-products {text-align: center; background: {{section.settings.section_bg}}; padding: {{section.settings.padding_desktop}};}
+  .related-products .container {padding: 0 6em; max-width: 1150px;}
+  .related-products .main-title {font-size: 2.5em; margin-bottom: 2em;}
+  .related-products .btn {margin-top: 5em;}
+  .related-products .slick-slider .slick-arrow {top: 39%;}
+  
+  @media all and (max-width: 900px) {
+    #shopify-section-{{ section.id }} .related-products {padding: {{section.settings.padding_mobile}};}
+ 	.related-products .main-title {margin-bottom: 1em;}
+  }
+  
+  @media all and (max-width: 600px) {
+    .related-products .main-title {font-size: 2em; padding: 0 15px; margin-bottom: 1em;}
+    .related-products .container {padding: 0;}
+    .related-products .slick-slider .slick-arrow.left-arrow {left: 0.5em;}
+    .related-products .slick-slider .slick-arrow.right-arrow {right: 0.5em;}
+    .related-products .product-carousel {padding: 0;}
+    .related-products .btn {margin-top: 1.5em;}
+  }
+</style>
+
+  {%- assign shown = 0 -%}
+  {%- if collection != blank -%}
+      {%- assign relatedCollection = collection -%}
+  {%- elsif currentProduct.collections.first != blank -%}
+      {%- assign relatedCollection = currentProduct.collections.first -%}
+  {%- else -%}
+      {%- assign relatedCollection = collections.all -%}
+  {%- endif -%}
+  {%- if relatedCollection != blank and relatedCollection.products.size > 1 -%}
+  <div class="related-products">
+    <div class="container">
+      {%- if section.settings.title != "" -%}
+      	<h2 class="main-title">{{section.settings.title}}</h2>
+      {%- endif -%}
+      <div class="product-carousel slick-pending">
+        {%- for relprod in relatedCollection.products -%}
+          {%- if relprod.available -%}
+            {%- if shown < 10 and relprod.handle != product.handle -%}
+              {%- include 'product_item', currentProduct: relprod, quickview: false, collection: relatedCollection, isCarousel: true -%}
+              {%- assign shown = shown | plus: 1 -%}
+            {%- endif -%}
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+      {%- if section.settings.button != "" -%}
+      <a href="{{ section.settings.link }}" class="btn">
+        {{ section.settings.button }}
+      </a>
+      {%- endif -%}
+    </div>
+  </div>
+  <script>
+    $(function(){
+      $('#shopify-section-{{ section.id }} .related-products .product-carousel').slick({
+        autoplay: false,
+        speed: 700,
+        slidesToShow: 3,
+        pauseOnHover: false,
+        slidesToScroll: 3,
+        prevArrow: '{% include 'icons', icon: 'arrow-left' %}',
+        nextArrow: '{% include 'icons', icon: 'arrow-right' %}',
+        responsive: [
+          {
+            breakpoint: 600,
+            settings: {
+              slidesToShow: 1,
+              slidesToScroll: 1
+            }
+          },
+          {
+            breakpoint: 900,
+            settings: {
+              slidesToShow: 2,
+              slidesToScroll: 2
+            }
+          }
+        ]
+      });
+    });
+  </script>
+  {%- endif -%}
+{%- endif -%}
+
+{% schema %}
+  {
+    "name": "Related Products",
+    "presets": [
+      {
+        "name": "Related Products",
+        "category": "PDP"
+      }
+    ],
+    "settings": [
+	  {
+        "type": "checkbox",
+        "id": "show",
+        "label": "Show section?",
+        "default": true
+      },
+	  {
+        "type": "color",
+        "id": "section_bg",
+        "label": "Background Color",
+        "default": "#ffffff"
+      },
+	  {
+        "type": "text",
+        "id": "padding_desktop",
+        "label": "Section Padding (Desktop)",
+        "default": "6em 0"
+      },
+      {
+        "type": "text",
+        "id": "padding_mobile",
+        "label": "Section Padding (Mobile)",
+        "default": "4em 0"
+      },
+	  {
+        "type": "text",
+        "id": "title",
+        "label": "Title",
+		"default": "Complete your office"
+      },
+      {
+        "type": "text",
+        "id": "button",
+        "label": "Button",
+        "default": "Visit Showroom"
+      },
+      {
+        "type": "url",
+        "id": "link",
+        "label": "Link"
+      }
+    ]
+  }
+{% endschema %}

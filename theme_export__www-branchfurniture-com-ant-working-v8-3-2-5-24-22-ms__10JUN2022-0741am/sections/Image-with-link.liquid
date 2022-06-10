@@ -1,0 +1,110 @@
+<div class="c-iwl-section">
+  <div class="c-iwl-container">
+    {% if section.settings.heading != blank %}
+    <h2 class="c-iwl-heading" style="font-size: {{ section.settings.font_size }}px;">{{ section.settings.heading }}</h2>
+    {% endif %}
+    <div class="c-iwl-flex-container">
+      {% for block in section.blocks %}
+      {% if block.settings.img %}
+      <div class="c-iwl-flex-item">
+        <div class="c-iwl-flex-item-content">
+          <img src="{{ block.settings.img | img_url: 'master' }}" alt="" width="751" height="430" class="c-iwl-img" />
+          <a href="{{ block.settings.link }}" class="c-iwl-link">
+            {% if block.settings.title != blank %}
+            <p class="c-iwl-title">{{ block.settings.title }}</p>
+            {% endif %}
+            {% if block.settings.subheading != blank %}
+            <p class="c-iwl-subheading {% if block.settings.hide %}c-iwl-subheading-hide{% endif %}">{{ block.settings.subheading }}</p>
+            {% endif %}
+            <span class="c-iwl-arrow">
+              {% include 'custom-arrow-icon' %}
+            </span>
+          </a>
+        </div>
+      </div>
+      {% endif %}
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Image With Link",
+  "settings": [
+    {
+      "id": "heading",
+      "type": "textarea",
+      "label": "Heading",
+      "default": "Wherever you work, make it feel special."
+    },
+{
+    "type":      "range",
+    "id":        "font_size",
+    "min":       12,
+    "max":        50,
+    "step":       1,
+    "unit":       "px",
+    "label":     "Heading Font size",
+    "default":   40
+}
+  ],
+  "blocks": [
+    {
+      "type": "select",
+      "name": "Image",
+      "settings": [
+        {
+          "id": "img",
+          "type": "image_picker",
+       	  "label": "Image"
+        },
+		{
+          "id": "link",
+          "type": "url",
+       	  "label": "Link",
+		  "default": "/"
+        },
+		{
+          "id": "title",
+          "type": "text",
+       	  "label": "Title",
+		  "default": "Work From Home"
+        },
+		{
+          "id": "subheading",
+          "type": "text",
+       	  "label": "Subheading",
+		  "default": "Everything you need for your home office."
+        },
+		{
+          "id": "hide",
+          "type": "checkbox",
+       	  "label": "Hide Subheading on Tablet and Mobile",
+		  "default": true
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Image With Link",
+      "category": "Custom",
+      "blocks": [
+        { 
+          "type": "select"
+        },
+        {
+          "type": "select"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

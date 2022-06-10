@@ -1,0 +1,129 @@
+{% if section.settings.menu_2.links.size > 0 %}
+<style>
+  @media screen and (min-width:900px) and (max-width:1485px) {
+    .{{section.settings.class_}} .hlxn-grid {
+      grid-template-areas:"headline headline" "nav nav"
+    }
+    .{{section.settings.class_}} .hlxn-image {
+      display:none !important;
+    }
+    .{{section.settings.class_}} .hlxn-grid-shop-by {
+      width:98%
+    }
+  }
+</style>
+{% else %}
+<style>
+  @media screen and (min-width:900px) and (max-width:1050px) {
+    .{{section.settings.class_}} .hlxn-grid {
+      grid-template-areas:"headline headline" "nav nav"
+    }
+    .{{section.settings.class_}} .hlxn-image {
+      display:none !important;
+    }
+    .{{section.settings.class_}} .hlxn-grid-shop-by {
+      width:99%
+    }
+  }
+</style>
+{% endif %}
+
+<div class="{{ section.settings.class_ }} submenu mega-menu position-{{settings.mega_menu_position}} width-{{settings.mega_menu_width}}">
+  <div class="hlxn-grid {% unless section.settings.menu_2.links.size > 0 %}single {% endunless %}">
+    <div class="hlxn-headline">
+      <h4>{{section.settings.headline}}</h4>
+      <a href="{{ section.settings.collection_link | url }}"><p>Shop All <svg viewBox="0 0 405 207" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;/*! background-size: 5px auto; */height: 7px;"><path d="M360.58,115.165l-70.41,75.114l17.353,16.266l96.817,-103.286c-32.273,-34.42 -64.545,-68.839 -96.818,-103.259l-17.351,16.269l70.416,75.1l-360.587,-0l-0,23.796l360.58,-0Z"/></svg></p></a>
+    </div>
+    <div class="hlxn-nav">
+      <div class="hlxn-nav__menu1">
+        <ul id="{{ section.settings.parent_link | replace: ' ', '-' }}-list">
+        {% for link in linklists[section.settings.menu_1].links %}
+          {% if link.title == 'View All' %}
+          <li class="menu-item-{{ section.settings.parent_link | replace: ' ', '-' }}">
+            <a href="{{link.url}}">
+              <div class="btn hlxn-btn" data-list-item-index="{{ forloop.index }}">{{link.title}}</div>
+            </a>
+          </li>
+            {% else %}
+          <li class="menu-item-{{ section.settings.parent_link | replace: ' ', '-' }}">
+            <div class="hlxn-div-flex">
+              <a href="{{link.url}}">
+                <div class="hlxn-div-inline" data-list-item-index="{{ forloop.index }}">{{link.title}}</div>
+              </a>
+              {% capture idx %}{{ forloop.index }}{% endcapture %}                
+              {% for block in section.blocks %}
+              {% if block.settings.list_select == "list_1" %}
+              {% if block.type == "badge" %}
+              {% if block.settings.ordinality == idx %}
+              <span class="hlxn-badge">{{ block.settings.badge_text }}</span>
+              {% endif %}
+              {% endif %}
+              {% endif %}
+              {% endfor %}               
+            </div>
+
+          </li>
+          {% endif %}
+        {% endfor %}
+        </ul>
+      </div>
+      {% if section.settings.menu_2.links.size > 0 %}
+      <div class="hlxn-nav__menu2" >
+        <ul>
+        {% for link in linklists[section.settings.menu_2].links %}
+          {% if link.title == 'View All' %}
+            {% continue %}
+            {% else %}
+          <li>            
+              <div class="hlxn-div-flex">
+                <a href="{{link.url}}">
+                  <div class="hlxn-div-inline" data-list-item-index="{{ forloop.index }}">{{link.title}}</div>
+                </a>
+                {% capture idx2 %}{{ forloop.index }}{% endcapture %}                
+                {% for block in section.blocks %}
+                {% if block.settings.list_select == "list_2" %}
+                  {% if block.type == "badge" %}
+                    {% if block.settings.ordinality == idx2 %}
+                	  <span class="hlxn-badge">{{ block.settings.badge_text }}</span>
+                    {% endif %}
+                  {% endif %}
+                 {% endif %}
+                {% endfor %}               
+              </div>           
+          </li>
+          {% endif %}
+        {% endfor %}
+        </ul>		
+      </div>
+      {% endif %}
+      {% if section.settings.use_hover_links %}
+      {% for block in section.blocks %}
+      <div class="hlxn-nav__image {% if forloop.index == 1 %}hlxn-show{% endif %} {% unless forloop.index == 1 %}hlxn-hide{% endunless %}" data-image-label="{{ section.settings.parent_link }}" data-image-index="{{ forloop.index }}" style="position:relative">
+        {% if block.settings.add_sales_badge %}
+          <div class="hlxn-image-badge">{{ block.settings.dynamic_image_badge_text }}</div>
+        {% endif %}        
+        <img src="{{ block.settings.image | img_url: 'master' }}" alt="{{ block.settings.image.alt }}" width="305" height="200" rel="prefetch" />
+        <p>{{ block.settings.text }}</p>	
+      </div>
+      {% endfor %}
+      {% else %}
+      <div class="hlxn-nav__image" style="position:relative">
+        {% if section.settings.use_static_image_badge %}
+          <div class="hlxn-image-badge">{{ section.settings.static_image_badge_text }}</div>
+        {% endif %}
+        <img src="{{ section.settings.image_left | img_url: 'master' }}" alt="{{ section.settings.image_left.alt }}" width="305" height="200" loading="lazy" />
+        <p>{{ section.settings.image_left_caption }}</p>	
+      </div>
+      {% endif %}
+    </div>
+    <div class="hlxn-image">
+      <a  href="{{ section.settings.right_image_link }}">
+      	<img src="{{ section.settings.image_right | img_url: 'master' }}" alt="{{ section.settings.image_right.alt }} column-{{ section.settings.linked_menu | replace: ' ', '-' }}" width="482" height="275" loading="lazy" />
+      </a>
+      <a  href="{{ section.settings.right_image_link }}">
+      	{{ section.settings.image_right_caption }}
+      </a>
+    </div>
+  </div>
+</div>
+

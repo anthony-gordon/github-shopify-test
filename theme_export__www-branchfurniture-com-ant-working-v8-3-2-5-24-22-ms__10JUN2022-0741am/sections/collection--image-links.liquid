@@ -1,0 +1,267 @@
+{% for block in section.blocks %}
+  {% if block.settings.collection == collection.handle or block.settings.all_collections == true %}
+	{% assign block_collection = block %}
+    {% break %}
+  {% endif %}
+{% endfor %}
+
+{% if block_collection.settings.enabled %}
+<div class="c-iwt-section">
+  <div class="c-iwt-container">
+    <div class="c-iwt-flex-container">
+      
+      <!-- block 1 -->
+      <div class="c-iwt-flex-item" style="background-color: {{ block_collection.settings.bg_color_1 }}" data-block-1>
+          <div class="item-wrapper">
+          {% if block_collection.settings.img_1 %}
+            <img src="{{ block_collection.settings.img_1 | img_url: 'master' }}" alt="" class="c-iwt-img" width="759" height="997" loading="lazy"/>
+          {% else %}
+            <svg class="placeholder--image" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 525.5 525.5"><path d="M324.5 212.7H203c-1.6 0-2.8 1.3-2.8 2.8V308c0 1.6 1.3 2.8 2.8 2.8h121.6c1.6 0 2.8-1.3 2.8-2.8v-92.5c0-1.6-1.3-2.8-2.9-2.8zm1.1 95.3c0 .6-.5 1.1-1.1 1.1H203c-.6 0-1.1-.5-1.1-1.1v-92.5c0-.6.5-1.1 1.1-1.1h121.6c.6 0 1.1.5 1.1 1.1V308z"></path><path d="M210.4 299.5H240v.1s.1 0 .2-.1h75.2v-76.2h-105v76.2zm1.8-7.2l20-20c1.6-1.6 3.8-2.5 6.1-2.5s4.5.9 6.1 2.5l1.5 1.5 16.8 16.8c-12.9 3.3-20.7 6.3-22.8 7.2h-27.7v-5.5zm101.5-10.1c-20.1 1.7-36.7 4.8-49.1 7.9l-16.9-16.9 26.3-26.3c1.6-1.6 3.8-2.5 6.1-2.5s4.5.9 6.1 2.5l27.5 27.5v7.8zm-68.9 15.5c9.7-3.5 33.9-10.9 68.9-13.8v13.8h-68.9zm68.9-72.7v46.8l-26.2-26.2c-1.9-1.9-4.5-3-7.3-3s-5.4 1.1-7.3 3l-26.3 26.3-.9-.9c-1.9-1.9-4.5-3-7.3-3s-5.4 1.1-7.3 3l-18.8 18.8V225h101.4z"></path><path d="M232.8 254c4.6 0 8.3-3.7 8.3-8.3s-3.7-8.3-8.3-8.3-8.3 3.7-8.3 8.3 3.7 8.3 8.3 8.3zm0-14.9c3.6 0 6.6 2.9 6.6 6.6s-2.9 6.6-6.6 6.6-6.6-2.9-6.6-6.6 3-6.6 6.6-6.6z"></path></svg>
+          {% endif %}
+
+          <div class="text-wrap text-center">
+            <h3 class="c-iwt-heading">{{ block_collection.settings.title_1 }}</h3>
+
+            <div class="rte">
+              {{ block_collection.settings.desc_1 }}
+            </div>
+
+            <div class="c-iwt-btn-container">
+              <a href="{{ block_collection.settings.btn_link_1 }}" class="c-iwt-btn">{{ block_collection.settings.btn_text_1 }}</a>
+            </div>
+          </div>          
+        </div>
+      </div>
+      
+      <!-- block 2 -->
+      <div class="c-iwt-flex-item" style="background-color: {{ block_collection.settings.bg_color_2 }}" data-block-2>
+        {% if block_collection.settings.img_2 %}
+          <img src="{{ block_collection.settings.img_2 | img_url: 'master' }}" alt="" class="c-iwt-img" width="759" height="997" loading="lazy"/>
+        {% else %}
+          <svg class="placeholder--image" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 525.5 525.5"><path d="M324.5 212.7H203c-1.6 0-2.8 1.3-2.8 2.8V308c0 1.6 1.3 2.8 2.8 2.8h121.6c1.6 0 2.8-1.3 2.8-2.8v-92.5c0-1.6-1.3-2.8-2.9-2.8zm1.1 95.3c0 .6-.5 1.1-1.1 1.1H203c-.6 0-1.1-.5-1.1-1.1v-92.5c0-.6.5-1.1 1.1-1.1h121.6c.6 0 1.1.5 1.1 1.1V308z"></path><path d="M210.4 299.5H240v.1s.1 0 .2-.1h75.2v-76.2h-105v76.2zm1.8-7.2l20-20c1.6-1.6 3.8-2.5 6.1-2.5s4.5.9 6.1 2.5l1.5 1.5 16.8 16.8c-12.9 3.3-20.7 6.3-22.8 7.2h-27.7v-5.5zm101.5-10.1c-20.1 1.7-36.7 4.8-49.1 7.9l-16.9-16.9 26.3-26.3c1.6-1.6 3.8-2.5 6.1-2.5s4.5.9 6.1 2.5l27.5 27.5v7.8zm-68.9 15.5c9.7-3.5 33.9-10.9 68.9-13.8v13.8h-68.9zm68.9-72.7v46.8l-26.2-26.2c-1.9-1.9-4.5-3-7.3-3s-5.4 1.1-7.3 3l-26.3 26.3-.9-.9c-1.9-1.9-4.5-3-7.3-3s-5.4 1.1-7.3 3l-18.8 18.8V225h101.4z"></path><path d="M232.8 254c4.6 0 8.3-3.7 8.3-8.3s-3.7-8.3-8.3-8.3-8.3 3.7-8.3 8.3 3.7 8.3 8.3 8.3zm0-14.9c3.6 0 6.6 2.9 6.6 6.6s-2.9 6.6-6.6 6.6-6.6-2.9-6.6-6.6 3-6.6 6.6-6.6z"></path></svg>
+        {% endif %}
+        
+        <div class="text-wrap text-center">
+          <h3 class="c-iwt-heading">{{ block_collection.settings.title_2 }}</h3>
+          
+          <div class="rte">
+            {{ block_collection.settings.desc_2 }}
+          </div>
+          
+          <div class="c-iwt-btn-container">
+            <a href="{{ block_collection.settings.btn_link_2 }}" class="c-iwt-btn">{{ block_collection.settings.btn_text_2 }}</a>
+          </div>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+</div>
+
+<style>
+  #shopify-section-collection--image-links [data-block-1] img, #shopify-section-collection--image-links [data-block-1] svg {
+    position: relative; 
+    transform: translateY({{ block_collection.settings.img_offset_1 }}px);
+  }
+  
+/*   #shopify-section-collection--image-links [data-block-2] img, #shopify-section-collection--image-links [data-block-2] svg {
+    position: relative; 
+    transform: translateY({{ block_collection.settings.img_offset_2 }}px);    
+  }   */
+  
+
+  @media screen and (max-width: 679px) {
+    #shopify-section-collection--image-links [data-block-1] img, #shopify-section-collection--image-links [data-block-1] svg {
+      position: relative; 
+      transform: translateY({{ block_collection.settings.img_offset_mobile_1 }}px);
+    }
+
+    #shopify-section-collection--image-links [data-block-2] img, #shopify-section-collection--image-links [data-block-2] svg {
+      position: relative; 
+      transform: translateY({{ block_collection.settings.img_offset_mobile_2 }}px);    
+    }  
+  }
+</style>
+{% endif %}
+
+{% schema %}
+  {
+    "name": "Custom - Images & Links",
+	"blocks": [
+	  {
+		"type": "custom-images-link",
+		"name": "Custom Images with Links",
+        "settings": [
+          {
+            "type": "collection",
+            "id": "collection",
+            "label": "Assign Collection"
+          },
+          {
+            "type": "checkbox",
+            "id": "all_collections",
+            "label": "Show on all collections?"
+          },
+          {
+            "type": "checkbox",
+            "id": "enabled",
+            "label": "Enable Section?"
+          },
+          {
+            "type": "header",
+            "content": "Block 1"
+          },
+          {
+            "type": "color",
+            "label": "Block 1 Background Color",
+			"id": "bg_color_1",
+			"default": "#F3F0ED"
+          },
+          {
+            "type": "color",
+            "label": "Block 1 - Text, Button Color",
+			"id": "text_color_1",
+			"default": "#314438"
+          },
+          {
+            "id": "img_1",
+            "type": "image_picker",
+            "label": "Block 1 - Image"
+          },
+          {
+            "id": "img_offset_1",
+            "type": "number",
+            "label": "Block 1 Image Offset (Desktop)",
+			"default": -50,
+			"info": "Enter value in px"
+          },
+          {
+            "id": "img_offset_mobile_1",
+            "type": "number",
+            "label": "Block 1 Image Offset (Mobile)",
+			"default": -25,
+			"info": "Enter value in px"
+          },
+          {
+            "id": "title_1",
+            "type": "text",
+            "label": "Block 1 Title",
+			"default": "Block Title"
+          },
+          {
+            "id": "desc_1",
+            "type": "richtext",
+            "label": "Block 1 Description",
+            "default": "<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit</p>"
+          },
+          {
+            "id": "btn_text_1",
+            "type": "text",
+            "label": "Block 1 - Button Text",
+			"default": "Button Text"
+          },
+          {
+            "id": "btn_link_1",
+            "type": "url",
+            "label": "Block 1 - Button Link"
+          },
+          {
+            "type": "header",
+            "content": "Block 2"
+          },
+          {
+            "type": "color",
+            "label": "Block 2 Background Color",
+			"id": "bg_color_2",
+			"default": "#314438"
+          },
+          {
+            "type": "color",
+            "label": "Block 2 - Text, Button Color",
+			"id": "text_color_2",
+			"default": "#F3F0ED"
+          },
+          {
+            "id": "img_2",
+            "type": "image_picker",
+            "label": "Block 2 - Image"
+          },
+          {
+            "id": "img_offset_2",
+            "type": "number",
+            "label": "Block 2 Image Offset (Desktop)",
+			"default": -50,
+			"info": "Enter value in px"
+          },
+          {
+            "id": "img_offset_mobile_2",
+            "type": "number",
+            "label": "Block 2 Image Offset (Mobile)",
+			"default": -25,
+			"info": "Enter value in px"
+          },
+          {
+            "id": "title_2",
+            "type": "text",
+            "label": "Block 2 Title",
+			"default": "Block Title"
+          },
+          {
+            "id": "desc_2",
+            "type": "richtext",
+            "label": "Block 2 Description",
+            "default": "<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit</p>"
+          },
+          {
+            "id": "btn_text_2",
+            "type": "text",
+            "label": "Block 2 - Button Text",
+			"default": "Button Text"
+          },
+          {
+            "id": "btn_link_2",
+            "type": "url",
+            "label": "Block 2 - Button Link"
+          }
+        ]
+	  }
+	]
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}
+
+<style>
+  /* Block 1 */
+  #shopify-section-collection--image-links [data-block-1] .c-iwt-btn {
+    background-color: {{ block_collection.settings.text_color_1 }};
+    color: {{ block_collection.settings.bg_color_1 }};
+  }
+  
+  #shopify-section-collection--image-links [data-block-1] .c-iwt-heading {
+    color: {{ block_collection.settings.text_color_1 }};
+  }  
+  
+  #shopify-section-collection--image-links [data-block-1] .rte {
+    color: {{ block_collection.settings.text_color_1 }};
+  }
+  
+  
+  /* Block 2 */
+  #shopify-section-collection--image-links [data-block-2] .c-iwt-btn {
+    background-color: {{ block_collection.settings.text_color_2 }};
+    color: {{ block_collection.settings.bg_color_2 }};
+  }
+  
+  #shopify-section-collection--image-links [data-block-2] .c-iwt-heading {
+    color: {{ block_collection.settings.text_color_2 }};
+  }
+  
+  #shopify-section-collection--image-links [data-block-2] .rte {
+    color: {{ block_collection.settings.text_color_2 }};
+  }  
+</style>

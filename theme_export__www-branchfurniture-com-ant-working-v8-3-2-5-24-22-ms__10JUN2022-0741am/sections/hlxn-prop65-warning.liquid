@@ -1,0 +1,99 @@
+{% assign show_desktop_warning = section.settings.enable_prop65_desktop %}
+{% assign show_mobile_warning = section.settings.enable_prop65_mobile %}
+
+<style>
+  
+  .p65-title {
+    font-size: .78rem;
+    font-weight: bolder;
+    margin-bottom: 8px;
+    color: #314438;  
+  }
+  
+  .hlxn-prop-65-warning {
+    padding-bottom: 1rem;
+  }
+  
+  .hlxn-prop-65-warning p {
+    font-size: 80%;
+  }
+  
+  .sticky-grid :not(.btn-side),
+  .hlxn-sticky-price h4,
+  #hlxn-sticky-variant-size,
+  .single-line-header {
+    font-size: .9rem !important;
+  }
+  
+  .hlxn-show-desktop {}
+  
+  .hlxn-show-mobile {}
+  
+</style>
+
+
+{% for line_item in checkout.line_items %}
+  {% for tag in line_item.product.tags %}
+    {% if tag == "Prop65" %}
+    {% assign hasProp65Tag = true %}
+    {% endif %}
+  {% endfor %}
+{% endfor %}
+
+{% if hasProp65Tag and checkout.shipping_address.province == "California" %}
+<div id="ca-p65-warning" class="hlxn-prop-65-warning">
+  <h5 class="p65-title">Prop 65 Notice</h5>
+  <p>WARNING: This product can expose you to chemicals including lead which is known 
+    to the state of California to cause cancer. For more information go to www.p65Warnings.ca.gov</p>
+</div>
+{% endif %}
+
+{% schema %}
+  {
+    "name": "CA Prop 65 Warning",
+    "settings": [
+	  {
+		"type": "checkbox",
+		"label": "Enable California Prop 65 Warning (Desktop)",
+		"id": "enable_prop65_desktop",
+		"default": true
+	  },
+	  {
+		"type": "checkbox",
+		"label": "Enable California Prop 65 Warning (Mobile)",
+		"id": "enable_prop65_mobile",
+		"default": true
+	  }
+	]
+  }
+{% endschema %}
+
+<!-- <script>
+
+  let stateSelect = document.getElementById("checkout_shipping_address_province");
+  let warningElement = document.getElementById("ca-p65-warning");
+  let hasProp65Tag = {{ hasProp65Tag }};
+  let shipsToCA;  
+
+  console.log(hasProp65Tag);
+  
+//   stateSelect.addEventListener("change", (event) => {
+//       console.log(event.currentTarget.value)
+//   });
+  
+//   Checkout.$(document).on("page:change", () => {
+//     console.log("something something");
+//   })
+  
+  (function($) {
+    $(document).on("page:load page:change", function() {
+      // Add your customizations
+      console.log("I feel like chicken tonight")
+    });
+  })(Checkout.$);
+
+  if (shipsToCA && hasProp65Tag){
+    warningElement.classList.add(".hlxn-show");
+  }
+
+</script> -->

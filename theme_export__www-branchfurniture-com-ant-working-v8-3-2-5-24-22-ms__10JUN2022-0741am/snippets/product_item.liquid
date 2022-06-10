@@ -1,0 +1,35 @@
+<div class="product-item animation {% unless isCarousel %}grid__item large--{{settings.grid_items_per_row}} medium--{{ settings.grid_items_per_row_medium }} small--{{ settings.grid_items_per_row_small }}{% endunless %}">
+  <a href="{{ currentProduct.url | within: collection }}{% if fromSearch %}#search{% endif %}">
+    <div class="image-wrapper" style="position: relative;">
+      {%- if settings.grid_product_image_behavior == "thumbs_swatches" -%}
+          {%- include 'product_item_img_swatches' -%}
+      {%- elsif settings.grid_product_image_behavior == "alternate_image" -%}
+          {%- include 'product_item_img_alternate' -%}
+      {%- else -%}
+          {%- include 'product_item_img' -%}
+      {%- endif -%}
+
+      {%- if quickview -%}
+        <div class="layer quick-view-btn ease-animation" data-url="{{ currentProduct.url | within: collection }}?view=quick-view">
+          <div>QUICK VIEW</div>
+        </div>
+      {%- endif -%}
+    </div>
+
+    {%- if settings.grid_product_image_behavior == "thumbs_swatches" -%}
+      {%- include 'thumbs_swatches' -%}
+    {%- endif -%}
+
+    <div class="info flex justify-content-between align-items-start">
+      <div class="title animation {{ currentProduct.tags }}">{{ currentProduct.title }}</div>
+      <div class="price flex align-items-center">
+        {%- if currentProduct.price_min != currentProduct.price_max -%}
+          <span class="from">from</span>
+        {%- endif -%}
+        <div class="deal">
+          <span class="red-price" data-price="deal">{{ currentProduct.price_min | money | remove: '.00' | remove: ' ' }}</span>
+        </div>
+      </div>
+    </div>
+  </a>
+</div>

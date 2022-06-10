@@ -1,0 +1,1759 @@
+<style>
+  html, body {background: {{settings.content_second_color}};}
+  [role="radio"], [role="checkbox"] {cursor: pointer;}
+  
+  .quizpage {position: relative; background: {{settings.content_second_color}}; width: 100%; height: 100vh;}
+  
+  .quizpage .nav {position: fixed; z-index: 10; top: 0; left: 5vw; height: 100vh;}
+  .quizpage .nav button {font-size: 1.2em; font-weight: 500; margin: 1em 0; color: {{settings.content_text_color}}; -webkit-transition: all 0.2s linear; -moz-transition: all 0.2s linear; -o-transition: all 0.2s linear; -ms-transition: all 0.2s linear; transition: all 0.2s linear;}
+  .quizpage .nav button.collapsed {cursor: default; -ms-transform: scale(1.5, 1.5); -webkit-transform: scale(1.5, 1.5); transform: scale(1.5, 1.5)}
+  .quizpage .nav button.active {cursor: default; -ms-transform: scale(2, 2); -webkit-transform: scale(2, 2); transform: scale(2, 2); -webkit-transition: all 0.1s linear; -moz-transition: all 0.1s linear; -o-transition: all 0.1s linear; -ms-transition: all 0.1s linear; transition: all 0.1s linear; }
+  .quizpage .nav button.disabled {cursor: default;}
+  .isNotMobile .quizpage .nav button:not(.disabled):not(.active):hover {color: {{settings.content_third_color}};}
+  .quizpage.fixed .nav {position: fixed;}
+  .quizpage.end .nav {position: absolute; top: auto; bottom: 0;}
+
+  .close-quiz-popup {text-align: center; max-width: 30em;}
+  .close-quiz-popup .title {font-size: 1.8em; line-height: 120%; margin-bottom: 1em; font-weight: 500;}
+  .close-quiz-popup .btn {margin: 0.5em; width: 100%; max-width: 14em; padding-left: 0; padding-right: 0;}
+
+  .quizpage .layout .close-icon {position: fixed; top: 4vw; right: 5vw; z-index: 10;}
+  .quizpage .layout .close-icon svg {display: block; font-size: 1.7em; stroke: {{settings.content_text_color}}; stroke-width: 0.03em;}
+  .isNotMobile .quizpage .layout .close-icon:hover svg path {fill: {{settings.content_third_color}}; stroke: {{settings.content_third_color}};}
+  .quizpage .layout .backnext {position: fixed; z-index: 10; line-height: 100%; font-weight: 500; font-size: 1.2em; }
+  .quizpage .layout .backnext:not(:hover) {color: {{settings.content_third_color}};}
+  .quizpage .layout .backnext svg {font-size: 1.7em; -webkit-transition: all 0.2s ease-out; -moz-transition: all 0.2s ease-out; -o-transition: all 0.2s ease-out; -ms-transition: all 0.2s ease-out; transition: all 0.2s ease-out;}
+  .quizpage .layout .backnext svg path {fill: {{settings.content_third_color}};}
+  .quizpage .layout .next-btn {right: 5vw; top: 50%; -webkit-transform: translateY(-50%); transform: translateY(-50%);}
+  .quizpage .layout .back-btn {bottom: 4vw; left: 5vw; margin-left: -0.2em;}
+  .quizpage .layout .next-btn svg {margin-left: 0.2em;}
+  .quizpage .layout .back-btn svg {margin-right: 0.2em;}
+  .isNotMobile .quizpage .layout .next-btn:hover svg {-webkit-transform: translateX(0.2em); transform: translateX(0.2em);}
+  .isNotMobile .quizpage .layout .back-btn:hover svg {-webkit-transform: translateX(-0.2em); transform: translateX(-0.2em);}
+  .quizpage .layout .logo {position: fixed; z-index: 10; top: 4vw; left: 5vw;}
+  .quizpage .layout .logo img {width: 5.5em; display: block;}
+  
+  .quizpage .content {position: relative; text-align: center; width: 100%; height: 100%;}
+  
+  .quizpage .quiz-interstitial {visibility: hidden; width: 100%; z-index: 1; position: absolute; top: 0; left: 1em; width: 100%; height: 100%; padding: 25vh 6vw 10vh; -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)"; filter: alpha(opacity=0); -moz-opacity: 0; -khtml-opacity: 0; opacity: 0; -webkit-transition: all 0.4s ease-out; -moz-transition: all 0.4s ease-out; -o-transition: all 0.4s ease-out; -ms-transition: all 0.4s ease-out; transition: all 0.4s ease-out; line-height: 1.5;}
+  .quizpage .quiz-interstitial h1, h2, h3, h4, h5, h6{font-weight:600; color: #314438;}
+  .quizpage .quiz-interstitial.show {visibility: visible; z-index: 5; left: 0;  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)"; filter: alpha(opacity=100); -moz-opacity: 1; -khtml-opacity: 1; opacity: 1;}
+  
+  .quizpage .steps {position: absolute; overflow: hidden; top: 0; left: 0; width: 100%; height: 100%;}
+  .quizpage .step {visibility: hidden; width: 100%; z-index: 1; position: absolute; top: 0; left: 1em; width: 100%; height: 100%; padding: 14vh 6vw 10vh; overflow-y: auto; -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)"; filter: alpha(opacity=0); -moz-opacity: 0; -khtml-opacity: 0; opacity: 0; -webkit-transition: all 0.4s ease-out; -moz-transition: all 0.4s ease-out; -o-transition: all 0.4s ease-out; -ms-transition: all 0.4s ease-out; transition: all 0.4s ease-out;}
+  .quizpage .step.active {visibility: visible; z-index: 5; left: 0;  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)"; filter: alpha(opacity=100); -moz-opacity: 1; -khtml-opacity: 1; opacity: 1;}
+  .quizpage .step.off {left: 0; -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)"; filter: alpha(opacity=0); -moz-opacity: 0; -khtml-opacity: 0; opacity: 0; -webkit-transition: all 0.2s linear; -moz-transition: all 0.2s linear; -o-transition: all 0.2s linear; -ms-transition: all 0.2s linear; transition: all 0.2s linear;}
+  .quizpage .step .heading {margin-bottom: 4em;}
+  .quizpage .step .heading h2 {font-size: 3.2em; margin: 0;}
+  .quizpage .step .heading .text {margin: 0; margin-top: 1em; font-size: 1.3em;}
+  .quizpage .step .heading .text > :not(:last-child) {margin-bottom: 0.8em;}
+  .quizpage .step .heading .text .rooms-quantity {font-weight: 700; text-decoration: underline;}
+  .quizpage .step .heading .text .rooms-quantity i {font-style: normal;}
+  
+  .quizpage .step .options {width: 100%;}
+  .quizpage .step .options .item {width: 100%; max-width: 20.1em; margin: 0em 2em; text-align: center; box-shadow: 0 0 0 rgba(0,0,0,0);}
+  .quizpage .step .options .item .checked-icon {display: none; cursor: pointer; position: absolute; width: 23px; top: 0.5em; right: 0.5em;}
+  .quizpage .step .options .item.checked .checked-icon {display: block;}
+  .quizpage .step .options .item.checked .wrap {border-color: {{settings.content_third_color}};}
+  .quizpage .step .options a.item, .quizpage .step .options button.item {display: block; color: inherit;}
+  .quizpage .step .options .item .wrap {position: relative; border: 3px solid; padding: 4em 2em 3.5em; height: 100%;}
+  .quizpage .step .options .item img {width: 100%; max-width: 12em; display: block; margin: 0 auto 2em;}
+  .quizpage .step .options .item .title {font-size: 1.45em; max-width: 8em; margin: auto; line-height: 130%; font-weight: 700;}
+  .isNotMobile .quizpage .step .options .item:hover { box-shadow: 0 0.5em 0.5em rgba(0,0,0,0.1); transform: translate(0, -0.1em);}
+  .quizpage .step .options .item .text {margin: auto; font-size: 1.1em; margin-top: 0.5em; line-height: 120%; max-width: 10em;}
+  
+  .quizpage .step.s2 .options .item {max-width: 18em; margin: 0 1em;}
+  .quizpage .step.s2 .options .item .wrap {padding: 2.3em 1em 1em;}
+  .quizpage .step.s2 .options .item .title {max-width: 100%;}
+  .quizpage .step.s2 .options .item img {max-width: 10.5em;}
+  .quizpage .step.s2 .options .item .text {margin-top: 3em;}
+  
+  .quizpage .step.s3 .heading {margin-bottom: 2em;}
+  .quizpage .step.s3 .options {max-width: 45em; margin: 0 auto;}
+  .quizpage .step.s3 .options .item .wrap {padding: 0.8em;}
+  .quizpage .step.s3 .options .item {max-width: 100%; margin: 0 0 1em; text-align: left;}
+  .quizpage .step.s3 .options .item img {max-width: 8em; margin: 0;}
+  .quizpage .step.s3 .options .item .info {padding-left: 2em;}
+  .quizpage .step.s3 .options .item .title {max-width: 100%; font-size: 2em;}
+  .quizpage .step.s3 .options .variants {margin-top: 0.7em; font-size: 1.25em; font-weight: 500;}
+  .quizpage .step.s3 .options .variants .variant {margin-right: 1.2em; padding: 0.2em 0; margin-top: 0.2em; filter: alpha(opacity=50); opacity: 0.5;}
+  .quizpage .step.s3 .options .variants .variant:last-child {margin-right: 0;}
+  .quizpage .step.s3 .options .variants .variant.checked {filter: alpha(opacity=100); opacity: 1; font-weight: 700;}
+  
+  .quizpage .step.s4 .options .item {margin: 0 1.5em;}
+  .quizpage .step .options .item .quantity-box {max-width: 10em; margin: 1em auto 0;}
+  .quizpage .step.s4 .options .item .wrap {padding: 2em 0.5em;}
+  .quizpage .step.s4 .options .item img {max-width: 16.5em;}
+  
+  .quizpage .step.s6 .options .item {max-width: 30em; text-align: left; margin-top: 1em;}
+  .quizpage .step.s6 .options .item .wrap {padding: 1.5em 2em;}
+  .quizpage .step.s6 .options .item .title {max-width: 100%;}
+    
+  .quizpage .step .heading .quantity-box {font-size:0.9em; max-width: 10em; margin: 1em auto 2em;}
+  
+  .quizpage .step .form-wrap {max-width: 35em; margin: 0 auto; }
+  .quizpage .step .form-wrap input {background-color: #fff; border-radius: 0.3em; margin-bottom: 1em;}
+  .quizpage .step .form-wrap .btn {width: 100%;}
+  .quizpage .step .form-wrap .grid {margin-left: -1em;}
+  .quizpage .step .form-wrap .grid > .grid__item {padding-left: 1em;}
+  
+  .quizpage .step .space-engine {max-width: 70em; margin: auto;}
+  .quizpage .step .space-card {position: relative; width: 20.5em; margin: 0 0.8em 1.75em; text-align: left; background: #fff; border-radius: 0.5em;}
+  .quizpage .step .space-card .space-title {cursor: pointer; font-size: 2em; padding: 0.6em 1em; line-height: 100%; font-weight: 500; position: relative;}
+  /*.quizpage .step .space-card.open .space-title {padding: 0.9em 1em;}*/
+  .quizpage .step .space-card .remove {position: absolute; font-size: 0.8em; right: 0; top: 0; padding: 1.8em; display: block;}
+  .quizpage .step .space-card .remove svg {display: block; font-size: 2em;}
+  /*.quizpage .step .space-card.open .remove {top: 0.5em;}*/
+  .isNotMobile .quizpage .step .space-card .space-title svg:hover path {}
+  .quizpage .step .space-card .question:not(:last-child) {margin-bottom: 1.8em;}
+  .quizpage .step .space-card .question .label {font-size: 1.1em; line-height: 110%; margin-bottom: 1em;}
+  .quizpage .step .space-card .questions-wrap {display: none; padding: 0.5em 2em 2.2em; padding-top: 0;}
+  .quizpage .step .space-card.open .questions-wrap {display: block; }
+  .quizpage .step .add-space {cursor: pointer; max-width: 5em; margin: 0 1em; margin-top: 8em; text-align: left;}
+  .quizpage .step .add-space span {text-transform: uppercase; display: block; line-height: 130%; font-size: 0.9em; margin-top: 0.5em; font-weight: 700; }
+  .quizpage .step .add-space i {display: block; font-size: 2em; border-radius: 50%; padding-bottom: 0.15em; background: {{settings.content_text_color}}; color: {{settings.content_second_color}}; font-style: normal; width: 2em; height: 2em; line-height: 100%; font-weight: 500;}
+  .isNotMobile .quizpage .step .add-space i:hover {-ms-transform: scale(1.1, 1.1); -webkit-transform: scale(1.1, 1.1); transform: scale(1.1, 1.1);}
+  .isNotMobile .quizpage .step .add-space i:active {-ms-transform: scale(1, 1); -webkit-transform: scale(1, 1); transform: scale(1, 1);}
+  .quizpage .step .listbox-wrap {position: relative; text-align: left;}
+  .quizpage .step .listbox-trigger {width: 100%; text-align: left; line-height: 130%; background: #fff; border: 1px solid; padding: 0.5em 2em 0.5em 1em; min-height: 3.8em; position: relative;}
+  .quizpage .step .listbox-trigger svg {position: absolute; right: 0.5em; top: 50%; display: block; -webkit-transform: translateY(-50%); transform: translateY(-50%);}
+  .quizpage .step .listbox-trigger[aria-expanded=true] svg {-ms-transform: translateY(-50%) rotate(180deg); -webkit-transform: translateY(-50%) rotate(180deg); transform: translateY(-50%) rotate(180deg);}
+  .quizpage .step [role="listbox"] {display: none; position: absolute; z-index: 10; width: 100%; background: #fff; top: 100%; left: 0; padding: 0.7em 1em; border: 1px solid; border-top: 0;}
+  .quizpage .step [role="option"] {cursor: pointer; line-height: 130%; padding: 0.3em 0;}
+  .quizpage .step [role="option"]:not(:last-child) {margin-bottom: 0.5em;}
+  
+  .has-tooltip {margin-top:40px; position: relative; font-weight: 700;}
+  .has-tooltip .info {cursor: pointer; position: relative;}
+  .has-tooltip .info:not(.checkmark) {margin-right: 9px; text-align: center; color: #314438; background: transparent; border: 2px solid #314438; font-weight: 700; width: 1.6em; height: 1.6em; border-radius: 50%; font-size: 0.8em; line-height:150%; font-family: {{settings.heading_font.family}}, {{settings.heading_font.fallback_families}}; -webkit-transition: all 0.2s linear; -moz-transition: all 0.2s linear; -o-transition: all 0.2s linear; -ms-transition: all 0.2s linear; transition: all 0.2s linear;}
+  .has-tooltip .summary .buttons .info:not(.checkmark):hover {background: {{settings.content_third_color}}; color: #fff;}
+  .has-tooltip .info .tooltip {width: 23em; white-space: normal; font-weight: 500; font-family: {{settings.body_font.family}}, {{settings.body_font.fallback_families}}; display: none; text-align:center; line-height: 150%; background: #7d7d7d; color: #fff; right: -2.3em; top:80%; padding: 1em; font-size: 13px; {% if settings.enable_color_swatches == true %}display: block;{% else %}display:none;{% endif %} position:absolute; -webkit-transform: translateY(10px); transform: translateY(10px); margin-top:10px; filter:alpha(opacity=0); -khtml-opacity: 0; -moz-opacity: 0; opacity:0; visibility:hidden; -webkit-transition: all .25s ease-out; -moz-transition: all .25s ease-out; -ms-transition: all .25s ease-out; -o-transition: all .25s ease-out; transition: all .25s ease-out; z-index: 10000;}
+  .has-tooltip .info .tooltip:after {content:" "; border: 10px solid transparent; border-bottom: 10px solid {{settings.content_third_color}}; top: -20px; height:0; right: 2.3em; -webkit-transform: translateX(0.3em); transform: translateX(0.3em); position:absolute; width:0;}
+  .has-tooltip .info:hover .tooltip, .has-tooltip .info.active .tooltip, .has-tooltip.active .tooltip {filter:alpha(opacity=100); -khtml-opacity:1; -moz-opacity:1; opacity:1; visibility:visible; top: 100%; -webkit-transform: translateY(0); transform: translateY(0);}
+  .has-tooltip {cursor: pointer; position: relative; padding-right: 2em; font-weight: 700;}
+  .has-tooltip .info {position: relative;}
+  .has-tooltip .tooltip {width: 20em; white-space: normal; font-weight: 500; font-family: {{settings.body_font.family}}, {{settings.body_font.fallback_families}}; display: none; text-align:center; line-height: 150%; background:#a96f5a; color: #fff; right: auto; left: 50%; -webkit-transform: translateX(-50%); transform: translateX(-50%); top:80%; padding: 1em; font-size: 13px; {% if settings.enable_color_swatches == true %}display: block;{% else %}display:none;{% endif %} position:absolute; margin-top:10px; filter:alpha(opacity=0); -khtml-opacity: 0; -moz-opacity: 0; opacity:0; visibility:hidden; -webkit-transition: all .25s ease-out; -moz-transition: all .25s ease-out; -ms-transition: all .25s ease-out; -o-transition: all .25s ease-out; transition: all .25s ease-out; z-index: 10000;}
+  .has-tooltip .tooltip:after {content:" "; border: 10px solid transparent; border-bottom: 10px solid #a96f5a; top: -20px; height:0; left: 50%; margin-left: -15px; position:absolute; width:0;}
+  .has-tooltip:hover .tooltip, .has-tooltip.active .tooltip {filter:alpha(opacity=100); -khtml-opacity:1; -moz-opacity:1; opacity:1; visibility:visible; top: 100%; -webkit-transform: translateX(-50%) translateY(0); transform: translateX(-50%) translateY(0);}
+  
+  
+  #quiz-home-desk-goals.step .options .item { margin: 1em 2em; }
+  
+  .hidden {display: none !important;}
+  
+  @media all and (min-width: 1500px){
+    .quizpage .step {padding: 4vw 8vw 6vw;}
+    .quizpage .step .step-content-wrap {/* height: 100%; */ display: -webkit-box !important; display: -moz-box !important; display: -ms-flexbox !important; display: -webkit-flex !important; display: flex !important; -webkit-box-orient: vertical;-webkit-box-direction: normal;-ms-flex-direction: column;flex-direction: column; -webkit-box-pack: center;-ms-flex-pack: center;justify-content: center; -webkit-box-align: center;-ms-flex-align: center;align-items: center;}
+  }
+  
+  @media all and (min-width: 900px) and (max-width: 1300px){
+    .quizpage {font-size: 1.07vw;}
+  }
+  
+  @media all and (max-width: 900px){
+    .quizpage {height: auto;}
+    .quizpage .nav {display: none !important; position: static; height: auto; width: auto;}
+    .quizpage .nav button {margin: 0; -ms-transform: none !important; -webkit-transform: none !important; transform: none !important;}
+    .quizpage .nav button:not(.active) {display: none;}
+    
+    .quizpage .layout .logo {position: static; padding: 1em 1.5em;}
+    .quizpage .layout .logo img {width: 5em;}
+    .quizpage .layout .close-icon {position: static; padding: 1.2em;}
+    .quizpage .layout .backnext {position: static; padding: 0.5em; margin: 0 !important; visibility: visible; -webkit-transform: none !important;transform: none !important;}
+    .quizpage .layout .backnext.hide {display: block !important; visibility: hidden;}
+    .quizpage .layout .backnext span {display: none;}
+    .quizpage .layout .backnext svg {margin: 0;}
+    .quizpage .layout.bottom {padding: 2em 1em;}
+    .quizpage .layout .progress {font-size: 1.5em; padding: 0 0.5em; font-weight: 500; color: {{settings.content_third_color}};}
+    
+    .quizpage .content {height: auto;}
+    .quizpage .steps {position: static; height: auto;}
+    .quizpage .step {position: static; height: auto; padding: 2em 1em 4em;}
+    .quizpage .step {display: none;}
+    .quizpage .step.active {display: block;}
+    .quizpage .step.off {display: none;}
+
+    .quizpage .step .heading {margin-bottom: 2.5em;}
+    .quizpage .step .heading h2 {font-size: 2.2em;}
+    .quizpage .step .heading .text {max-width: 25em; margin: auto; font-size: 1.2em; margin-top: 0.8em;}
+    .quizpage .step .heading .quantity-box {max-width: 10.5em; margin: auto; margin-top: 1.5em; font-size: 0.6em;}
+    
+    .quizpage .step .options .item {max-width: 23.5em; margin: 0.8em 0.4em; text-align: left;}
+    .quizpage .step .options .item .wrap {padding: 0.8em;}
+    .quizpage .step .options .item .title {font-size: 1.3em; text-align: center;}
+    
+    .quizpage .step.s1 .options .item img:not(.checked-icon) {width: 40%; max-width: 9em; height: auto; margin: 0;}
+    .quizpage .step.s1 .options .item .title {font-size: 1.3em; line-height: 150%; text-transform: uppercase; max-width: 11em; margin: auto 0; padding: 0 0 0 1em; letter-spacing: 0.05em;}
+    .quizpage .step.s1 .heading {margin-bottom: 3em;}
+    
+    .quizpage .step.s2 .options .item {text-align: center; margin: 0 0.4em 0.8em; max-width: calc(50% - 0.8em);}
+    .quizpage .step.s2 .options .item .wrap {padding: 0.5em;}
+    .quizpage .step.s2 .options .item img:not(.checked-icon) {max-width: 7.5em; width: 69%; margin: 0 auto 1em;}
+    .quizpage .step.s2 .options .item .text {font-size: 1.1em; margin-top: 1em; line-height: 130%;}
+    .quizpage .step.s2 .options .item .title {min-height: 2.5em;}
+    
+    .quizpage .step.s3 .options .item .title {font-size: 1.3em;}
+    .quizpage .step.s3 .options .variants {font-size: 1.1em;}
+    
+    .quizpage .step.s4 .options .item {text-align: center; margin: 0 0.4em 0.8em; max-width: calc(50% - 0.8em);}
+    .quizpage .step.s4 .options .item .wrap {padding: 0.8em;}
+    .quizpage .step.s4 .options .item img {max-width: 13em; margin-bottom: 0.5em;}
+    .quizpage .step.s4 .options .item .quantity-box {font-size: 0.8em;}
+    
+    .close-quiz-popup .title {font-size: 1.5em;}
+    
+  }
+  
+  @media all and (max-width: 600px){
+    .quizpage .step.s3 .options .variants .variant {padding: 0.1em 0; margin: 0;}
+  }
+  
+  @media all and (max-width: 390px){
+    .quizpage {font-size: 3.6vw;}
+    .close-quiz-popup {font-size: 3.6vw;}
+  }
+</style>
+
+<div class="quizpage">
+  <div class="layout top medium-down--flex align-items-center justify-content-between">
+    <a class="logo close-quiz" href="/"><img src="{{"logo.png" | asset_url}}" alt="{{shop.name}}" /></a>
+    <button class="close-icon close-quiz" aria-label="Close Builder">{% include 'icons', icon: 'close' %}</button>
+    <nav class="nav flex large--direction-column align-items-center justify-content-center"></nav>
+  </div>
+  <div class="content flex align-items-center justify-content-center">
+    <h1 class="visuallyhidden">Build My Office</h1>
+    <div class="steps">
+      {% include 'quiz_steps_shared' %}
+      {% include 'quiz_steps_home' %}
+      {% include 'quiz_steps_corporate' %}
+    </div>
+  </div>
+  <div class="quiz-mobile-nav layout bottom medium-down--flex justify-content-center align-items-center">
+    <a class="back-btn backnext hide" href="#"><div class="flex align-items-center">{% include 'icons', icon: 'arrow-left' %}<span>back</span></div></a>
+    <div class="progress hide medium-down--show">Step <span class="current">1</span> of <span class="total">3</span></div>
+    <a class="next-btn backnext hide" href="#"><div class="flex align-items-center"><span>next</span>{% include 'icons', icon: 'arrow-right' %}</div></a>
+  </div>
+</div>
+<div style="display: none;">
+  <div class="close-quiz-popup">
+    <button class="close-icon" aria-label="Close Modal" onclick="modal.close();return false;">{% include 'icons', icon: 'close' %}</button>
+    <div class="title">Sure you don’t want a quote? Your progress won’t be saved.</div>
+    <div class="buttons flex flex-wrap align-items-center justify-content-center">
+      <button class="btn" onclick="modal.close();return false;">Keep Designing</button>
+      <a class="btn v2 actually-close" href="/">No Thanks</a>
+    </div>
+  </div>
+</div>
+
+<script>
+  $(function(){
+    if(document.referrer != "" && document.referrer != document.location){
+      $('.close-quiz-popup .actually-close').attr('href', document.referrer);
+    }
+    
+    /****** PRODUCTS ******/
+    var products = {};
+    {%- for product in collections['quiz'].products -%}
+    	{%- if product.available -%}
+          {%- assign variantMax = product.variants | sort: 'inventory_quantity' | last -%}
+          {%- for tag in product.tags -%}
+              {%- if tag contains 'quiz-' -%}
+                  products['{{tag}}'] = '{{variantMax.id}}';
+                           {% for variant in product.variants %}
+                           	{%- if variant.available -%}
+
+                             {%- if variant.options contains 'Team' or variant.options contains 'Team Plus' -%}
+                                products['{{tag}}-team'] = '{{variant.id}}'; // Option: {{ variant.options }}
+                             {%- endif -%}
+
+                             {%- if variant.options contains 'Executive' -%}
+                                products['{{tag}}-executive'] = '{{variant.id}}'; // Options: {{ variant.options }}
+                             {%- endif -%}
+                           {%- endif -%}
+                           {% endfor %}
+              {%- endif -%}
+          {%- endfor -%}
+		{%- endif -%}
+    {%- endfor -%}
+                           
+    /****** ARIA ROLES DEFAULT ******/
+    /* Checkbox */
+    $(document).on('click', '[role=checkbox]', function(){
+      if($(this).attr('aria-checked') == 'true') {
+        $(this).removeClass('checked').attr('aria-checked', 'false');
+      } else {
+        $(this).addClass('checked').attr('aria-checked', 'true');                       
+      }
+      $(this).trigger('item-change');
+    });
+
+    $(document).on('keydown', '[role=checkbox]:focus', function(e){
+      if(e.which == 32) { //Spacebar
+        $(this).click();
+      }
+    });
+
+    /* Radio */
+    $(document).on('click', '[role=radio]', function(){
+      if($(this).attr('aria-checked') == 'true') {
+        $(this).removeClass('checked').attr('aria-checked', 'false');
+      } else {
+        $(this).closest('[role=radiogroup]').find('[role=radio]').removeClass('checked').attr('aria-checked', 'false');
+        $(this).addClass('checked').attr('aria-checked', 'true');                       
+      }
+      $(this).trigger('item-change');
+    });
+
+    $(document).on('keydown', '[role=radio]:focus', function(e){
+      if (e.which == 32) { //Spacebar
+        $(this).click();
+      }
+      if (e.which == 40) { //Arrow Down
+        $(this).next().click().focus();
+      }
+      if (e.which == 38) { //Arrow Up
+        $(this).prev().click().focus();
+      }
+    });
+    
+    /****** CLOSE QUICK POPUP ******/
+    $(document).on('click', '.close-quiz', function(){
+      Simplistic.openModal($('.close-quiz-popup'), 'regular');
+      return false;
+    });
+
+    /****** NEXT BUTTON CLICK ******/
+    $(document).on('click', '.next-btn', function(){
+      nextStep();
+      $('.back-btn').removeClass('hide');
+      return false;
+    });
+    
+    /****** BACK BUTTON CLICK ******/
+    $(document).on('click', '.back-btn', function(){
+      prevStep();
+      $('.next-btn').removeClass('hide');
+      return false;
+    });
+       
+    /***** CHECKBOX CLICK *****/
+    $(document).on('click', '[role=checkbox]', function(){
+      refreshNextPrevButtons();
+    });
+    
+    /****** CHECKBOX CLICK (VARIANT) ******/
+    $(document).on('click', '.variant[role=checkbox]', function(){
+      var currentItem = $(this).closest('.item');
+      if(currentItem.find('[aria-checked=true]').length > 0){
+        currentItem.addClass('checked');
+      }else{
+      	currentItem.removeClass('checked');
+      }
+      refreshNextPrevButtons();
+      return false;
+    });
+
+    /****** RADIO CLICK (WHOLE-ITEM) ******/
+    $(document).on('click', '.item[role=radio]', function(){
+      var currentItem = $(this).closest('.item');
+      if(currentItem.hasClass('checked')){
+        nextStep();
+      }else{
+      	refreshNextPrevButtons();
+      }
+      return false;
+    });
+    
+    /****** RADIO CLICK (VARIANT) ******/
+    $(document).on('click', '.variant[role=radio]', function(){
+      var currentItem = $(this).closest('.item');
+      if(currentItem.find('[aria-checked=true]').length > 0){
+        currentItem.addClass('checked');
+      }else{
+      	currentItem.removeClass('checked');
+      }
+      refreshNextPrevButtons();
+      return false;
+    });
+    
+    /****** ACTIVATE ITEM IF QUANTITY > 1 ******/
+    $('.item .quantity-box input[type=number]').change(function(){
+      var currentItem = $(this).closest('.item');
+      if($(this).val() > 0){
+      	currentItem.addClass('checked');
+      }else{
+        currentItem.removeClass('checked');
+      }
+      refreshNextPrevButtons();
+    });
+    
+    /****** CLICK ON ITEM THAT HAS QUANTITY BOX ******/
+    $('.item .quantity-box').closest('.item').click(function(event){
+      if($(event.target).closest('.quantity-box').length==0) {
+      	var currentItem = $(this);
+        if(currentItem.hasClass('checked')){
+          if( !$(event.target).hasClass('quantity-box') ) {
+            currentItem.removeClass('checked');
+            currentItem.find('input[type=number]').val('0').change();
+          }
+        }else{
+          if( !$(event.target).hasClass('quantity-box') ) {
+            currentItem.addClass('checked');
+            currentItem.find('input[type=number]').val('1').change();
+          }
+        }
+      }
+      refreshNextPrevButtons();
+    });
+    
+    /****** CLICK ON ITEM THAT HAS VARIANTS ******/
+    $('.variant[role=radio], .variant[role=checkbox]').closest('.item').click(function(event){
+      var currentItem = $(this);
+      if(!$(event.target).hasClass('variant')) {
+        if(currentItem.hasClass('checked')){
+          console.log('item checked, event NOT variant');
+          currentItem.removeClass('checked');
+          currentItem.find('[aria-checked=true]').each(function(){
+            $(this).click();
+          });
+        }else{
+          console.log('item NOT checked, event NOT variant');
+          currentItem.addClass('checked');
+          currentItem.find('.variant:first').click();      
+        }
+      }
+      refreshNextPrevButtons();
+    });
+    
+    /****** GET CURRENT STEP ******/
+    var getCurrentStep = function() {
+      	return $('.quizpage .steps .step.active');
+    };
+    
+    /****** GET CURRENT STEP NUMBER ******/
+    var getCurrentStepNumber = function() {
+      	var currentStep = $('.quizpage .steps .step:not(.disabled)').index(getCurrentStep()) + 1;
+      	return currentStep;
+    };
+
+
+    /* Initialize previous step */
+    var prevStep = function() {
+        var currentStep = getCurrentStep();
+        currentStep.addClass('off').removeClass('active');
+        currentStep.prevAll(':not(.disabled):first').removeClass('off').addClass('active');
+
+        setTimeout(function(){
+          currentStep.removeClass('off');
+        }, 200);
+
+      	refreshNextPrevButtons();
+      	drawNavigation();
+    };
+
+	/* Interstitial display logic */
+	var showInterstitial = function($target, currentStep, duration){
+		$target.show().addClass('show'); // show interstitial
+		$('nav.nav, .quiz-mobile-nav').addClass('hidden');
+
+		// Animation delay
+		setTimeout(function(){
+
+			$target.animate({"left":"-200px", "opacity": "0"}, 300, function(){}).promise().done(function(){
+                $target.hide().removeClass('show').animate({"left":"", "opacity": "1"}, 0);
+                currentStep.nextAll(':not(.disabled):first').removeClass('off').addClass('active'); // activate next step
+				refreshNextPrevButtons();
+    	  		drawNavigation();
+            	$('nav.nav, .quiz-mobile-nav').removeClass('hidden');
+             }); // hide interstitial
+
+		}, duration);
+	}
+    
+    /* Initialize next step */
+    var nextStep = function() {
+        var currentStep = getCurrentStep();
+        currentStep.addClass('off').removeClass('active');
+                           
+		var interstitial_duration = {{ section.settings.quiz_interstitial_animation_delay | default: 2500 }};
+                   
+		/* Check for interstitials before moving on to next quiz step */
+		if (quiz) {
+			currentStep.nextAll(':not(.disabled):first').removeClass('off').addClass('active');
+		} else if ( currentStep.attr('id') === 'quiz-shared-office') {
+			$target = $('#quiz-interstitial-intro');
+            showInterstitial($target, currentStep, interstitial_duration); // show end of chair quiz interstitial
+		} else if ( currentStep.attr('id') === 'quiz-home-chair-lumbar'){ // end of chair quiz
+			$target = $('#quiz-interstitial-chair-end');
+            showInterstitial($target, currentStep, interstitial_duration); // show end of chair quiz interstitial
+		} else if ( currentStep.attr('id') === 'quiz-home-desk-size') { // end of desk quiz
+			$target = $('#quiz-interstitial-desk-end');
+            showInterstitial($target, currentStep, interstitial_duration); // show end of desk quiz interstitial
+		} else if ( currentStep.attr('id') === 'quiz-home-storage-size' ){ // end of storage quiz
+			$target = $('#quiz-interstitial-storage-end');
+            showInterstitial($target, currentStep, interstitial_duration); // show end of storage quiz interstitial
+		} else { // no interstitials to display
+			currentStep.nextAll(':not(.disabled):first').removeClass('off').addClass('active');                             
+		}
+
+		// animation
+		setTimeout(function(){
+			currentStep.removeClass('off');
+		}, 200);
+                           
+		refreshNextPrevButtons();
+		drawNavigation();
+
+    };
+    
+    /****** REFRESH BACK/NEXT BUTTONS ******/
+    var refreshNextPrevButtons = function() {
+        var currentStep = getCurrentStep();
+      	if(
+			(currentStep.find('.checked').length>0 || currentStep.hasClass('s5')) && currentStep.index()<$('.quizpage .steps .step:not(.disabled):last').index() ||
+			(currentStep.hasClass('step-end'))
+		){
+          $('.next-btn').removeClass('hide');
+        } else {
+          $('.next-btn').addClass('hide');
+        }
+      	if(currentStep.index()>$('.quizpage .steps .step:first').index()) {
+          $('.back-btn').removeClass('hide');
+        } else {
+          $('.back-btn').addClass('hide');
+        }
+    };
+
+    // utility function to prefix integers 1-9 with "0". eg: 0, 01, 02..09, 10
+    function prefixZero(n) {
+      return (n < 10 && n > 0 ? '0' : '') + n;
+    }
+
+    /****** NAV - DRAW NAVIGATION ******/
+    var drawNavigation = function(noAnimate) {
+      	var currentStep = getCurrentStepNumber();
+      	var steps = $('.quizpage .steps .step:not(.disabled)').length;
+      	var html = '';
+        var className = "";
+
+        /* Collapse navigation when theres 7 or more steps */
+        if(steps > 6){
+          // collapsed navigation
+			html = '<button data-stepnumber="' + currentStep + '"' + 'class="collapsed"' + ' aria-label="Go to step '+currentStep+'">'+ currentStep + ' / ' + steps + '</button>';
+
+        } else {
+          // default navigation
+          for(var step=1; step<=steps; step++) {
+            if(currentStep==step){
+              className = "active";
+            }else{
+              if(currentStep>step){
+                  className = "prev";
+              }else{
+                  className = "disabled";
+              }
+            }
+            html += '<button data-stepnumber="'+step+'" data-class="'+className+'" aria-label="Go to step '+step+'">'+prefixZero(step)+'</button>';
+          }
+
+        }
+
+          $('.quizpage .layout.bottom .progress .current').text(currentStep);
+          $('.quizpage .layout.bottom .progress .total').text(steps);
+
+          $('.quizpage .nav').html(html);
+
+          if (noAnimate){
+            $('.quizpage .nav button').each(function(){
+              $(this).addClass($(this).data('class'));
+            });
+          } else{
+            setTimeout(function(){
+              $('.quizpage .nav button').each(function(){
+                $(this).addClass($(this).data('class'));
+              });
+            },100);
+          }
+
+    };
+    
+    /****** NAV - GO TO STEP ******/
+    $(document).on('click', '.quizpage .nav .prev', function(){
+      var getStep = parseInt($(this).attr('data-stepnumber')) - 1;
+      $('.step').addClass('off').removeClass('active');
+      $('.quizpage .steps .step:not(.disabled):eq('+getStep+')').removeClass('off').addClass('active');
+      setTimeout(function(){
+        $('.step').removeClass('off');
+      },200);
+      drawNavigation();
+      refreshNextPrevButtons();
+    });
+    
+    /****** WHAT NEED FURNISH ******/
+    $('#quiz-corporate-furnish .item[role=checkbox]').on('item-change', function(){
+    	if($(this).hasClass('checked')) {
+       		$('#'+$(this).data('step-related')).removeClass('disabled');
+        } else {
+        	$('#'+$(this).data('step-related')).addClass('disabled');
+        }
+      	drawNavigation(true);
+    });
+                           
+    /****** Home WHAT NEED FURNISH ******/
+    $('#quiz-home .item[role=checkbox]').on('item-change', function(){
+    	if($(this).hasClass('checked')) {
+       		$('[id*='+$(this).data('step-related')+']').removeClass('disabled');
+        } else {
+       		$('[id*='+$(this).data('step-related')+']').addClass('disabled');
+        }
+      	drawNavigation(true);
+    });
+                           
+    /****** Corporate WHAT NEED FURNISH ******/
+    $('#quiz-corporate .item[role=checkbox]').on('item-change', function(){
+    	if($(this).hasClass('checked')) {
+       		$('[id*='+$(this).data('step-related')+']').removeClass('disabled');
+        } else {
+       		$('[id*='+$(this).data('step-related')+']').addClass('disabled');
+        }
+      	drawNavigation(true);
+    });
+
+
+  // Setup quiz based on whether user choose 'Home' or 'Corporate' quiz
+  $("#quiz-shared-office .item[role=radio]").on("item-change", function () {
+    if ($(this).hasClass("checked")) {
+      $("#" + $(this).data("step-related")).removeClass("disabled");
+    } else {
+      $("#" + $(this).data("step-related")).addClass("disabled");
+    }
+
+    if ($(this).data("step-related") == "quiz-corporate") { // if corporate quiz
+      $('[id=quiz-home]').addClass("disabled"); // disable all corporate quiz steps
+	  $('[id=quiz-corporate]').removeClass("disabled"); // enable all first-order corporate quiz steps
+	  $('#quiz-corporate-furnish').removeClass('disabled'); // enable the final corporate quiz step
+	  $('#quiz-corporate-timeline').removeClass('disabled'); // enable the final corporate quiz step
+      $('#quiz-corporate-contact').removeClass('disabled'); // enable the final corporate quiz step
+    } else if ($(this).data("step-related") == "quiz-home") { // if home quiz
+      $('[id*=quiz-corporate]').addClass('disabled'); // disable all corporate quiz steps
+      $('[id=quiz-home]').removeClass('disabled'); // enable all first-order home quiz steps
+      $('#quiz-home-contact').removeClass('disabled'); // enable the final home quiz step
+    }
+                           
+    if ($(this).data("step-related") == "quiz-corporate-furnish") {
+	  $('#quiz-corporate-furnish').removeClass("disabled");
+	}
+
+    drawNavigation(true);
+  });
+                           
+  // Home or Corporate office
+  $("#quiz-corporate .item[role=radio]").on("item-change", function () {
+    if ($(this).hasClass("checked")) {
+      $("#" + $(this).data("step-related")).removeClass("disabled");
+    } else {
+      $("#" + $(this).data("step-related")).addClass("disabled");
+    }
+                           
+    if ($(this).data("step-related") == "quiz-corporate-furnish") {
+	  $('#quiz-corporate-furnish').removeClass("disabled");
+	}
+
+    drawNavigation(true);
+  });
+
+    /****** STEP 4 - CONFERENCE ROOM NEEDS ******/
+    $('#quiz-corporate-furnish-conference [type=number]').change(function(){
+    	var totalRooms = 0;
+      	$(this).closest('.step').find('[type=number]').each(function(){
+        	totalRooms += parseInt($(this).val());
+        });
+        $(this).closest('.step').find('.rooms-quantity i').html(totalRooms);
+    });
+                           
+    var printResults = function(){
+
+      var corporateOfficeType = $('#quiz-corporate .item.checked').data('hubspot');
+                           
+      var corporateFurnishmentList = [];
+      $('#quiz-corporate-furnish .item.checked').each(function(){
+        corporateFurnishmentList.push($(this).data('hubspot'));	
+      });
+    
+      var answerStep3 = [];
+      $('#quiz-corporate-furnish-workstation:not(.disabled) .variant.checked').each(function(){
+        answerStep3.push($(this).data('hubspot'));	
+      });
+    
+      var answerStep4 = [];
+      $('#quiz-corporate-furnish-conference:not(.disabled) .item.checked').each(function(){
+        answerStep4.push($(this).data('hubspot') + ' x' + $(this).find('input[type=number]').val());	
+      });
+    
+      var answerStep5 = [];
+      var spaceNumber = 0;
+      $('#quiz-corporate-furnish-reception_lounge:not(.disabled) .space-card').each(function(){
+        spaceNumber = spaceNumber + 1;
+        var spaceSize = $(this).find('.space-size [aria-selected=true]').data('space-size');
+        var spaceUse = $(this).find('.space-use [aria-selected=true]').data('space-use');
+        answerStep5.push(' Space ' + spaceNumber + ': ' + spaceSize + ' - ' + spaceUse);	
+      });
+    
+      var answerStep6 = [];
+      $('#quiz-corporate-timeline .item.checked').each(function(){
+        answerStep6.push($(this).data('hubspot'));	
+      });
+    
+      var finalAnswerStep1 = 'Furnish option: ' + corporateOfficeType;
+      var finalAnswerStep2 = 'Interested in: ' + corporateFurnishmentList.join(', ');
+      var teamSizeStep3 = 'Workstation team size: ' + $('#quiz-corporate-furnish-workstation input[type=number]').val();
+      var finalAnswerStep3 = 'Workstation Products: ' + answerStep3.join(', ');
+      var finalAnswerStep4 = 'Conference rooms: ' + answerStep4.join(', ');
+      var finalAnswerStep5 = 'Reception & Lounge: ' + answerStep5;
+      var finalAnswerStep6 = 'Timeline: ' + answerStep6;
+
+      var answersField = '';
+      if(corporateOfficeType && corporateOfficeType.length > 0){
+	  	  answersField = answersField + '\n' + corporateOfficeType;
+      }
+      if(corporateFurnishmentList && corporateFurnishmentList.length > 0){
+	  	  answersField = answersField + '\n' + corporateFurnishmentList;
+      }
+      if(answerStep3 && answerStep3.length > 0){
+          answersField = answersField + '\n' + teamSizeStep3 + '\n' + finalAnswerStep3;
+      }
+      if(answerStep4 && answerStep4.length > 0){
+          answersField = answersField + '\n' + finalAnswerStep4;
+      }
+      if(answerStep5 && answerStep5.length > 0){
+          answersField = answersField + '\n' + finalAnswerStep5;
+      }
+      if(answerStep6 && answerStep6.length > 0){
+          answersField = answersField + '\n' + finalAnswerStep6;
+      }
+    
+      // Home office
+      var homeFurnishmentList = [];
+      $('#quiz-home:not(.disabled) .item.checked').each(function(){
+        homeFurnishmentList.push( $(this).data('hubspot') );
+      });
+      var prettyHomeFurnishmentList = 'Interested in: ' + homeFurnishmentList.join(', ');
+    
+      // Home chair height
+      var homeChairHeight = $('#quiz-home-chair-height .item.checked').data('hubspot');
+      var prettyHomeChairHeight = 'Height: ' + homeChairHeight;
+      
+      // Home chair time
+      var homeChairTime = $('#quiz-home-chair-time .item.checked').data('hubspot');
+      var prettyHomeChairTime = 'Sitting time: ' + homeChairTime;
+    
+      // Home chair adjustments
+      var homeChairAdjustments = $('#quiz-home-chair-adjustments .item.checked').data('hubspot');
+      var prettyHomeChairAdjustments = 'Adjustability: ' + homeChairAdjustments;
+    
+      // Home chair lumbar
+      var homeChairLumbar = $('#quiz-home-chair-lumbar .item.checked').data('hubspot');
+      var prettyHomeChairLumbar = 'Lumbar support: ' + homeChairLumbar;
+    
+      // Home desk people
+      var homeDeskPeople = $('#quiz-home-desk-people .item.checked').data('hubspot');
+      var prettyHomeDeskPeople = 'Desk users: ' + homeDeskPeople;
+    
+      // Home desk goals
+      var homeDeskGoals = [];
+      $('#quiz-home-desk-goals .item.checked').each(function(){
+		homeDeskGoals.push( $(this).data('hubspot') );
+      });
+	  var prettyHomeDeskGoals = 'Desk goals: ' + homeDeskGoals.join(', ');
+          
+      // Home desk size
+      var homeDeskSize = $('#quiz-home-desk-size .item.checked').data('hubspot');
+      var prettyHomeDeskSize = 'Desk size: ' + homeDeskSize;
+        
+      // Home storage type
+      var homeStorageType = $('#quiz-home-storage-type .item.checked').data('hubspot');
+      var prettyHomeStorageType = 'Storage type: ' + homeStorageType;
+      
+      // Home storage size
+      var homeStorageSize = $('#quiz-home-storage-size .item.checked').data('hubspot');
+      var prettyHomeStorageSize = 'Storage size: ' + homeStorageSize;
+      
+      // Home contact
+      var homeContact;
+    
+      if(homeFurnishmentList && homeFurnishmentList.length > 0){
+	  	  answersField = answersField + '\n' + prettyHomeFurnishmentList;
+      }
+      if(homeChairHeight && homeChairHeight.length > 0){
+          answersField = answersField + '\n' + prettyHomeChairHeight;
+      }
+      if(homeChairTime && homeChairTime.length > 0){
+          answersField = answersField + '\n' + prettyHomeChairTime;
+      }
+      if(homeChairAdjustments && homeChairAdjustments.length > 0){
+          answersField = answersField + '\n' + prettyHomeChairAdjustments;
+      }
+      if(homeChairLumbar && homeChairLumbar.length > 0){
+          answersField = answersField + '\n' + prettyHomeChairLumbar;
+      }
+      if(homeDeskPeople && homeDeskPeople.length > 0){
+          answersField = answersField + '\n' + prettyHomeDeskPeople;
+      }
+      if(homeDeskGoals && homeDeskGoals.length > 0){
+          answersField = answersField + '\n' + prettyHomeDeskGoals;
+      }
+      if(homeDeskSize && homeDeskSize.length > 0){
+          answersField = answersField + '\n' + prettyHomeDeskSize;
+      }
+      if(homeStorageType && homeStorageType.length > 0){
+          answersField = answersField + '\n' + prettyHomeStorageType;
+      }
+      if(homeStorageSize && homeStorageSize.length > 0){
+          answersField = answersField + '\n' + prettyHomeStorageSize;
+      }
+    
+      return answersField;
+    }
+    
+    // User session starts on the home quiz
+    var initHomeQuiz = function(){
+		$('#quiz-shared-office .item[role=radio]*[data-step-related="quiz-home"]').addClass('checked').attr('aria-checked', 'true').trigger('item-change');
+		nextStep();
+	}
+
+	// User session starts on the corporate quiz
+	var initCorporateQuiz = function(){
+		$('#quiz-shared-office .item[role=radio]*[data-step-related="quiz-corporate"]').addClass('checked').attr('aria-checked', 'true').trigger('item-change');
+		nextStep();
+	}
+    
+    // User session starts on home - chair quiz
+	var initChairQuiz = function(){
+	  $('#quiz-shared-office .item[role=radio]*[data-step-related="quiz-home"]').addClass('checked').trigger('item-change');
+	  nextStep();
+      $('#quiz-home .item[role=checkbox]*[data-step-related="quiz-home-chair"]').addClass('checked').attr('aria-checked', 'true').trigger('item-change');
+      nextStep();
+    }
+    
+    // User session starts on home - desk quiz
+    var initDeskQuiz = function(){
+	  $('#quiz-shared-office .item[role=radio]*[data-step-related="quiz-home"]').addClass('checked').trigger('item-change');
+      nextStep();
+      $('#quiz-home .item[role=checkbox]*[data-step-related="quiz-home-desk"]').addClass('checked').attr('aria-checked', 'true').trigger('item-change');
+      nextStep();
+    }
+                           
+	var queryString = window.location.search; // ?quiz=home, ?quiz=corporate, ?quiz=chair
+	var urlParam = new URLSearchParams(queryString);
+	var quiz = urlParam.get('quiz');
+	
+	if (quiz === 'home') {
+		initHomeQuiz();
+	} else if (quiz === 'corporate'){
+		initCorporateQuiz();
+	} else if (quiz === 'chair'){
+		initChairQuiz();
+    } else if (quiz === 'desk'){
+        initDeskQuiz();
+    }
+
+    
+    /****** ADD PRODUCTS ******/
+    var addProducts = function(callback) {
+    var tags = {};
+
+    // Chair logic lookup table
+    chairDict = {
+      // chairRecommendations[height][duration][adjustibility][lumbar]
+      60: {
+        'default': 'quiz-daily-chair',
+        1: {
+          'default': 'quiz-daily-chair',
+          'simple': {
+            'light': 'quiz-daily-chair',
+            'medium': 'quiz-daily-chair',
+            'firm': 'quiz-daily-chair'
+          },
+          'balanced': {
+            'light': 'quiz-daily-chair',
+            'medium': 'quiz-daily-chair',
+            'firm': 'quiz-daily-chair'
+          },
+          'complex': {
+            'light': 'quiz-daily-chair',
+            'medium': 'quiz-daily-chair',
+            'firm': 'quiz-daily-chair'
+          }
+        },
+        5: {
+          'default': 'quiz-daily-chair',
+          'simple': {
+            'light': 'quiz-daily-chair',
+            'medium': 'quiz-daily-chair',
+            'firm': 'quiz-daily-chair'
+          },
+          'balanced': {
+            'light': 'quiz-elevate-chair',
+            'medium': 'quiz-daily-chair',
+            'firm': 'quiz-ergonomic-chair'
+          },
+          'complex': {
+            'light': 'quiz-elevate-chair',
+            'medium': '',
+            'firm': ''
+          }
+        },
+        8: {
+          'default': 'quiz-daily-chair',
+          'simple': {
+            'light': 'quiz-daily-chair',
+            'medium': 'quiz-daily-chair',
+            'firm': 'quiz-daily-chair'
+          },
+          'balanced': {
+            'light': 'quiz-elevate',
+            'medium': 'quiz-daily-chair',
+            'firm': 'quiz-ergonomic-chair'
+          },
+          'complex': {
+            'light': 'quiz-elevate-chair',
+            'medium': '',
+            'firm': ''
+          }
+        },
+
+      },
+      65: {
+        'default': 'quiz-daily-chair',
+        1: {
+          'default': 'quiz-daily-chair',
+          'simple': {
+            'light': 'quiz-daily-chair',
+            'medium': 'quiz-daily-chair',
+            'firm': 'quiz-daily-chair'
+          },
+          'balanced': {
+            'light': 'quiz-daily-chair',
+            'medium': 'quiz-daily-chair',
+            'firm': 'quiz-daily-chair'
+          },
+          'complex': {
+            'light': 'quiz-elevate-chair',
+            'medium': 'quiz-daily-chair',
+            'firm': 'quiz-daily-chair'
+          }
+        },
+        5: {
+          'default': 'quiz-daily-chair',
+          'simple': {
+            'light': 'quiz-daily-chair',
+            'medium': 'quiz-daily-chair',
+            'firm': 'quiz-daily-chair'
+          },
+          'balanced': {
+            'light': 'quiz-daily-chair',
+            'medium': 'quiz-daily-chair',
+            'firm': 'quiz-ergonomic-chair'
+          },
+          'complex': {
+            'light': 'quiz-elevate-chair',
+            'medium': 'quiz-ergonomic-chair',
+            'firm': 'quiz-ergonomic-chair'
+          }
+        },
+        8: {
+          'default': 'quiz-daily-chair',
+          'simple': {
+            'light': 'quiz-daily-chair',
+            'medium': 'quiz-daily-chair',
+            'firm': 'quiz-ergonomic-chair'
+          },
+          'balanced': {
+            'light': 'quiz-elevate-chair',
+            'medium': 'quiz-ergonomic-chair',
+            'firm': 'quiz-ergonomic-chair'
+          },
+          'complex': {
+            'light': 'quiz-ergonomic-chair',
+            'medium': 'quiz-ergonomic-chair',
+            'firm': 'quiz-ergonomic-chair'
+          }
+        },
+      },
+      72: {
+        'default': 'quiz-ergonomic-chair',
+        1: {
+          'default': 'quiz-ergonomic-chair',
+          'simple': {
+            'light': 'quiz-ergonomic-chair',
+            'medium': 'quiz-ergonomic-chair',
+            'firm': 'quiz-task-chair'
+          },
+          'balanced': {
+            'light': 'quiz-elevate-chair',
+            'medium': 'quiz-ergonomic-chair',
+            'firm': 'quiz-task-chair'
+          },
+          'complex': {
+            'light': 'quiz-elevate-chair',
+            'medium': 'quiz-ergonomic-chair',
+            'firm': 'quiz-ergonomic-chair'
+          }
+        },
+        5: {
+          'default': 'quiz-daily-chair',
+          'simple': {
+            'light': 'quiz-elevate-chair',
+            'medium': 'quiz-elevate-chair',
+            'firm': 'quiz-ergonomic-chair'
+          },
+          'balanced': {
+            'light': 'quiz-elevate-chair',
+            'medium': 'quiz-ergonomic-chair',
+            'firm': 'quiz-ergonomic-chair'
+          },
+          'complex': {
+            'light': 'quiz-elevate-chair',
+            'medium': 'quiz-ergonomic-chair',
+            'firm': 'quiz-ergonomic-chair'
+          }
+        },
+        8: {
+          'default': 'quiz-daily-chair',
+          'simple': {
+            'light': 'quiz-elevate-chair',
+            'medium': 'quiz-elevate-chair',
+            'firm': 'quiz-ergonomic-chair'
+          },
+          'balanced': {
+            'light': 'quiz-elevate-chair',
+            'medium': 'quiz-ergonomic-chair',
+            'firm': 'quiz-ergonomic-chair'
+          },
+          'complex': {
+            'light': 'quiz-elevate-chair',
+            'medium': 'quiz-ergonomic-chair',
+            'firm': 'quiz-ergonomic-chair'
+          }
+        },
+      }
+    }
+    
+    // Home chair logic
+    var height = parseInt( $('#quiz-home-chair-height .item[aria-checked="true"').data('value') );
+    var duration = parseInt( $('#quiz-home-chair-time .item[aria-checked="true"').data('value') );
+    var lumbar = $('#quiz-home-chair-lumbar .item[aria-checked="true"').data('value');
+	var adjustability = $('#quiz-home-chair-adjustments .item[aria-checked="true"').data('value');
+
+    if (height) {
+    	var chair = chairDict[height][duration][adjustability][lumbar] || chairDict[height]['default'];
+		tags[chair] = 1;
+    }
+    
+    // Home desk logic
+    var people = $('#quiz-home-desk-people .item[aria-checked="true"').data('value'); // 'single' or 'multiple'
+    var goals = [];
+    $('#quiz-home-desk-goals .item[aria-checked="true"').each(function(){
+      goals.push($(this).data('value'));
+    });
+      
+	var size = $('#quiz-home-desk-size .item[aria-checked="true"').data('value'); // 'spacious' or 'compact'
+
+    if (people && goals && size) {
+      var desk = 'quiz-office-desk'; // default
+      if (people === 'single'){
+        // Desk size
+        if( $.inArray('health', goals) != -1 && size === 'spacious' ) { desk = 'quiz-standing-desk-executive'};
+        if( $.inArray('health', goals) != -1 && size === 'compact' ) { desk = 'quiz-standing-desk-team'};
+
+        if( $.inArray('health', goals) === -1 && size === 'spacious' ) { desk = 'quiz-office-desk-executive'};
+        if( $.inArray('health', goals) === -1 && size === 'compact' ) { desk = 'quiz-office-desk-team'};
+
+      } else if (people === 'multiple'){
+        if ( size === 'spacious' ) desk = 'quiz-standing-desk-executive'; // executive variant
+        if ( size === 'compact' ) desk = 'quiz-standing-desk-team'; // team variant
+      }
+      tags[desk] = 1; // set recommended desk product and count
+    }
+    
+    // Accessories Logic
+    if ( $.inArray('posture', goals) != -1 ) { tags['quiz-monitor-arm'] = 1 };
+    if ( $.inArray('accessories', goals) != -1 ) { tags['quiz-in-desk-power'] = 1 };
+    
+    // Home Storage Logic
+    var storageType = $('#quiz-home-storage-type .item[aria-checked="true"').data('value'); // 'folders-files' or 'knicknacks'
+    var storageSize = $('#quiz-home-storage-size .item[aria-checked="true"').data('value'); // 'small' or 'large'
+
+    var storage;
+    if (storageType){
+      if (storageType === 'folders-files') {
+        if (storageSize === 'small'){
+          storage = 'quiz-cabinet-storage';
+        } else if(size === 'large') {
+          storage = 'quiz-cabinet-storage';
+        }
+      } else if (storageType === 'knicknacks'){
+        if (storageSize === 'small') {
+          storage = 'quiz-cabinet-storage';
+        } else if (storageSize === 'large'){
+          storage = 'quiz-credenza';
+        }
+      }
+      tags[storage] = 1; // set recommended storage product and count
+    }
+
+    // Corporate Quiz - Workstation
+    $('#quiz-corporate-furnish-workstation:not(.disabled) [aria-checked="true"]').each(function(){
+        	var parts = $(this).data('tag').split('|');
+            if($(this).data('people')) {
+              var people = $(this).data('people');
+            } else {
+              var people = 1;
+            }
+          	$.each(parts, function(val){
+              if(!tags[this]) {
+              	tags[this] = 0;
+              }
+			  tags[this] += Math.ceil($('#quiz-corporate-furnish-workstation [type=number]').val()/people);
+            });
+        });
+    	// Corporate Quiz - Conference
+      	$('#quiz-corporate-furnish-conference:not(.disabled) [data-table]').each(function(){
+          	var input = $(this);
+          	if(input.val()>0) {
+              var table = input.data('table');
+              var chairs = input.data('chair');
+              var chairsPerTable = input.data('chairs-per-table');
+
+              if(!tags[table]) {
+                tags[table] = 0;
+              }
+              
+              tags[table] += 1 * input.val();
+              
+              if(!tags[chairs]) {
+                tags[chairs] = 0;
+              }
+              tags[chairs] += chairsPerTable * input.val();
+            }
+        });
+    	// Reception / Lounge
+    	$('#quiz-corporate-furnish-reception_lounge:not(.disabled) .space-card').each(function(){
+          	var spaceSize = $(this).find('.space-size [aria-selected=true]').data('space-size');
+          	var spaceUse = $(this).find('.space-use [aria-selected=true]').data('space-use');
+          
+            //space sizes: Small, Medium, Large
+            //space uses: Reception, Lounge, Collaboration
+          
+            if(!tags['quiz-guest-chair']) {tags['quiz-guest-chair'] = 0;}
+            if(!tags['quiz-lounge-chair']) {tags['quiz-lounge-chair'] = 0;}
+            if(!tags['quiz-bistro-chair']) {tags['quiz-bistro-chair'] = 0;}
+            if(!tags['quiz-bistro-table']) {tags['quiz-bistro-table'] = 0;}
+            if(!tags['quiz-sofa']) {tags['quiz-sofa'] = 0;}
+            if(!tags['quiz-lounge-meeting-table']) {tags['quiz-lounge-meeting-table'] = 0;}
+
+            if(spaceSize == 'Small'){
+              if(spaceUse == 'Reception'){
+              	tags['quiz-guest-chair'] += 2;
+              } else if(spaceUse == 'Lounge') {
+              	tags['quiz-lounge-chair'] += 2;
+              } else if(spaceUse == 'Collaboration') {
+              	tags['quiz-bistro-chair'] += 2;
+              	tags['quiz-bistro-table'] += 1;
+              }
+            }
+            if(spaceSize == 'Medium'){
+              if(spaceUse == 'Reception'){
+              	tags['quiz-sofa'] += 1;
+              	tags['quiz-lounge-chair'] += 1;
+              } else if(spaceUse == 'Lounge') {
+              	tags['quiz-sofa'] += 1; 
+              	tags['quiz-lounge-chair'] += 2; 
+              } else if(spaceUse == 'Collaboration') {
+              	tags['quiz-lounge-meeting-table'] += 1;
+              	tags['quiz-lounge-chair'] += 4;
+              }
+            }
+            if(spaceSize == 'Large'){
+              if(spaceUse == 'Reception'){
+              	tags['quiz-sofa'] += 1;
+              	tags['quiz-lounge-chair'] += 2;
+              } else if(spaceUse == 'Lounge') {
+              	tags['quiz-sofa'] += 2;
+              	tags['quiz-lounge-chair'] += 4;
+              } else if(spaceUse == 'Collaboration') {
+              	tags['quiz-bistro-table'] += 2;
+              	tags['quiz-bistro-chair'] += 6;
+              	tags['quiz-lounge-meeting-table'] += 1;
+              	tags['quiz-guest-chair'] += 4;
+              }
+            }
+        });
+
+  		var cartData = {updates: {},attributes: {}};
+        $.each(tags, function(tag, quantity){
+          if(products[tag]) {
+          	cartData.updates[ products[tag] ] = quantity;
+          } else {
+            // maybe it's a variant
+            productChunk = tag.split('-team')[0].split('-executive')[0] // remove product variant, eg: "-team" or "-executive"
+            
+            // new chunk exists in product dict?
+            if(products[productChunk]){
+              cartData.updates[ products[productChunk] ] = quantity;
+            }
+            
+          }
+        });
+      
+        // Add contact form attributes to cartData
+        $('.quizpage .step.active .form-wrap .cart-attribute').each(function(){
+           cartData.attributes[$(this).data('cart-attribute')] = $(this).val();
+        });
+    
+        cartData.attributes['Timeline'] = $('#quiz-corporate-timeline .item.checked').data('hubspot');
+  		cartData.attributes['Quiz Results'] = printResults();
+      
+  		$.ajax({
+          	url: '/cart/clear.js',
+          	dataType: 'json'
+        }).success(function(){
+        	$.ajax({
+              url: '/cart/update.js',
+              method: 'POST',
+              data: cartData,
+              dataType: 'json'
+            }).success(function(result){
+                callback();
+            });
+        });
+    };
+
+    drawNavigation();
+  
+  	// Submit form & see results
+    $('.step .form-wrap form#home, .step .form-wrap form#corporate').submit(function(e){
+      e.preventDefault();
+      e.stopImmediatePropagation();
+
+      var form = $(this);
+      var error = false;
+      var errorPhone = false;
+
+      // Contact Form error handling
+      form.parent().find('.error-msg').hide().text('');
+      form.find('.error').removeClass('error');
+
+      form.find('.required').each(function(){
+        if($(this).val()=="") {
+          error = true;
+          $(this).addClass('error');
+        }
+      });
+      
+      // Contact Form validations
+      if(error){
+          form.parent().find('.error-msg').show().text('Please complete all the required fields.');
+      }else{
+        if(!Simplistic.validateEmail(form.find('.email').val())) {
+          error = true;
+          form.find('.email').addClass('error');
+          form.parent().find('.error-msg').show().text('Please provide a valid email address.');
+        }
+        form.find('[minlength]').each(function(){
+          var minlength = $(this).attr('minlength');
+          var maxlength = $(this).attr('maxlength');
+          if($(this).val().length < minlength || $(this).val().length > maxlength) {
+            error = true;
+          	form.find('.phone').addClass('error');
+            form.parent().find('.error-msg').show().append(' The phone field must have 10 numbers.');
+          }
+        });
+      }
+      
+      if(!error) {
+        $('#loading-overlay').show();
+        var processAjax = function(arr, callback){
+          var pending = arr.length;
+          $.each(arr, function(){
+            this.always(function(){
+              pending--;
+              if(pending==0) {
+                callback();
+              }
+            });
+          });
+        };
+        
+        // Corporate quiz goes to Hubspot
+        var ajaxHubspot = $.ajax({
+          'url': 'https://api.hsforms.com/submissions/v3/integration/submit/5361087/5cb244e5-b6aa-4ffe-8da3-1c0f30a4b5fe',
+          'type': 'POST',
+          contentType: 'application/json',
+          data: JSON.stringify({
+            fields: [
+              {name: 'email', value: form.find('.email').val()},
+              {name: 'firstname', value: form.find('.name').val()},
+              {name: 'company', value: form.find('.company').val()},
+              {name: 'phone', value: form.find('.phone').val()},
+              {name: 'timeline2', value: $('#quiz-corporate-timeline .item.checked').data('hubspot')},
+              {name: 'build_your_office', value: printResults()}
+            ]
+          })
+        });
+        
+        // Home quiz goes to Klaviyo
+        var ajaxKlaviyo = $.ajax({
+          data: form.serialize(),
+          {%- if settings.use_klaviyo_form -%}
+          url: form.data('ajax-submit'),
+          {%- else -%}
+          url: form.attr('action'),
+          {%- endif -%}
+          type: 'POST'
+        });
+        
+		var formType = this.id; // 'home' or 'corporate'
+        // Corporate form goes to Hubspot
+        if(formType === 'corporate'){
+          addProducts(function(){
+            processAjax([ajaxHubspot], function(){
+              location.href = '/pages/quiz-results';
+            });
+          });
+        // Home form goes to Klaviyo
+        } else if (formType === 'home'){
+          addProducts(function(){
+            processAjax([ajaxKlaviyo], function(){
+              location.href = '/pages/quiz-results';
+            });
+          });          
+        }
+      }
+    });
+
+    $(document).on('keyup', '.quizpage .step.s6 .form-wrap .phone', function(){
+      $(this).val($(this).val().replace(/[^0-9]+/g, ''));
+    });
+    
+    /****** UPDATE SPACE QUANTITY *****/
+    var updateSpaceQuantity = function(element){
+      var spaceQuantity = $('.space-card').length;
+      var spaceText = 'spaces';
+      if($('.space-card').length == 1){
+      	var spaceText = 'space';
+      }
+      element.closest('.step').find('.heading .rooms-quantity').html(spaceQuantity + ' ' + spaceText);
+    }
+    
+    /****** ADD NEW SPACE ******/
+    $(document).on('click', '.add-space', function(){
+      var spaceCardTitle = $('.space-card').length + 1;
+      var spaceCardTotalAdded = parseInt($('.space-card:last').attr('data-space')) + 1;
+      $('.space-card').removeClass('open');
+      $('.space-last .space-card').appendTo('.spaces-prev');
+      $("#space-card-template").tmpl({SpaceNumber: spaceCardTotalAdded, spaceTitle: spaceCardTitle}).appendTo($('.space-last'));
+      updateSpaceQuantity($(this));
+    });
+    
+    /****** REMOVE SPACE ******/
+    var updateSpaceNumbers = function() {
+      $('.space-card').each(function(key, space){
+        $(this).find('.space-title .space-number').text(key + 1);
+      });
+    };
+    $(document).on('click', '.space-card .remove', function(){
+      var wrapper = $(this).closest('.space-engine');
+      $(this).closest('.space-card').remove();
+      updateSpaceNumbers();
+      updateSpaceQuantity(wrapper);
+
+      $('.space-card:last').addClass('open').appendTo($('.space-last'));
+    });
+    
+    /****** EDIT SPACE ******/
+    $(document).on('click', '.spaces-prev .space-card .space-title', function(){
+      if($(this).closest('.space-card').hasClass('open')){
+      	$(this).closest('.space-card').removeClass('open');
+      }else{
+        $('.spaces-prev .space-card').removeClass('open');
+        $(this).closest('.space-card').addClass('open');
+      }
+    });
+    $(document).on('keydown', '.spaces-prev .space-card .space-title:focus', function(e){
+      if(e.which == 13) { //Enter
+        $(this).click();
+      }
+    });
+  
+    /* ARIA LISTBOX */
+    $(document).on('click', '.listbox-trigger', function(){
+      $('.listbox-trigger').not(this).attr('aria-expanded', null).next('[role=listbox]').slideUp();
+      var listbox = $(this).next('[role=listbox]');
+      if(listbox.is(':visible')){
+        listbox.slideUp();
+        $(this).attr('aria-expanded', null);
+      }else{
+        listbox.slideDown();
+        $(this).attr('aria-expanded', 'true');
+      }
+    });
+    $(document).on('click', '[role=option]', function(){
+      var listbox = $(this).parent();
+      var buttonText = listbox.siblings('.listbox-trigger').find('span');
+      listbox.find('[role=option]').attr('aria-selected',null);
+      $(this).attr('aria-selected','true');
+      buttonText.text($(this).text());
+      listbox.attr('aria-activedescendant', $(this).attr('id'));
+      listbox.slideUp();
+    });
+    
+    $(document).on('focus', '[role=option]', function(){
+      var listbox = $(this).parent();
+      var buttonText = listbox.siblings('.listbox-trigger').find('span');
+      listbox.find('[role=option]').attr('aria-selected',null);
+      $(this).attr('aria-selected','true');
+      buttonText.text($(this).text());
+      listbox.attr('aria-activedescendant', $(this).attr('id'));
+    });
+    $(document).on('keydown', '.listbox-trigger:focus', function(e){
+      var listbox = $(this).next('[role=listbox]');
+      if (e.which == 32) {
+        listbox.slideDown();
+        listbox.find('[aria-selected=true]').focus();
+        $(this).attr('aria-expanded', 'true');
+      }
+      if (e.which == 40) {
+        listbox.slideDown();
+        listbox.find('[aria-selected=true]').focus();
+        $(this).attr('aria-expanded', 'true');
+      }
+      if (e.which == 27) {
+        listbox.slideUp();
+        $(this).attr('aria-expanded', null);
+        $(this).focus();
+      }
+    });
+    $(document).on('click', function(event){
+      if(!$(event.target).hasClass('listbox-wrap') && $(event.target).closest('.listbox-wrap').length == 0 ) {
+        $('[role=listbox]').slideUp();
+        $('.listbox-trigger').attr('aria-expanded', null);
+      }
+    });
+    $(document).on('keydown', '[role=option]:focus', function(e){
+      var listbox = $(this).parent();
+      var button = listbox.siblings('.listbox-trigger');
+      if (e.which == 38) {
+        $(this).prev().focus;
+      }
+      if (e.which == 40) {
+        $(this).next().focus;
+      }
+      if (e.which == 27) {
+        listbox.slideUp();
+        button.focus();
+      }
+    });
+    
+  });  
+</script>
+
+<script id="space-card-template" type="text/html">
+  <div class="space-card open" data-space="${SpaceNumber}">
+    <div class="space-title" tabindex="0">Space <span class="space-number">${spaceTitle}</span></div>
+      <button class="remove" aria-label="Remove space">{% include 'icons', icon: 'close' %}</button>
+      <div class="questions-wrap">
+        <div class="question space-size">
+          <div class="label" id="space${SpaceNumber}-question1-label">How big is the open area?</div>
+          <div class="listbox-wrap">
+            <button class="listbox-trigger" aria-haspopup="space${SpaceNumber}-question1" aria-expanded="false" aria-labelledby="space${SpaceNumber}-question1-label"><span>Small (kitchen sized)</span> {% include 'icons', icon: 'arrow-down' %}</button>
+            <div role="listbox" tabindex="0" id="space1-question1" aria-labelledby="space1-question1-label" aria-activedescendant="space1-question1-option1">
+               <div role="option" id="space1-question1-option1" data-space-size="Small" class="selected" aria-selected="true" tabindex="0">Small (kitchen sized)</div>
+               <div role="option" id="space1-question1-option2" data-space-size="Medium" tabindex="0">Medium (living-room sized)</div>
+               <div role="option" id="space1-question1-option3" data-space-size="Large" tabindex="0">Large (backyard-sized)</div>
+            </div>
+          </div>
+        </div>
+        <div class="question space-use">
+          <div class="label" id="space${SpaceNumber}-question2-label">What will your team typically use this space for?</div>
+          <div class="listbox-wrap">
+            <button class="listbox-trigger" aria-haspopup="space${SpaceNumber}-question2" aria-expanded="false" aria-labelledby="space${SpaceNumber}-question2-label"><span>Reception Area</span> {% include 'icons', icon: 'arrow-down' %}</button>
+            <div role="listbox" tabindex="0" id="space1-question2" aria-labelledby="space1-question1-label" aria-activedescendant="space1-question2-option1">
+              <div role="option" id="space1-question2-option1" data-space-use="Reception" aria-selected="true" tabindex="0">Reception Area</div>
+              <div role="option" id="space1-question2-option2" data-space-use="Lounge" tabindex="0">Casual Conversation / Lounge</div>
+              <div role="option" id="space1-question2-option3" data-space-use="Collaboration" tabindex="0">Collaboration and Breakout Sessions</div>
+            </div>
+          </div>
+        </div>
+     </div>
+  </div>
+</script>
+
+
+{% schema %}
+  {
+    "name": "Quiz",
+    "presets": [
+      {
+        "name": "Quiz",
+        "category": "Page"
+      }
+    ],
+  "settings": [
+	  {
+		"type": "header",
+		"content": "Config"
+	  },
+	  {
+		"type": "range",
+		"id": "quiz_interstitial_animation_delay",
+		"min": 1000,
+		"max": 5000,
+		"step": 100,
+		"unit": "MS",
+		"label": "Interstitial delay",
+		"default": 2500
+	  },
+      {
+        "type": "header",
+        "content": "Quiz - Shared"
+      },
+      {
+        "type": "image_picker",
+        "id": "shared_interstitial_intro_image1",
+        "label": "Interstitial (intro)"
+      },
+      {
+        "type": "image_picker",
+        "id": "shared_interstitial_chair_image1",
+        "label": "Interstitial (end of chair quiz)"
+      },
+      {
+        "type": "image_picker",
+        "id": "shared_interstitial_desk_image1",
+        "label": "Interstitial (end of desk quiz)"
+      },
+      {
+        "type": "image_picker",
+        "id": "shared_interstitial_storage_image1",
+        "label": "Interstitial (end of storage quiz)"
+      },
+      {
+        "type": "image_picker",
+        "id": "quiz_shared_image1",
+        "label": "Quiz Step #1 (Home)"
+      },
+      {
+        "type": "image_picker",
+        "id": "quiz_shared_image2",
+        "label": "Quiz Step #1 (Corporate)"
+      },
+      {
+        "type": "header",
+        "content": "Home Quiz"
+      },
+      {
+        "type": "image_picker",
+        "id": "quiz_home_image1",
+        "label": "Home Quiz (Chair)"
+      },
+      {
+        "type": "image_picker",
+        "id": "quiz_home_image2",
+        "label": "Home Quiz (Desk)"
+      },
+      {
+        "type": "image_picker",
+        "id": "quiz_home_image3",
+        "label": "Home Quiz (Storage)"
+      },
+      {
+        "type": "image_picker",
+        "id": "quiz_home_chair_height_image1",
+        "label": "Chair Height #1 (60+ inches)"
+      },
+      {
+        "type": "image_picker",
+        "id": "quiz_home_chair_height_image2",
+        "label": "Chair Height #2 (65+ inches)"
+      },
+      {
+        "type": "image_picker",
+        "id": "quiz_home_chair_height_image3",
+        "label": "Chair Height #3 (72+ inches)"
+      },
+      {
+        "type": "image_picker",
+        "id": "quiz_home_chair_time_image1",
+        "label": "Sitting time (1-4 hours)"
+      },
+      {
+        "type": "image_picker",
+        "id": "quiz_home_chair_time_image2",
+        "label": "Sitting time (5-7 hours)"
+      },
+      {
+        "type": "image_picker",
+        "id": "quiz_home_chair_time_image3",
+        "label": "Sitting time (8+ hours)"
+      },
+      {
+        "type": "image_picker",
+        "id": "quiz_home_chair_adjustability_image1",
+        "label": "Chair adjustability (Simple)"
+      },
+      {
+        "type": "image_picker",
+        "id": "quiz_home_chair_adjustability_image2",
+        "label": "Chair adjustability (Balanced)"
+      },
+      {
+        "type": "image_picker",
+        "id": "quiz_home_chair_adjustability_image3",
+        "label": "Chair adjustability (Complex)"
+      },
+      {
+        "type": "image_picker",
+        "id": "quiz_home_chair_lumbar_image1",
+        "label": "Chair lumbar (Firm)"
+      },
+      {
+        "type": "image_picker",
+        "id": "quiz_home_chair_lumbar_image2",
+        "label": "Chair lumbar (Medium)"
+      },
+      {
+        "type": "image_picker",
+        "id": "quiz_home_chair_lumbar_image3",
+        "label": "Chair lumbar (Light)"
+      },
+      {
+        "type": "image_picker",
+        "id": "quiz_home_desk_people_image1",
+        "label": "Desk users (Single)"
+      },
+      {
+        "type": "image_picker",
+        "id": "quiz_home_desk_people_image2",
+        "label": "Desk users (Multiple)"
+      },
+      {
+        "type": "image_picker",
+        "id": "quiz_home_desk_goals_image1",
+        "label": "Desk goals (Design)"
+      },
+      {
+        "type": "image_picker",
+        "id": "quiz_home_desk_goals_image2",
+        "label": "Desk goals (Stability)"
+      },
+      {
+        "type": "image_picker",
+        "id": "quiz_home_desk_goals_image3",
+        "label": "Desk goals (Posture)"
+      },
+      {
+        "type": "image_picker",
+        "id": "quiz_home_desk_goals_image4",
+        "label": "Desk goals (Movement)"
+      },
+      {
+        "type": "image_picker",
+        "id": "quiz_home_desk_goals_image5",
+        "label": "Desk goals (Accessories)"
+      },
+      {
+        "type": "image_picker",
+        "id": "quiz_home_desk_size_image1",
+        "label": "Desk size (Spacious)"
+      },
+      {
+        "type": "image_picker",
+        "id": "quiz_home_desk_size_image2",
+        "label": "Desk size (Compact)"
+      },
+      {
+        "type": "image_picker",
+        "id": "quiz_home_storage_type_image1",
+        "label": "Storage type (folders / files)"
+      },
+      {
+        "type": "image_picker",
+        "id": "quiz_home_storage_type_image2",
+        "label": "Storage type (knicknacks)"
+      },
+      {
+        "type": "image_picker",
+        "id": "quiz_home_storage_size_image1",
+        "label": "Storage size (Small)"
+      },
+      {
+        "type": "image_picker",
+        "id": "quiz_home_storage_size_image2",
+        "label": "Storage Size (Large)"
+      },
+      {
+        "type": "header",
+        "content": "Corporate Quiz"
+      },
+      {
+        "type": "image_picker",
+        "id": "step1_image1",
+        "label": "Corporate office type (New)"
+      },
+      {
+        "type": "image_picker",
+        "id": "step1_image2",
+        "label": "Corporate office type (Existing)"
+      },
+      {
+        "type": "image_picker",
+        "id": "step2_image1",
+        "label": "Corporate Office Furnish (Workstation)"
+      },
+      {
+        "type": "image_picker",
+        "id": "step2_image2",
+        "label": "Corporate Office Furnish (Conference Room)"
+      },
+      {
+        "type": "image_picker",
+        "id": "step2_image3",
+        "label": "Corporate Office Furnish (Reception / Lounge)"
+      },
+      {
+        "type": "header",
+        "content": "Workstation"
+      },
+      {
+        "type": "image_picker",
+        "id": "step3_image1",
+        "label": "Corporate Office Workstation (Chair)"
+      },
+      {
+        "type": "image_picker",
+        "id": "step3_image2",
+        "label": "Corporate Office Workstation (Desk)"
+      },
+      {
+        "type": "image_picker",
+        "id": "step3_image3",
+        "label": "Corporate Office Workstation (Storage)"
+      },
+      {
+        "type": "image_picker",
+        "id": "step4_image1",
+        "label": "Conference Room (Small)"
+      },
+      {
+        "type": "image_picker",
+        "id": "step4_image2",
+        "label": "Conference Room (Medium)"
+      },
+      {
+        "type": "image_picker",
+        "id": "step4_image3",
+        "label": "Conference Room (Large)"
+      }
+    ]
+  }
+{% endschema %}

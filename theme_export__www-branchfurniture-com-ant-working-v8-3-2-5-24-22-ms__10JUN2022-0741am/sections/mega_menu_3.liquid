@@ -1,0 +1,191 @@
+<span class="mm3">
+{%- include 'mega_menu_content' -%}
+</span>
+<script>
+  $(function(){
+      var content = $("#shopify-section-{{ section.id }} .mega-menu");
+      var parent = "{{section.settings.parent_link | handleize}}";
+      $(".main-menu [data-parent='"+ parent +"']").addClass('has-dropdown mega-menu-trigger').attr('aria-haspopup','true').find('.submenu').remove();
+      $(".main-menu [data-parent='"+ parent +"']").append(content);
+  });
+  
+  $(function() {
+    const {{ section.settings.variable_menu }} = document.querySelector("#{{ section.settings.parent_link }}-list");
+    const {{ section.settings.variable_image }} = document.querySelectorAll('[data-image-label="{{ section.settings.parent_link }}"]');
+    
+    if({{section.settings.variable_image}}.length > 1){
+      {{ section.settings.variable_menu }}.addEventListener("mouseover", (e) => {
+      if (e.target && e.target.matches("div")){
+        for (let i = 0; i < {{section.settings.variable_image}}.length; i++){
+          {{section.settings.variable_image}}[i].classList.add("hlxn-hide");
+          {{section.settings.variable_image}}[i].classList.remove("hlxn-show");
+        }
+        if ({{section.settings.variable_image}}[parseInt(e.target.dataset.listItemIndex, 10) - 1]){
+          {{section.settings.variable_image}}[parseInt(e.target.dataset.listItemIndex, 10) - 1].classList.remove("hlxn-hide");
+          {{section.settings.variable_image}}[parseInt(e.target.dataset.listItemIndex, 10) - 1].classList.add("hlxn-show");
+        } else {
+          {{section.settings.variable_image}}[0].classList.add("hlxn-show");
+        }
+      }
+    });
+    }   
+  }); // end $(function())
+</script>
+
+{% schema %}
+
+{
+  "name": "Accessories Menu",
+  "class": "mega-menu-section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "parent_link",
+      "label": "Parent Link"
+    },
+    {
+      "type": "text",
+      "id": "class_",
+      "label": "Class",
+	  "default": "c__mega_menu_3"
+    },
+	{
+	  "type": "text",
+	  "label": "Menu Headline",
+      "id": "headline"
+	},	
+	{
+	  "type": "url",
+	  "label": "Collection Link",
+      "id": "collection_link"
+	},      
+    {
+      "type": "checkbox",
+      "id": "use_hover_links",
+      "default": false,
+      "label": "Activate hover image swap for Menu 1?"
+    },
+	{
+		"type": "text",
+		"label": "Variable name for Menu 1",
+		"id": "variable_menu",
+		"default": "accessoriesMenu"
+	},
+	{
+		"type": "text",
+		"label": "Variable name for image swap array",
+		"id": "variable_image",
+		"default": "accessoriesImages"
+	},
+		{
+			"type": "link_list",
+			"id": "menu_1",
+			"label": "Menu 1"
+		},
+		{
+			"type": "link_list",
+			"id": "menu_2",
+			"label": "Menu 2"
+		},
+		{
+			"type": "image_picker",
+			"id": "image_left",
+			"label": "Left Image (305w x 200h): Required if dynamic images are deactivated"
+		},
+		{
+			"type": "richtext",
+			"id": "image_left_caption",
+			"label": "Left Image Caption"
+		},      
+        {
+        	"type": "checkbox",
+        	"id": "use_static_image_badge",
+        	"default": false,
+        	"label": "Activate sales badge on static image?"
+      	},
+        {
+        	"type": "richtext",
+        	"id": "static_image_badge_text",
+        	"label": "Badge Text (Only if not using dynamic images)"
+        },		
+		{
+			"type": "image_picker",
+			"id": "image_right",
+			"label": "Right Image (482w x 275h)"
+		},
+		{
+			"type": "richtext",
+			"id": "image_right_caption",
+			"label": "Right Image Caption"
+		},	
+        {
+          "type": "url",
+          "label": "Right Image and Caption Link",
+          "id": "right_image_link"
+        }
+	],
+	"blocks": [
+		{
+			"type": "hover_image",
+			"name": "Hover Image",
+			"settings": [
+				{
+					"type": "image_picker",
+					"id": "image",
+					"label": "Hover Image (305w x 200h)"
+				},
+				{
+					"type": "richtext",
+					"id": "text",
+					"label": "Text"
+				},      
+                {
+                    "type": "checkbox",
+                    "id": "add_sales_badge",
+                    "default": false,
+                    "label": "Activate sales badge over image?"
+                },
+                {
+                    "type": "richtext",
+                    "id": "dynamic_image_badge_text",
+                    "label": "Badge Text"
+                }
+			]
+		},
+		{
+			"type": "badge",
+			"name": "Sales Badge (Link List)",
+			"settings": [
+				{
+					"type": "select",
+					"id": "list_select",
+					"label": "Select list to display badge on",
+					"options": [
+						{
+							"value": "list_1",
+							"label": "List 1"
+						},
+						{
+							"value": "list_2",
+							"label": "List 2"
+						}
+					]
+				},
+				{
+					"type": "text",
+					"id": "ordinality",
+					"label": "Badge ordinality",
+					"default": "1"
+				},
+				{
+					"type": "richtext",
+					"id": "badge_text",
+					"label": "Badge Text"
+				}
+			]
+		}
+	]
+}
+
+
+{% endschema %}

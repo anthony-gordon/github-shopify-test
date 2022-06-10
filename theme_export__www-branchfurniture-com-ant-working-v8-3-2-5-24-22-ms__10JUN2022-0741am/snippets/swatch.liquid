@@ -1,0 +1,66 @@
+{%- assign file_extension = 'png' -%}
+{%- assign found_option = false -%}
+{%- assign is_color = false -%}
+{%- assign option_index = 0 -%}
+
+{%- for option in currentProduct.options -%}
+  {%- if option == swatch -%}
+    {%- assign found_option = true -%}
+    {%- assign option_index = forloop.index0 -%}
+    <style>
+      label[for="product-select-option-{{ option_index }}"] { display: none; }
+      #product-select-option-{{ option_index }} { display: none; }
+      #product-select-option-{{ option_index }} + .custom-style-select-box { display: none !important; }
+    </style>
+    <script>$(function() { $('.selector-wrapper:eq({{ option_index }})').hide(); });</script>
+    {%- assign downcased_option = swatch | downcase -%}
+    {%- if downcased_option contains 'color' or downcased_option contains 'colour' -%}
+      {%- assign is_color = true -%}
+    {%- endif -%}
+  {%- endif -%}
+{%- endfor -%}
+
+<div class="swatch {% if forloop.first %}one-whole first{% else %}one-third small--one-half{% if forloop.last %} last{% endif %}{% endif %}" data-option-index="{{ option_index }}" role="group" aria-label="{{ swatch }} selection group">
+  <div class="head" aria-hidden="true">{{ swatch | remove: " Color" }}<span class="opt-var-name">: </span></div>
+  {%- assign values = '' -%}
+  <div class="variants-wrap flex flex-wrap">
+    {%- for variant in currentProduct.variants -%}
+      {%- assign value = variant.options[option_index] -%}
+      {%- unless values contains value -%}
+        {%- assign values = values | join: '*|*' -%}
+        {%- assign values = values | append: '*|*' | append: value -%} 
+        {%- assign values = values | split: '*|*' -%}
+          {%- if is_color and settings.enable_color_swatches -%}
+            <div data-value="{{ value | escape }}" class="swatch-element color {% if variant.available %}available{% else %}soldout{% endif %}">
+              <div class="tooltip" aria-hidden="true">{{ value }}</div>
+              <input class="visuallyhidden" id="swatch-{{ currentProduct.id }}-{{ option_index }}-{{ value | handle }}" type="radio" name="option-{{ option_index }}" value="{{ value | escape }}"{% if forloop.first %} checked{% endif %} {% comment %}{% unless variant.available %}disabled{% endunless %}{% endcomment %} aria-hidden="true" />
+              <label class="animation color color-{{ value | handle }}" role="button" for="swatch-{{ currentProduct.id }}-{{ option_index }}-{{ value | handle }}">
+                <div class="cross"></div>
+                <span class="visuallyhidden">Select {{ value }} {{ swatch }}</span>
+              </label>
+            </div>
+          {%- else -%}
+    		<div data-value="{{ value | escape }}" class="swatch-element other flex-1 {% if variant.available %}available{% else %}soldout{% endif %}">
+              <input class="visuallyhidden" id="swatch-{{ currentProduct.id }}-{{ option_index }}-{{ value | handle }}-{{ currentProduct.id }}-{{ sufix }}" type="radio" name="option-{{ option_index }}" value="{{ value | escape }}" {% comment %}{% unless variant.available %}disabled{% endunless %}{% endcomment %} aria-hidden="true" />
+              {%- if variant.metafields.variant.specs or variant.metafields.variant.note -%}
+            	<label class="animation" role="button" for="swatch-{{ currentProduct.id }}-{{ option_index }}-{{ value | handle }}-{{ currentProduct.id }}-{{ sufix }}">
+                  <div class="flex align-items-center justify-content-between">
+                    <div>
+                      <div {% if swatch == 'Size' %}class="name"{% endif %}><span class="visuallyhidden">Select </span>{{ value }}<span class="visuallyhidden"> {{ swatch }}</span></div>
+                      {% if variant.metafields.variant.specs and swatch == 'Size' %}<div class="specs">{{variant.metafields.variant.specs}}</div>{% endif %}
+                    </div>
+                    {% if variant.metafields.variant.note and swatch == 'Size' %}<div class="note">{{variant.metafields.variant.note}}</div>{% endif %}
+                  </div>
+                </label>
+              {%- else -%}
+            	<label class="animation" role="button" for="swatch-{{ currentProduct.id }}-{{ option_index }}-{{ value | handle }}-{{ currentProduct.id }}-{{ sufix }}">
+                  <span class="visuallyhidden">Select </span>{{ value }}<span class="visuallyhidden"> {{ swatch }}</span>
+                  <div class="cross"></div>
+              	</label>
+              {%- endif -%}
+            </div>
+          {%- endif -%}
+      {%- endunless -%}
+    {%- endfor -%}
+  </div>
+</div>

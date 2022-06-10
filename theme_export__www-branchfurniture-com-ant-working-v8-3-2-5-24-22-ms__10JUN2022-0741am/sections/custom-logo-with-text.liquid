@@ -1,0 +1,167 @@
+{% style %}
+#shopify-section-{{section.id}} .c-lwt-heading,
+#shopify-section-{{section.id}} .c-lwt-subheading,
+#shopify-section-{{section.id}} .c-lwt-text{
+	color: {{section.settings.font_color}};
+}
+{% endstyle %}
+
+{% assign flag = 0 %}
+<div class="c-lwt-section" style="background: {{ section.settings.bg_color }}">
+  <div class="c-lwt-container">
+    {% if section.settings.heading != blank %}
+    <h2 class="c-lwt-heading" style="font-size: {{ section.settings.font_size1 }}px">{{ section.settings.heading }}</h2>
+    {% endif %}
+    {% if section.settings.subheading != blank %}
+    <p class="c-lwt-subheading" style="font-size: {{ section.settings.font_size2 }}px">{{ section.settings.subheading }}</p>
+    {% endif %}
+    <div class="c-lwt-flex-container">
+      {% for block in section.blocks %}
+      {% if block.settings.hl %}
+      {% assign flag = flag | plus: 1 %}
+      {% endif %}
+      {% if block.settings.img %}
+      <div class="c-lwt-flex-item {% if flag == 1 %}c-lwt-margin{% endif %} {% if block.settings.hl %}c-lwt-flex-highlight{% endif %} {% if block.settings.hl_text != blank %}c-lwt-flex-item-padd{% endif %} c-lwt-padd">
+        {% if block.settings.hl %}
+        {% if block.settings.hl_text != blank %}<span class="c-lwt-flex-highlight-text {% if block.settings.hl_hideM %}c-lwt-mob{% endif %} {% if block.settings.hl_hideD %}c-lwt-desk{% endif %}">{{ block.settings.hl_text }}</span>{% endif %}
+        {% endif %}
+        <div class="c-lwt-content">
+          <div class="c-lwt-img-container" style="top: {{ block.settings.align }}px">
+          <img src="{{ block.settings.img | img_url: 'master' }}" class="c-lwt-img" loading="lazy"/>
+          </div>
+          <p class="c-lwt-text">{{ block.settings.text }}</p>
+        </div>
+      </div>
+      {% endif %}
+      {% endfor %}
+    </div>
+  </div>
+</div>
+{% schema %}
+{
+  "name": "Logo With Text",
+  "settings": [
+	{
+      "id": "bg_color",
+      "type": "color",
+      "label": "Bg Color",
+      "default": "#F3F0ED"
+    },
+	{
+      "id": "font_color",
+      "type": "color",
+      "label": "Font Color",
+      "default": "#F3F0ED"
+    },
+    {
+      "id": "heading",
+      "type": "text",
+      "label": "Heading",
+      "default": "Focus on your work. We take care of the furniture."
+    },
+{
+    "type":      "range",
+    "id":        "font_size1",
+    "min":       12,
+    "max":        50,
+    "step":       1,
+    "unit":       "px",
+    "label":     "Heading Font size",
+    "default":   40
+},
+	{
+      "id": "subheading",
+      "type": "textarea",
+      "label": "Subheading",
+      "default": "We want to make it easy for you. Let us take care of everything so you can focus on the things you enjoy."
+    },
+{
+    "type":      "range",
+    "id":        "font_size2",
+    "min":       12,
+    "max":        50,
+    "step":       1,
+    "unit":       "px",
+    "label":     "Subeading Font size",
+    "default":   16
+}
+  ],
+  "blocks": [
+    {
+      "type": "select",
+      "name": "Block",
+      "settings": [
+        {
+          "id": "img",
+          "type": "image_picker",
+       	  "label": "Image"
+        },
+{
+    "type":      "range",
+    "id":        "align",
+    "min":       -50,
+    "max":        50,
+    "step":       1,
+    "unit":       "px",
+    "label":     "Align Image Vertically",
+    "default":   0
+},
+
+		{
+          "id": "text",
+          "type": "textarea",
+       	  "label": "Text",
+		  "default": "Premium materials and ergonomic design"
+        },
+		{
+          "id": "hl",
+          "type": "checkbox",
+       	  "label": "Highlight This Box",
+		  "default": false
+        },
+		{
+          "id": "hl_text",
+          "type": "text",
+       	  "label": "Highlighted Top Text",
+		  "default": "For team offices"
+        },
+		{
+          "id": "hl_hideM",
+          "type": "checkbox",
+       	  "label": "Hide on Mobile",
+		  "default": false
+        },
+		{
+          "id": "hl_hideD",
+          "type": "checkbox",
+       	  "label": "Hide on Desktop",
+		  "default": false
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Logo With Text",
+      "category": "Custom",
+      "blocks": [
+        { 
+          "type": "select"
+        },
+        {
+          "type": "select"
+        },
+        {
+          "type": "select"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

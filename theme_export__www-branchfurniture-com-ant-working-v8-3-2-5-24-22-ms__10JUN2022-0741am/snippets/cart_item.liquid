@@ -1,0 +1,89 @@
+<div class="item {{ item.product.handle }}">
+  <div class="wrap">
+    <div class="grid align-items-start">
+      <div class="grid__item one-quarter image">
+        {%- if item.variant.image -%}
+        {%- assign variantImg = item.variant.image | img_url: "500x500" -%}
+        {%- else -%}
+        {%- assign variantImg = item.product.featured_image | img_url: "500x500" -%}
+        {%- endif -%}
+        <img src="{{ variantImg }}" alt="{{ item.product.title }}" />
+      </div>
+      <div class="grid__item three-quarters info">
+        <div class="title-price-wrap flex justify-content-between">
+          <div class="title flex-1">
+            <a href="{{ item.url }}">
+              {%- assign titlePart = item.product.title | split: ' - ' -%}
+              <div class="name">{{ titlePart[0] }}</div>
+            </a>
+            <div style="width:200px;" class="clyde-cart-prompt-container clyde-cart-prompt-container-{{ item.variant_id }}" 
+                           data-variant-id="{{ item.key }}" 
+                           data-item-title="{{ item.title }}" 
+                           data-cart-clyde-{{ item_type }} 
+                           data-item-variant-id="{{ item.variant_id }}" 
+                           data-item-type="{{ item_type }}" 
+               data-item-quantity={{ item.quantity }}></div>
+          </div>
+          <div class="price">
+            {{ item.line_price | money | remove: ".00" | remove: " " }}
+          </div>
+        </div>              
+        <div class="quantity">
+          <div class="quantity-box">
+            <div class="flex">
+              <input type="button" value="-" class="minus animation" aria-label="Decrease the quantity" />
+              <input 
+                     data-item-title="{{ item.title }}" 
+                     data-item-type="{{ item_type }}" 
+                     data-item-variant-id="{{ item.variant_id }}" 
+                     data-quantity-input 
+                     data-quantity-input-{{ item_type }}
+                     type="number" step="1" name="updates[]" id="updates_{{ item.id }}" value="{{ item.quantity }}" title="Qty" min="0" aria-label="Quantity" />
+              <input type="button" value="+" class="plus animation" aria-label="Increase the quantity" />
+            </div>
+          </div>
+        </div>              
+        <div class="remove">
+          <a class="remove-from-cart" href="/cart/change?line={{ forloop.index }}&quantity=0" aria-label="Remove Item" data-item-title="{{ item.title }}" data-cart-remove data-cart-remove-{{ item_type }} data-item-variant-id="{{ item.variant_id }}" data-item-type="{{ item_type }}">{% include 'icons', icon: 'close' %}</a>
+        </div>
+        <div class="variants-edit-wrap flex flex-wrap justify-content-between align-items-end">
+          <div class="large--flex-1 medium--flex-1 small--one-whole">
+          {%- unless item.variant.title contains 'Default' -%}
+          <div class="variants">
+            {%- for option in item.options_with_values -%}
+              {%- if option.name contains 'Color' or option.name contains 'color' -%}
+                <div class="flex align-items-center">
+                  <strong>{{ option.name }}:</strong> <div class="swatch hover-tooltip color-{{option.value | handleize}}"><div class="tooltip" aria-hidden="true">{{ option.value }}</div></div>{%- unless forloop.last -%}<br/>{%- endunless -%}
+                </div>
+              {%- else -%}
+                <div>
+                  <strong>{{ option.name }}:</strong> {{ option.value }}{%- unless forloop.last -%}<br/>{%- endunless -%}
+                </div>
+              {%- endif -%}
+            {%- endfor -%}
+          </div>
+          {%- endunless -%}            
+          {%- for p in item.properties -%}
+            {% if p.first =="Ship date" %}
+            {% continue %}
+            {% endif %}
+            {% assign first_character_in_key = p.first | truncate: 1, '' %}
+            {% unless first_character_in_key == "_" %}
+            
+            <div class="properties">
+              <strong>{{ p.first }}:</strong>
+              {%- if p.last contains '/uploads/' -%}
+              <a href="{{ p.last }}">{{ p.last | split: '/' | last }}</a>
+              {%- else -%}
+              {{ p.last }} {{p.first}}
+              {%- endif -%}
+            </div>
+            {% endunless %}
+          {%- endfor -%}
+          </div>
+          <a href="#" class="edit-item" data-url="{{ item.product.url }}?view=quick-view-new" data-qty="{{ item.quantity }}" data-variant="{{item.variant.id}}" data-item-key="{{ item.key }}">Edit</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

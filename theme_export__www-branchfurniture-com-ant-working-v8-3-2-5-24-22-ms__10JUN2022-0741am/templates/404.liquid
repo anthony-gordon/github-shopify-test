@@ -1,0 +1,18 @@
+<style>
+  #error-page {margin: 80px auto; text-align: center;}
+  #error-page .head {font-size: 7em; margin-bottom: 0.3em; line-height: 100%; letter-spacing: -0.1em;}
+  #error-page .title {font-size: 1.2em; margin-bottom: 2em;}
+  #error-page a:not(.btn) {display: inline-block; margin: 1em; text-decoration: underline; filter: alpha(opacity=60); opacity: 0.6;}
+  #error-page .btn {margin-bottom: 1em;}
+</style>
+
+<div id="error-page" class="container">
+  <div class="head">You've swiveled away...</div>
+  <div class="title">We're sorry, but the page you're looking for could not be found.</div>
+  <a class="btn" href="/">Go back to the Homepage</a>
+  <div class="links">
+    {%- for link in linklists.main-menu-new.links -%}
+    <a href="{{ link.url }}">{{ link.title | escape }}</a>
+    {%- endfor -%}
+  </div>
+</div>

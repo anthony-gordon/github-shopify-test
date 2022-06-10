@@ -1,0 +1,49 @@
+<style>
+  .collection-wrapper .menu-wrapper .menu {padding: 0.7em 2em; background: {{settings.content_main_color}}; color: #fff;}
+  .collection-wrapper .menu-wrapper .menu .item {padding: 0.35em 0; text-transform: uppercase; font-weight: 700; letter-spacing: 0.05em;}
+  .isNotMobile .collection-wrapper .menu-wrapper .menu .item:hover {color: {{settings.content_third_color}};}
+  .collection-wrapper .menu-wrapper .menu .item.active {text-decoration: underline;}
+  .isNotMobile .collection-wrapper .menu-wrapper .menu .item.active:hover {color: inherit; cursor: default;}
+  .collection-wrapper .menu-wrapper .goto {position: relative;}
+  .collection-wrapper .menu-wrapper .goto .trigger {cursor: pointer; font-size: 1.2em; width: 100%; line-height: 100%; text-transform: none; font-weight: 500; border: 2px solid; padding: 1em 3em 1em 1em; position: relative; letter-spacing: 0.05em;}
+  .collection-wrapper .menu-wrapper .goto .trigger svg {position: absolute; right: 0.7em; top: 50%; margin-top: -0.5em; display: flex; align-items: center; font-size: 1.2em;}
+  .collection-wrapper .menu-wrapper .goto .trigger.open svg {-ms-transform: rotate(180deg); -webkit-transform: rotate(180deg); transform: rotate(180deg);}
+  .collection-wrapper .menu-wrapper .goto .links {display: none; background: #fff; box-sizing: border-box; position: absolute; z-index: 10; left: 0; top: 100%; width: 100%; padding: 1em 0 1em 2em; border: 2px solid; border-top: 0; }
+  .collection-wrapper .menu-wrapper .goto .links a {display: block; padding: 0.5em 0; border: none;}
+  
+  @media all and (max-width: 900px){
+    .collection-wrapper .menu-wrapper {padding: 0 1rem;}
+    .collection-wrapper .menu-wrapper .goto .links a {font-size: 1.1em; font-weight: 500;}
+  }
+</style>
+<div class="container menu-wrapper">
+  <div class="medium-down--hide">
+    <div class="menu flex justify-content-around align-items-center">
+      <a class="item {% if collection.handle == "all" %}active{% endif %}" href="/collections/all?view=all">All</a>
+      {%- for link in linklists['collections-list'].links -%}
+      {%- assign col = link.object -%}
+      <a class="item {% if col.handle == collection.handle %}active{% endif %}" href="{{col.url}}">{{col.title}}</a>
+      {%- endfor -%}
+    </div>
+  </div>
+  <div class="hide medium-down--show">
+    <div class="goto">
+      <button class="trigger flex align-items-center">{{ collection.title }}{% include 'icons', icon: 'arrow-down' %}</button>
+      <div class="links">
+        <a class="item" href="/collections/all?view=all">All</a>
+        {%- for link in linklists['collections-list'].links -%}
+        {%- assign col = link.object -%}
+        <a class="item {% if col.handle == collection.handle %}active{% endif %}" href="{{col.url}}">{{col.title}}</a>
+        {%- endfor -%}
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  $(function(){
+    $('.collection-wrapper .menu-wrapper .goto .trigger').click(function(){
+      $(this).siblings('.links').slideToggle();
+      $(this).toggleClass('open');
+    });
+  });
+</script>

@@ -1,0 +1,144 @@
+<style>
+  #shopify-section-{{ section.id }} .section-featured {text-align: center; background: {{section.settings.section_bg}}; padding: {{section.settings.section_padding_desktop}};}
+  .section-featured {text-align: center;}
+  .section-featured .container {padding: 0 30px;}
+  .section-featured .slick-slider .slick-track {padding: 5px 0;}
+  .section-featured .slick-arrow {top: 42%;}
+  @media all and (max-width: 900px){
+    .section-featured h2 {padding-left: 20px; padding-right: 20px;}
+    .section-featured .container {padding: 0;}
+  }
+  @media all and (max-width: 600px){
+   #shopify-section-{{ section.id }} .section-featured {padding: {{section.settings.section_padding_mobile}};}
+  }
+</style>
+
+{%- assign col = collections[section.settings.collection] -%}
+<section class="section-featured">
+  <div class="container">
+    {%- if section.settings.title != "" -%}
+    	<h2 {% if section.settings.hide_title %}class="visuallyhidden"{% endif %}>{{section.settings.title}}</h2>
+    {%- endif -%}
+    {%- if col.products.length > 0 -%}
+    <div class="product-carousel slick-pending">
+      {%- for prod in col.products limit:10 -%}
+      {%- include 'product_item', currentProduct: prod, quickview: settings.allow_quick_view, isCarousel: true  -%}
+      {%- endfor -%}
+    </div>
+    {%- else -%}
+    <p>No products found in this collection</p>
+    {%- endif -%}
+  </div>
+</section>
+
+<script>
+  $(function(){
+    $('#shopify-section-{{ section.id }} .section-featured .product-carousel').slick({
+      autoplay: false,
+      speed: 700,
+      slidesToShow: {{section.settings.featured_products_row}},
+      slidesToScroll: {{section.settings.featured_products_row}},
+      prevArrow: '{% include 'icons', icon: 'arrow-left' %}',
+      nextArrow: '{% include 'icons', icon: 'arrow-right' %}',
+      responsive: [
+        {
+          breakpoint: 600,
+          settings: {
+            slidesToShow: 1,
+            slidesToScroll: 1,
+      		arrows: false,
+            centerMode: true,
+            centerPadding: '20%'
+          }
+        },
+        {
+          breakpoint: 900,
+          settings: {
+            slidesToShow: 2,
+            slidesToScroll: 2,
+      		arrows: false,
+            centerMode: true,
+            centerPadding: '15%'
+          }
+        }
+      ]
+    });
+  });
+</script>
+
+{% schema %}
+  {
+    "name": "Featured Products",
+    "settings": [
+	  {
+        "type": "color",
+        "id": "section_bg",
+        "label": "Background Color",
+        "default": "#ffffff"
+      },
+	  {
+        "type": "text",
+        "id": "section_padding_desktop",
+        "label": "Section Padding (Desktop)",
+        "default": "4em 0"
+      },
+      {
+        "type": "text",
+        "id": "section_padding_mobile",
+        "label": "Section Padding (Mobile)",
+        "default": "3em 0"
+      },
+      {
+        "type": "text",
+        "id": "title",
+        "label": "Title",
+        "default": "Featured Products"
+      },
+      {
+        "type": "checkbox",
+        "id": "hide_title",
+        "label": "Hide Title?",
+        "default": false
+      },
+      {
+        "type": "collection",
+        "id": "collection",
+        "label": "Select The Collection"
+      },
+      {
+        "type": "select",
+        "id": "featured_products_row",
+        "label": "Items per row",
+        "options": [
+          {
+            "value": "2",
+            "label": "2 items per row"
+          },
+          {
+            "value": "3",
+            "label": "3 items per row"
+          },
+          {
+            "value": "4",
+            "label": "4 items per row"
+          },
+          {
+            "value": "5",
+            "label": "5 items per row"
+          },
+          {
+            "value": "6",
+            "label": "6 items per row"
+          }
+        ],
+		"default": "4"
+      }
+    ],
+    "presets": [
+      {
+        "name": "Featured Products",
+        "category": "Home"
+      }
+    ]
+  }
+{% endschema %}

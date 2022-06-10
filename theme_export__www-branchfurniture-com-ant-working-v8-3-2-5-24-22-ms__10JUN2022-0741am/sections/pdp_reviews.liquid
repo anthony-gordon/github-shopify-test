@@ -1,0 +1,118 @@
+{%- if section.settings.show and section.blocks.size > 0 -%}
+<style>  
+  #shopify-section-{{ section.id }} .pdp-reviews {position: relative; text-align: center; background-color: {{settings.content_main_color}}; color: {{section.settings.text_color}}; padding: {{section.settings.padding_desktop}}; background-size: cover; background-repeat: no-repeat; background-position: center;}
+  .pdp-reviews:before {content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7);}
+  .pdp-reviews .item img {width: 100%; margin: auto; max-width: 14.6em; margin-bottom: 1em;}
+  .pdp-reviews .item .wrap {margin: auto;}
+  .pdp-reviews .item .review {font-size: 1.2em;}
+  .pdp-reviews .item p:last-child {margin: 0;}
+  .pdp-reviews .item p {font-weight: 500;}
+  .pdp-reviews .item p strong {font-size: 1.2em; color: {{settings.content_third_color}};}
+  .pdp-reviews .item p em {font-style: normal; font-size: 0.9em;}
+  .pdp-reviews .slick-slider .slick-arrow path {fill: {{settings.content_second_color}}; }
+  .pdp-reviews .slick-slider .slick-arrow.left-arrow {left: 10%;}
+  .pdp-reviews .slick-slider .slick-arrow.right-arrow {right: 10%;}
+  
+  @media all and (max-width: 900px) {
+    #shopify-section-{{ section.id }} .pdp-reviews {padding: {{section.settings.padding_mobile}};}
+  }
+  
+  @media all and (max-width: 600px) {
+    .pdp-reviews .slick-slider .slick-arrow.left-arrow {left: 0.5em;}
+    .pdp-reviews .item .wrap {padding: 0 2em;}
+    .pdp-reviews .slick-slider .slick-arrow.right-arrow {right: 0.5em;}
+    .pdp-reviews .item .review {font-size: 1em;}
+    .pdp-reviews .item img {margin-bottom: 1.5em;}
+    
+  }
+</style>
+<section class="pdp-reviews {% if section.settings.image != blank %}lazyload{% endif %}" {% if section.settings.image != blank %}data-bgset="{% include 'lazy_src', image: section.settings.image %}"{% endif %}>
+ <div id="stamped-main-widget" 
+data-widget-style="standard"
+data-product-id="{{ product.id }}" 
+data-name="{{ product.title | escape }}" 
+data-url="{{ shop.url }}{{ product.url }}" 
+data-image-url="{{ product.featured_image | product_img_url: "large" |replace: '?', '%3F' | replace: '&','%26'}}" 
+data-description="{{ product.description | escape }}" 
+data-product-sku="{{product.handle}}"
+      data-offset="100"> 
+</div>
+
+</section>
+<script>
+  $(function(){
+     $('#shopify-section-{{ section.id }} .pdp-reviews .carousel').slick({
+        autoplay: true,
+        speed: 700,
+        autoplaySpeed: 3000,
+        slidesToShow: 1,
+        slidesToScroll: 1,
+        prevArrow: '{% include 'icons', icon: 'arrow-left' %}',
+        nextArrow: '{% include 'icons', icon: 'arrow-right' %}'
+      });
+  });
+</script>
+{%- endif -%}
+
+{% schema %}
+  {
+    "name": "Reviews",
+    "presets": [
+      {
+        "name": "Reviews",
+        "category": "PDP"
+      }
+    ],
+    "settings": [
+	  {
+        "type": "checkbox",
+        "id": "show",
+        "label": "Show section?",
+        "default": true
+      },
+	  {
+        "type": "image_picker",
+        "id": "image",
+        "label": "Background Image"
+      },
+	  {
+        "type": "color",
+        "id": "text_color",
+        "label": "Text Color",
+        "default": "#F3EEEA"
+      },
+	  {
+        "type": "text",
+        "id": "padding_desktop",
+        "label": "Section Padding (Desktop)",
+        "default": "8em 0"
+      },
+      {
+        "type": "text",
+        "id": "padding_mobile",
+        "label": "Section Padding (Mobile)",
+        "default": "3em 0"
+      }
+    ],
+    "blocks": [
+      {
+      	"type": "review",
+      	"name": "Review",
+      	"settings": [
+          {
+            "type": "richtext",
+            "id": "review",
+            "label": "Review",
+			"default": "<p>Donec vulputate eget metus sed tincidunt. Aenean euismod risus quis turpis ullamcorper, id aliquet quam gravida.</p><p><strong>Jow Ray</strong><br><em>CEO of Workspace</em></p>"
+          },
+          {
+            "type": "text",
+            "id": "text_width",
+            "label": "Text Width",
+			"default": "26em"
+          }
+      	]
+      }
+	]
+  }
+{% endschema %}

@@ -1,0 +1,51 @@
+{%- if block.settings.show -%}
+<div class="utility-bar" style="background: {{block.settings.color}}; color: {{block.settings.text_color}}; fill: {{block.settings.close_color}}; font-size: {{block.settings.text_size}};">  
+  {%- if block.settings.link != blank and settings.enable_progress_bar == false -%}<a href="{{block.settings.link}}">{%- endif -%}
+    <div class="container">
+      {% if settings.enable_progress_bar %}
+      {% include "bfcm-progress-bar" %}
+      {% else %}
+      <div>{{block.settings.text}}</div>
+      {% endif %}
+    </div>
+  {%- if block.settings.link != blank and settings.enable_progress_bar == false -%}</a>{%- endif -%}
+  <button id="utility-bar-close" class="close" onclick="closeUtilityBar()" aria-label="Close utility bar">
+    {%- include 'icons', icon: 'close' -%}
+  </button>
+</div>
+{%- endif -%}
+
+<script>
+  
+  let winWidth = window.innerWidth;
+  const closeButton = document.getElementById("utility-bar-close");
+  const hero = document.getElementById("branch-hero");
+  
+//   closeButton.addEventListener("click", () => {
+//   	$(this).parent().slideUp(); 
+//     $(window).resize(); 
+    
+//   if (winWidth >= 900) {
+//     hero.styles.paddingTop = 119px;
+//   }
+  
+  
+//     return false;                             
+//   });
+  
+  window.addEventListener("resize", () => {
+    winWidth = window.innerWidth           
+  });
+  
+  function closeUtilityBar() {
+    $("#utility-bar-close").parent().slideUp(); 
+    $(window).resize(); 
+
+    if (winWidth >= 900) {
+      $("#branch-hero").css("padding-top", "111px");
+    }
+  }
+  
+  
+  
+</script>

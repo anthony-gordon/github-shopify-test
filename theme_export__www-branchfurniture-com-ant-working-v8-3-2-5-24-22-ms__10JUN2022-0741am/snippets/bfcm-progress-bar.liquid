@@ -1,0 +1,167 @@
+<style>
+  :root {
+    --blue: #8ABECF;
+    --yellow: #d1ba3f;
+    --branch-green: #314438;
+    --active-color: var(--blue);
+
+
+    --goal-progress: 0;
+    --stretch-progress: 0;
+    --total-percent: 0;
+  }
+
+      body {
+        background-color: var(--branch-green);
+          }
+
+      .hlxn-progress-bar {
+        position: relative;
+        height: 8px;
+        width: 80%;
+        box-shadow: inset 0 0 2px #999;
+        background-color: #fff;
+        display: flex;
+        justify-content: start;
+      }
+      
+      
+      @media only screen and (max-width: 515px) {
+        .hlxn-progress-bar {
+          width: 70%;
+        }
+      }
+      
+     .hlxn-progress-bar p {
+        color: white;
+      }
+
+      .hlxn-progress {
+        content: "";
+        height: 100%;
+      }
+
+      .hlxn-goal {
+        background-color: var(--blue);
+          width: var(--goal-progress);
+            }
+
+      .goal-indicator {
+        content: "";
+        top: 0;
+        left: 0;
+        right: 0;
+        background-color: green;
+      }
+      
+        /* Progress Number above bar       */
+      
+/*       .goal-indicator::before {
+        content: "{{ settings.bfcm_current_progress }}";
+        position: absolute;
+        top: -1.5rem;
+        left: var(--total-percent);
+        transform: translateX(-50%);
+      }
+ */
+      .goal-indicator::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: var(--total-percent);
+		background-color: var(--active-color);
+        height: 250%;
+        width: 2px;
+        transform: translateY(-28%);
+      }
+
+      .hlxn-stretch {
+        background-color: var(--yellow);
+        width: var(--stretch-progress);
+      }
+      
+      .progress-bar-container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding-top: 3px;
+      }
+      
+      .progress-bar-header {
+        display: inline-block;
+        margin-right: 10px;
+      }
+
+      @media only screen and (max-width: 515px) {
+        .progress-bar-header {
+          padding: 0 10px;
+        }
+      }
+
+      .progress-bar-link {
+        text-decoration: underline !important;
+      }
+      
+      .progress-bar-container span {
+        margin: 0 5px;
+        transform: translateY(-1px);
+      }
+
+</style>
+
+<p class="progress-bar-header">{% if settings.bfcm_current_progress >= settings.main_goal %}{{ settings.goal_reached_title }} {% else %} {{settings.progress_bar_title}}{% endif %}&nbsp;</p><a class="progress-bar-link" href="{{settings.bfcm_link}}">{{ settings.bfcm_link_label }}</a>
+<div class="progress-bar-container">
+  <span>0</span>
+  <div id="hlxn-progress-bar" class="hlxn-progress-bar">  
+    <div class="goal-indicator"></div>
+    <div id="goal-progress" class="hlxn-progress hlxn-goal"></div>
+    <div id="stretch-progress" class="hlxn-progress hlxn-stretch"></div>
+  </div>
+  <span id="main-goal"></span>
+</div>
+
+<script>
+  const goalTarget = {{ settings.main_goal | plus: 0 }};
+  const stretchGoalTarget = {{ settings.stretch_goal | plus: 0 }};
+  const stretchGoalIsActive = {{ settings.enable_progress_bar }};
+  const currentProgress = {{ settings.bfcm_current_progress | plus: 0 }};
+  
+  let root = document.documentElement.style;
+  
+  if (stretchGoalIsActive) {
+    let stretchGoalExceeded = false;
+    if (currentProgress > stretchGoalTarget) stretchGoalExceeded = true;
+    if (currentProgress >= goalTarget) {
+      let mainGoalPercent = goalTarget / stretchGoalTarget;
+      let remainingContainerSpace = 1 - mainGoalPercent;
+      let percentageToStretch = (currentProgress - goalTarget) / (stretchGoalTarget - goalTarget);
+      root.setProperty("--goal-progress", mainGoalPercent * 100 + "%");
+      root.setProperty("--stretch-progress", percentageToStretch * remainingContainerSpace * 100 + "%");
+      root.setProperty("--total-percent", stretchGoalExceeded ? "100%" : (mainGoalPercent * 100) + (percentageToStretch * remainingContainerSpace * 100) + "%");
+      root.setProperty("--active-color", "var(--yellow)");
+    } else {
+      root.setProperty("--active-color", "var(--blue)");
+      root.setProperty("--total-percent", (currentProgress / goalTarget) * 100 + "%");
+      root.setProperty("--goal-progress", (currentProgress / goalTarget) * 100 + "%");
+    }
+  } else {
+    root.setProperty("--active-color", "var(--blue)");
+    if (currentProgress > goalTarget) {
+      root.setProperty("--goal-progress", "100%");
+      root.setProperty("--total-percent", "100%");
+    } else {
+      root.setProperty("--total-percent", (currentProgress / goalTarget) * 100 + "%");
+      root.setProperty("--goal-progress", (currentProgress / goalTarget) * 100 + "%");  
+    }  
+  }
+  
+  const numberWithCommas = function(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  }
+  let mainGoal = goalTarget || stretchGoalTarget || 0;
+  if (mainGoal > 0) {
+    mainGoal = numberWithCommas(mainGoal)
+  }
+  document.getElementById("main-goal").innerText = `${mainGoal} trees`;
+
+</script>

@@ -1,0 +1,85 @@
+<div class="login-page account">
+  <div class="container">
+    <div id="customer-login">
+      <h1>Login</h1>
+      {%- form 'customer_login' -%}
+        <div class="error-msg"></div>
+        {{ form.errors | default_errors }}
+        <input type="email" placeholder="Email Address" aria-label="Email Address" name="customer[email]" id="customer-email" class="email required" aria-required="true" autocomplete="email" />
+        {%- if form.password_needed -%}
+          <input type="password" placeholder="Password" aria-label="Password" name="customer[password]" id="customer-password" class="password required" aria-required="true" />
+        {%- endif -%}
+      	<button class="btn" type="submit">Login</button>
+        <div class="note forgot"><a href="#" onclick="showRecoverPassword(); return false;">Forgot your password?</a></div>
+        {%- endform -%}
+    </div>
+    <!-- Password Recovery -->
+    <div id="recover-password" style="display: none;">
+      <h2>Reset Password</h2>
+      <div class="note">Enter your email address below and we will send you an email with instructions to reset your password.</div>
+      {%- form 'recover_customer_password' -%}
+        {{ form.errors | default_errors }}
+        <div class="error-msg"></div>
+        {%- if form.posted_successfully? -%}
+        <div class="success-msg" style="display: block;">You will receive an email with clear instructions.</div>
+        {%- endif -%}
+        <input type="email" placeholder="Email Address" aria-label="Email Address" name="email" id="recover-email" class="email required" aria-required="true" autocomplete="email" />
+        <button class="btn" type="submit">Submit</button>
+        <div class="note forgot">or <a href="#" onclick="hideRecoverPassword(); return false;">Cancel</a></div>
+      {%- endform -%}
+    </div>
+    <div class="new-customer-cta">
+      <h2>New Customer?</h2>
+      <a class="btn register-btn" href="/account/register">Create an account</a>
+    </div>
+  </div>
+</div>
+
+<script>
+  function showRecoverPassword(){
+    $('#recover-password').show();
+    $('#customer-login').hide();
+    window.location.hash = '#recover';
+    return false;
+  }
+  function hideRecoverPassword(){
+    $('#recover-password').hide();
+    $('#customer-login').show();
+    return false;
+  }
+  $(function(){
+    if(window.location.hash == '#recover'){
+      showRecoverPassword();
+    }
+    
+    $('.login-page form').each(function(){
+      var form = $(this);
+      form.submit(function(e){
+        var error = false;
+
+        form.find('.error-msg').hide();
+        form.find('.error').removeClass('error');
+
+        form.find('.required').each(function(){
+          if($(this).val()=="") {
+            error = true;
+            $(this).addClass('error');
+          }
+        });
+        if(error){
+          form.find('.error-msg').show().text('Please complete all the required fields.');
+        }else{
+          if(!Simplistic.validateEmail(form.find('.email').val())) {
+            error = true;
+            form.find('.email').addClass('error');
+            form.find('.error-msg').show().text('Please provide a valid email address.');
+          }
+        }
+        if(error) {
+          return false;
+        }
+      });
+      
+    });    
+  });
+</script>

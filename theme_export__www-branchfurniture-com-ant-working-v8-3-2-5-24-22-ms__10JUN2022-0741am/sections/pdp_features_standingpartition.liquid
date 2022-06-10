@@ -1,0 +1,144 @@
+{%- include 'pdp_features_content' -%}
+{% schema %}
+  {
+    "name": "Features - Standing Panel",
+    "presets": [
+      {
+        "name": "Features - Standing Panel",
+        "category": "Features"
+      }
+    ],
+	"settings": [
+	  {
+        "type": "text",
+        "id": "title",
+        "label": "Title",
+		"default": "Features"
+      },
+      {
+        "type": "image_picker",
+        "id": "image",
+        "label": "Product Image"
+      },
+      {
+        "type": "text",
+        "id": "button1",
+        "label": "Spec Sheet Button Text",
+        "default": "Request Spec Sheet",
+        "info": "Upload the PDF to Files with this naming convention: 'specs-producthandle.pdf'"
+      },
+      {
+        "type": "text",
+        "id": "button2",
+        "label": "Button #2",
+        "default": "View in person"
+      },
+      {
+        "type": "url",
+        "id": "link2",
+        "label": "Link #2"
+      },
+	  {
+        "type": "text",
+        "id": "padding_desktop",
+        "label": "Section Padding (Desktop)",
+        "default": "5em 0"
+      },
+      {
+        "type": "text",
+        "id": "padding_mobile",
+        "label": "Section Padding (Mobile)",
+        "default": "3em 0"
+      }
+    ],
+    "blocks": [
+      {
+        "type": "block",
+        "name": "Feature",
+        "settings": [
+          {
+            "type": "image_picker",
+            "id": "image",
+            "label": "Feature Closeup Image"
+          },
+          {
+            "type": "textarea",
+            "id": "description",
+            "label": "Description",
+            "default": "Donec vulputate eget metus sed tincidunt. Aenean euismod risus quis turpis."
+          },
+          {
+            "type": "select",
+            "id": "img_alignment",
+            "label": "Image alignment",
+            "options": [
+              {
+                "value": "img-right",
+                "label": "Align image to the right"
+              },
+              {
+                "value": "img-left",
+                "label": "Align image to the left"
+              }
+            ],
+            "default": "img-left"
+          },
+          {
+            "type": "header",
+            "content": "Dot Coordinates"
+          },
+          {
+            "type": "text",
+            "id": "dot_left",
+            "label": "Left",
+            "default": "0%"
+          },
+          {
+            "type": "text",
+            "id": "dot_top",
+            "label": "Top",
+            "default": "0%"
+          },
+          {
+            "type": "header",
+            "content": "Description Coordinates"
+          },
+          {
+            "type": "text",
+            "id": "description_left",
+            "label": "Left",
+            "default": "0%"
+          },
+          {
+            "type": "text",
+            "id": "description_top",
+            "label": "Top",
+            "default": "0%"
+          },
+          {
+            "type": "text",
+            "id": "description_width",
+            "label": "Width",
+            "default": "44%"
+          },
+          {
+            "type": "header",
+            "content": "Line Coordinates"
+          },
+          {
+            "type": "text",
+            "id": "line_width",
+            "label": "Width",
+            "default": "44%"
+          },
+          {
+            "type": "text",
+            "id": "line_rotate",
+            "label": "Rotate",
+            "default": "0deg"
+          }
+        ]
+      }
+    ]
+  }
+{% endschema %}

@@ -1,0 +1,10 @@
+<div class="price">
+  {%- if currentProduct.price_min < currentProduct.compare_at_price_min -%}
+  <div class="retail">
+    <span data-price="retail">{{ currentProduct.compare_at_price | money | remove: '.00' }}</span>
+  </div>
+  {%- endif -%}
+  <div class="deal">
+    <span class="igPrice" data-price="deal">{{ currentProduct.price_min | money | remove: '.00' }}</span>
+  </div>
+</div>

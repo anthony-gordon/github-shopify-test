@@ -1,0 +1,104 @@
+{% assign show_desktop = section.settings.desktop_enable %}
+{% assign show_mobile = section.settings.mobile_enable %}
+
+<div class="trust-badges{% if show_desktop == false %} hide-desktop{% endif %}{% if show_mobile == false %} hide-mobile{% endif %}">
+  {% if section.settings.title != blank %}
+  <h2 class="section-title">{{ section.settings.title }}</h2>
+  {% endif %}
+
+  <div class="container">
+    {% for block in section.blocks %}
+    <div class="trust-badge">
+      <div class="trust-badge-wrap">
+        {% if block.settings.icon != blank %}
+        <img src="{{ block.settings.icon | img_url: 'x480' }}" loading="lazy"/>
+        {% else %}
+        <img src="https://placeholder.pics/svg/50" loading="lazy"/>
+        {% endif %}
+
+        <div class="text">
+          <h2>{{ block.settings.title }}</h2>
+          {{ block.settings.short_desc }}
+        </div>        
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+<br class="clearfix" />
+
+{% schema %}
+  {
+    "name": "Checkout Trust Badges",
+    "settings": [
+	  {
+		"type": "text",
+		"label": "Section Title",
+		"id": "title"
+	  },
+	  {
+		"type": "checkbox",
+		"label": "Enable Trust Badges (Desktop)",
+		"id": "desktop_enable",
+		"default": true
+	  },
+	  {
+		"type": "checkbox",
+		"label": "Enable Trust Badges (Mobile)",
+		"id": "mobile_enable",
+		"default": true
+	  }
+	],
+    "blocks": [
+      {
+        "type": "logo_image",
+        "name": "Logo",
+        "settings": [
+          {
+            "type": "image_picker",
+            "id": "icon",
+            "label": "Icon"
+          },
+          {
+            "type": "text",
+            "id": "title",
+            "label": "Title",
+            "default": "Title"
+          },
+          {
+            "type": "richtext",
+            "id": "short_desc",
+            "label": "Short Description",
+            "default": "<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit.</p>"
+          }
+        ]
+      }
+    ],
+    "presets": [
+      {
+        "name": "Icons list",
+        "category": "Image",
+        "blocks": [
+          {
+            "type": "logo_image"
+          },
+          {
+            "type": "logo_image"
+          },
+          {
+            "type": "logo_image"
+          },
+          {
+            "type": "logo_image"
+          }
+        ]
+      }
+    ]
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

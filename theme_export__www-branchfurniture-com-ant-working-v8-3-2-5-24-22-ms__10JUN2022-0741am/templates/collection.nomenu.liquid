@@ -1,0 +1,18 @@
+{% render 'shogun-products', content: collection %}
+
+{{collection.metafields.shogun.above}}
+<style>
+  .collection-wrapper {padding: 2.5em 0;}
+  
+  @media all and (max-width: 900px){
+    #collection {padding: 0 1rem;}
+    .collection-wrapper {padding: 1.5em 0;}
+  }
+</style>
+
+<section class="collection-wrapper collection-{{collection.handle}}">
+  <h1 class="visuallyhidden">{{collection.title}}</h1>
+  {%- include '_collection' -%}
+</section>
+
+{{collection.metafields.shogun.below}}

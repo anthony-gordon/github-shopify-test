@@ -1,0 +1,246 @@
+<div id="menu-mobile" class="ease-animation-slow" role="dialog" aria-modal="true">
+  <div class="wrapper">
+    <div class="head clearfix">
+      <div class="title">Menu</div>
+      <button class="close" aria-label="Close Menu">
+        {% include 'icons', icon: 'close' %}
+      </button>
+    </div>
+    <div class="content">
+      <nav class="menu-mobile" role="navigation">
+        <div class="slider-menu-sandbox">
+          <div class="go-back" tabindex="1">
+            <b>{%- include 'icons', icon: 'arrow-left' -%} Back </b>
+          </div>
+          <div class="sandbox"></div>
+          <div class="bottom-button">
+            <a href="">View All</a>
+          </div>
+        </div>
+        <form class="form animated search-form" action="/search" method="get" role="search">
+          <button type="submit" aria-label="Submit">
+            {%- include 'icons', icon: 'search' -%}
+          </button>
+          <input type="text" class="input-search animation opacity-0" name="q" value="" autocomplete="off" placeholder="Search..." aria-label="Enter your Search terms">
+          <input type="hidden" name="type" value="product" />
+        </form>
+        {%- for first_link in linklists[section.settings.main__menu].links -%}
+          {% if first_link.title contains '-button-' %}
+          {% else %}
+            <div class="item{% if first_link.links != blank %} has-dropdown{% endif %}"{% if first_link.links != blank %} aria-haspopup="true"{% endif %}>
+              <a href="{{ first_link.url }}" {% if first_link.url == "#" %}onclick="$(this).next('.icon').click(); return false;"{% endif %}>
+                {{ first_link.title | escape | replace: '-button-', '' }}
+              </a>
+              {%- if first_link.links != blank -%}
+                {% include 'icons', icon: 'arrow-right', iconClass: 'transition', iconColor: '#CCD1CE' %}
+                <div class="submenu flex-wrap">
+                  <div class="flex flex-wrap">
+                    {%- include 'menu_mobile_level', parent_link: first_link -%}
+                  </div>
+                </div>
+              {%- endif -%}
+            </div>
+          {% endif %}
+        {%- endfor -%}
+        <div id="mobile-extra-menu">
+          <div class="mobile-extra-menu-item">
+            <a href="#" id="friendbuyoverlay">Get $20</a>
+          </div>
+          {%- for link in linklists[section.settings.mobile_extra_menu].links -%}
+            <div class="mobile-extra-menu-item">
+              {% if link.title contains "-button-" %}
+                <a href="{{link.url}}" class="btn">
+                  {{ link.title | replace: '-button-', '' }}
+                </a>
+              {% else %}
+                <div class="flex justify-content-between">
+                  <div>
+                    <a href="{{link.url}}">
+                      {{ link.title }}
+                    </a>
+                  </div>
+                  {% if link.links != blank %}
+                    {% assign menu_name = link.title | downcase | replace: ' ', '-'%}
+                    <div class="toggle-menu toggle-menu-{{ menu_name }}">
+                      {% include 'icons', icon: 'arrow-right', iconColor: '#CCD1CE' %}
+                      <script>
+                        $(function () {
+                          // $('.toggle-menu-{{ menu_name }}').click(function () { // FLAG-1
+                          //   if (!$('.toggle-menu-{{ menu_name }}-children').hasClass('open')) {
+                          //     $('.toggle-menu-{{ menu_name }}').addClass('open')
+                          //     $('.toggle-menu-{{ menu_name }}-children').addClass('open')
+                          //   } else {
+                          //     $('.toggle-menu').removeClass('open')
+                          //     $('.toggle-menu-children').removeClass('open')
+                          //   }
+                          // })
+                        })
+                      </script>
+                    </div>
+                    {% endif %}
+                </div>
+                {% if link.links != blank %}
+                  <div class="toggle-menu-children toggle-menu-{{ menu_name }}-children">
+                    {% for child in link.links %}
+                      <a href="{{ child.url }}">{{ child.title }}</a>
+                    {% endfor %}
+                  </div>
+                {% endif %}
+              {% endif %}
+            </div>
+          {% endfor %}
+        </div>
+        <div class="flex justify-content-between mobile-menu-footer">
+          <div>
+            {%- if settings.show_social_header -%}
+              {%- include 'social_links' -%}
+            {%- endif -%}
+          </div>
+          <div class="currency">
+            {%- include 'currency-selector' -%}
+          </div>
+        </div>
+      </nav>
+      <div class="foot">
+        {% if section.settings.show_search %}
+        <form action="/search" method="get" class="search-form" role="search">
+          <div class="clearfix">
+            <input type="text" class="input-search animation" name="q" value="" autocomplete="off" placeholder="Search" aria-label="Enter search terms" />
+            <input type="hidden" name="type" value="product" />
+            <button aria-label="Search">
+              {%- include 'icons', icon: 'search' -%}
+            </button>
+          </div>
+        </form>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+<style>
+  .menu-oh{
+  overflow: hidden;
+  }
+</style>
+<script>
+
+	$(function() {
+      var z = false;
+      var headerHeight;
+      $(document).scroll(function() {
+        var y = $(this).scrollTop();
+        var mainNav = $("#shopify-section-header").outerHeight();
+        if (y > 80) {
+          z = true;
+        } else {
+          z = false;
+        }
+      });
+      
+      
+      $(".menu-mobile-button").click(function(){
+        if(z == false){
+        headerHeight = $("#shopify-section-header").outerHeight();
+        }
+        else{
+         headerHeight = $(".header-drop").outerHeight();
+        }
+        $("#menu-mobile").css("top", ""+headerHeight+"px");
+        
+      	$('#menu-mobile').toggleClass('open');
+//         $('body, html').css({overflow: 'hidden'});
+        $('body, html').toggleClass("menu-oh");
+        $('#page').addClass('mode-overlay anim');
+        $(this).children(".custom-hamburger").toggle();
+        $(this).children(".custom-menu-cross").toggle();
+        Simplistic.trapFocus({
+          $container: $('#menu-mobile'),
+          namespace: 'menu-mobile'
+        });
+        return false;
+      });
+
+      $(".custom-plus").click(function(){
+        $(this).toggle();
+        $(this).next(".custom-minus").toggle();
+      });
+            $(".custom-minus").click(function(){
+        $(this).toggle();
+        $(this).prev(".custom-plus").toggle();
+      });
+
+      function closeMenuMobile(){
+      	$('#menu-mobile').removeClass('open');
+        $('body, html').css({overflow: 'auto'});
+        $('#page').removeClass('mode-overlay anim');
+        Simplistic.removeTrapFocus({
+          $container: $('#menu-mobile'),
+          namespace: 'menu-mobile'
+        });
+        return false;
+      }
+
+      $("#menu-mobile .menu-mobile .has-dropdown .icon").click(function() {
+        $(this).parent().toggleClass('active');
+
+        let itemLink = $(this).siblings('a').attr('href')
+        $('#menu-mobile .menu-mobile .bottom-button a').attr('href', itemLink)
+
+        sendContentToMobileSandbox($(this).next().children().clone())
+      	// $(this).parent().find('.submenu:first').slideToggle();
+        return false;
+      });
+
+      $("#menu-mobile .close").click(function(){
+        closeMenuMobile();
+      });
+
+      $(document).on('keydown', function(e){
+        if (e.which == 27) { //Exit
+          if($('#menu-mobile').hasClass('open')){
+            e.preventDefault();
+            closeMenuMobile();
+            return false;
+          }
+        }
+      });
+      
+      $(window).resize(function(){
+        var headerHeight2;
+        if(z == false){
+        headerHeight2 = $("#shopify-section-header").outerHeight();
+        }
+        else{
+         headerHeight2 = $(".header-drop").outerHeight();
+        }
+        $("#menu-mobile").css("top", ""+headerHeight2+"px");
+      });
+
+      $('.toggle-menu').click(function () {
+        let selectChildren = $(this).parent().next().clone()
+        console.log(selectChildren)
+        if ($(selectChildren).hasClass('toggle-menu-children')) {
+          $('.slider-menu-sandbox .bottom-button').addClass('hide')
+          sendContentToMobileSandbox(selectChildren)
+        }
+      })
+
+      $('.slider-menu-sandbox .go-back').click(function () {
+        closeSandbox()
+      })
+
+      $('.menu-mobile-button').click(function () {
+        closeSandbox()
+      })
+
+      function sendContentToMobileSandbox (content) {
+        $('.slider-menu-sandbox .sandbox').html(content)
+        $('.slider-menu-sandbox').addClass('active')
+      }
+
+      function closeSandbox () {
+        $('.slider-menu-sandbox').removeClass('active')
+        $('.slider-menu-sandbox .bottom-button').removeClass('hide')
+      }
+	});
+</script>

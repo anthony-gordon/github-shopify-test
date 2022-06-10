@@ -1,0 +1,184 @@
+{%- if section.settings.show -%}
+<style>  
+  .popups-banner .container {max-width: 100%; padding: 0 1.5em;}
+  #shopify-section-{{ section.id }} .popups-banner {text-align: center; background: {{section.settings.section_bg}}; color: {{section.settings.text_color}}; padding: {{section.settings.padding_desktop}}; margin-bottom: 6em;}
+  #shopify-section-{{ section.id }} .popups-banner .item {text-align: left; padding: {{section.settings.logos_padding}}; }
+  .popups-banner .item button {color: inherit; text-align: left; padding: 0.5em 2em; border-radius: 3em; background: {{section.settings.section_bg}}; border: 2px solid {{section.settings.section_bg}}; -webkit-transition: all 0.2s linear; -moz-transition: all 0.2s linear; -o-transition: all 0.2s linear; -ms-transition: all 0.2s linear; transition: all 0.2s linear;}
+  .popups-banner .item button .circle {display: block; width: 3.5em; height: 3.5em; border-radius: 50%; border: 2px solid {{section.settings.text_color}}; box-shadow: inset 0 0 0 0 {{section.settings.text_color}};}
+  .popups-banner .item button .label {margin-left: 1.7em; max-width: 8em;}
+  .popups-banner .item button p {color: inherit; margin: 0; font-weight: 500; font-size: 1.2em; line-height: 150%;}
+  .isNotMobile .popups-banner .item button:hover .circle {box-shadow: inset 0 0 0 1.75em {{section.settings.text_color}};}
+  .popups-banner .icon svg {display: block; font-size: 3em; width: 1em; height: 1.309em; line-height: 100%; overflow: visible;}
+  #shopify-section-{{ section.id }} .popups-banner .icon svg path {stroke-linecap:round; stroke-linejoin:round; stroke-miterlimit:10; -webkit-transition: all 0.2s linear; -moz-transition: all 0.2s linear; -o-transition: all 0.2s linear; -ms-transition: all 0.2s linear; transition: all 0.2s linear;}
+  #shopify-section-{{ section.id }} .popups-banner .item:not(:last-child) .icon svg path {stroke: {{section.settings.text_color}};}
+  #shopify-section-{{ section.id }} .popups-banner .item:nth-child(2) button .label {margin-left: 2em;}
+  #shopify-section-{{ section.id }} .popups-banner .item:last-child button {background: {{section.settings.text_color}}; color: {{section.settings.section_bg}};}
+  #shopify-section-{{ section.id }} .popups-banner .item:last-child button svg path {fill: {{section.settings.section_bg}};}
+  .isNotMobile #shopify-section-{{ section.id }} .popups-banner .item:not(:last-child) button:hover {color: {{section.settings.section_bg}}; background: {{section.settings.text_color}};}
+  .isNotMobile #shopify-section-{{ section.id }} .popups-banner .item:not(:last-child) button:hover svg path {stroke: {{section.settings.section_bg}};}
+  .isNotMobile #shopify-section-{{ section.id }} .popups-banner .item:last-child button:hover {background: {{section.settings.section_bg}}; color: {{section.settings.text_color}}; border-color: {{section.settings.text_color}};}
+  .isNotMobile #shopify-section-{{ section.id }} .popups-banner .item:last-child button:hover svg path {fill: {{section.settings.text_color}};}
+  
+  .popups-banner-popup {text-align: center;}
+  .popups-banner-popup .circle {margin: 0 auto 1.5em; width: 3.7em; height: 3.7em; border: 2px solid; border-radius: 50%;}
+  .popups-banner-popup .title {font-size: 1.5em; margin-bottom: 1em; font-weight: 700; }
+  .popups-banner-popup .text {font-size: 1.2em;}
+  .popups-banner-popup p:last-child {margin: 0;}
+  .popups-banner-popup p a {text-decoration: underline;}
+  
+  @media all and (min-width: 601px) and (max-width: 1080px){
+    {% assign paddingSide = section.settings.logos_padding | split: ' ' | last | times: 1 %}
+    {% assign paddingTop = section.settings.logos_padding | split: ' ' | first | times: 1 %}
+    #shopify-section-{{ section.id }} .popups-banner .item {padding: {{paddingTop}}em {% if paddingSide > 0.5 %}{{paddingSide | minus: 0.5}}em{% else %}{{paddingSide}}em{% endif %}; }
+  }
+  @media all and (min-width: 601px) and (max-width: 1100px){
+  	.popups-banner {font-size: 1.23vw;}
+  }
+  @media all and (max-width: 900px) {
+    #shopify-section-{{ section.id }} .popups-banner { margin-bottom: 0;}
+  }
+  
+  @media all and (max-width: 600px) {
+    #shopify-section-{{ section.id }} .popups-banner {padding: {{section.settings.padding_mobile}};}
+    #shopify-section-{{ section.id }} .popups-banner .item {padding: {{section.settings.logos_padding_mobile}}; width: 100%;}
+    .popups-banner .item button .label {max-width: 100%; margin-left: 1em;}
+    .popups-banner .item button p br {display: none;}
+    .popups-banner .item button .circle {width: 2em; height: 2em; border-width: 1px;}
+    .popups-banner .item button p {font-size: 1em;}
+    .popups-banner-popup {padding: 0;}    
+    .popups-banner .wrap {max-width: 100%;}
+    .popups-banner .icon svg {font-size: 2em;}
+    .popups-banner .item button {padding: 0.2em 2em; margin: auto;}
+    .popups-banner-popup .title {font-size: 1.2em;}
+    .popups-banner-popup .text {font-size: 1em;}
+  }
+</style>
+
+<section class="popups-banner">
+  <div class="container">
+    <div class="wrap flex flex-wrap justify-content-center align-items-center">
+      {%- for block in section.blocks -%}
+      <div class="item">
+        <button class="popup-trigger flex align-items-center">
+          {%- if block.settings.icon != "" -%}
+            <div class="icon">{{block.settings.icon}}</div>
+          {%- else -%}
+            <i class="circle ease-animation"></i>
+          {%- endif -%}
+          <div class="label">{{block.settings.title}}</div>
+        </button>
+        <div style="display: none">
+          <div class="popups-banner-popup">
+            <button class="close-icon" onclick="modal.close()" aria-label="Close Modal">{% include 'icons', icon: 'close' %}</button>
+            <!--<div class="circle"></div>-->
+            {%- if block.settings.popup_title != "" -%}
+            <div class="title">{{block.settings.popup_title}}</div>
+            {%- endif -%}
+            <div class="text">{{block.settings.popup_text}}</div>
+          </div>
+        </div>
+      </div>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+<script>
+  $(function(){
+    $(".popups-banner .popup-trigger").click(function(){
+      Simplistic.openModal($(this).parent().find('.popups-banner-popup').clone(), 'regular');
+      return false;
+    });
+  });
+</script>
+{%- endif -%}
+
+{% schema %}
+  {
+    "name": "Popups Banner",
+    "presets": [
+      {
+        "name": "Popups Banner",
+        "category": "PDP"
+      }
+    ],
+    "settings": [
+	  {
+        "type": "checkbox",
+        "id": "show",
+        "label": "Show section?",
+        "default": true
+      },
+	  {
+        "type": "color",
+        "id": "section_bg",
+        "label": "Background Color",
+        "default": "#314438"
+      },
+	  {
+        "type": "color",
+        "id": "text_color",
+        "label": "Text Color",
+        "default": "#F3EEEA"
+      },
+	  {
+        "type": "text",
+        "id": "padding_desktop",
+        "label": "Section Padding (Desktop)",
+        "default": "1em 0"
+      },
+      {
+        "type": "text",
+        "id": "padding_mobile",
+        "label": "Section Padding (Mobile)",
+        "default": "3em 0"
+      },
+      {
+        "type": "text",
+        "id": "logos_padding",
+        "label": "Blocks Padding (Desktop)",
+        "default": "1.7em 2em"
+      },
+      {
+        "type": "text",
+        "id": "logos_padding_mobile",
+        "label": "Blocks Padding (Mobile)",
+        "default": "0.7em"
+      }
+    ],
+    "blocks": [
+      {
+      	"type": "block",
+      	"name": "Block",
+      	"settings": [
+          {
+            "type": "richtext",
+            "id": "title",
+            "label": "Title",
+			"default": "<p>10 Year<br>Warranty</p>"
+          },
+          {
+            "type": "textarea",
+            "id": "icon",
+            "label": "Icon SVG"
+          },
+          {
+            "type": "header",
+            "content": "Pop up"
+          },
+          {
+            "type": "text",
+            "id": "popup_title",
+            "label": "Title",
+            "default": "Lorem ipsum"
+          },
+          {
+            "type": "richtext",
+            "id": "popup_text",
+            "label": "Text",
+			"default": "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus euismod, sapien blandit congue dignissim, augue mauris euismod risus, id tristique orci dolor nec augue. Mauris id ligula dolor. Maecenas sodales vel est ac posuere. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Ut fringilla sed risus nec viverra.</p>"
+          }
+      	]
+      }
+	]
+  }
+{% endschema %}

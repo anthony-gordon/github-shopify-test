@@ -1,0 +1,283 @@
+<style>
+  #shopify-section-{{ section.id }} .hero-banner {position: relative; overflow: hidden; padding: {{section.settings.section_padding_desktop}}; background-color: {{section.settings.bg_color_bottom}};}
+  #shopify-section-{{ section.id }} .hero-banner:before {content: ''; position: absolute; left: 0; top: 0; width: 100%; height: 77%; background-color: {{section.settings.bg_color}};}
+  #shopify-section-{{ section.id }} .hero-banner .content {position: relative;}
+  #shopify-section-{{ section.id }} .hero-banner .title {font-size: 4em; max-width: 7em; margin: 0 auto 0.5em; color: {{section.settings.title_color}};}
+  #shopify-section-{{ section.id }} .hero-banner .text {color: {{section.settings.text_color}};}
+  #shopify-section-{{ section.id }} .hero-banner .wrap {position: relative; margin: auto; max-width: {{section.settings.text_width}}em; padding: {{section.settings.text_padding_desktop}};}
+  .hero-banner img {width: 100%;}
+  .hero-banner .img {width: 100%; height: 100%; background-size: cover; background-position: center; background-repeat: no-repeat;}
+  .hero-banner .text {font-size: 1.25em;}
+  .hero-banner p {color: inherit;}
+  .hero-banner p:last-child {margin: 0;}
+  #shopify-section-{{ section.id }} .hero-banner .buttons {position: relative; padding-top: {{section.settings.buttons_margin_top}}; width: 110%; margin-left: -5%;}
+  .hero-banner .buttons:before {content: ''; position: absolute; left: 50%; margin-left: -1px; border-right: 2px solid #aa6f58; top: 0.8em; bottom: 5em;}
+  .hero-banner .btn {min-width: 45%; white-space: nowrap; margin: 0.5em 2.5%; padding-left: 2em !important; padding-right: 2em !important;}
+
+  @media all and (min-width: 901px){
+    #shopify-section-{{ section.id }} .hero-banner .image-wrap {width: {{section.settings.image_width_}}%;}
+  }
+
+  @media all and (max-width: 1172px) and (min-width: 960px){
+    #shopify-section-{{ section.id }} .hero-banner .title {font-size: 3.8em}
+  }
+  @media all and (max-width: 960px) and (min-width: 900px){
+    #shopify-section-{{ section.id }} .hero-banner .title {font-size: 3.2em}
+  }
+  
+  @media all and (max-width: 1227px) {
+    #shopify-section-{{ section.id }} .hero-banner:before {height: 78%;}
+    #shopify-section-{{ section.id }} .hero-banner .buttons {padding-top: 1em; flex-direction: column-reverse; align-items: center;}
+    .hero-banner .buttons:before {display: none;}
+    .hero-banner .btn {width: 100%; max-width: 19em; min-width: 1px;}
+    #shopify-section-{{ section.id }} .hero-banner .wrap {padding-left: 2em; padding-right: 0;}
+    #shopify-section-{{ section.id }} .hero-banner .grid.row-reverse .wrap {padding-right: 2em; padding-left: 0;}
+  }
+  
+  @media all and (max-width: 900px){
+    #shopify-section-{{ section.id }} .hero-banner .title {max-width: 12em; font-size: 3em; margin-bottom: 0.3em; line-height: 100%;}
+    #shopify-section-{{ section.id }} .hero-banner:before {height: 32%;}
+    #shopify-section-{{ section.id }} .hero-banner .wrap {width: 100% !important; padding: {{section.settings.text_padding_mobile}};}
+    #shopify-section-{{ section.id }} .hero-banner .block {padding: {{section.settings.section_padding_mobile}};}
+    .hero-banner .grid-full.normal {padding-left: 0;}
+    .hero-banner .grid-full.row-reverse {padding-right: 0;}
+    #shopify-section-{{ section.id }} .hero-banner {padding: {{section.settings.section_padding_mobile}};}
+    .hero-banner .wrapper {padding: 0;}
+    #shopify-section-{{ section.id }} .hero-banner .image-wrap {padding: 0;}
+    #shopify-section-{{ section.id }} .hero-banner .img {height: 0; padding-top: 50%;}
+    .hero-banner .text {font-size: 1em;}
+  }
+  
+  @media all and (max-width: 600px){
+    #shopify-section-{{ section.id }} .hero-banner:before {height: 20em;}
+    .hero-banner .image-wrap {margin: auto;}
+    #shopify-section-{{ section.id }} .hero-banner .img {padding-top: {{section.settings.image_height_mobile}};}
+    #shopify-section-{{ section.id }} .hero-banner .buttons {padding-top: 0.5em;}
+  }
+</style>
+
+<section class="hero-banner">
+  <div {% unless section.settings.full_width %}class="container"{% endunless %}>
+    <div class="grid-full content {{section.settings.image_position}}">
+      {%- if section.settings.image != blank -%}
+      <div class="grid__item image-wrap medium-down--one-whole">
+        <div class="img lazyload" {% if section.settings.image_mobile != blank %}data-bgset="{% include 'lazy_src', image: section.settings.image, small_image: section.settings.image_mobile %}"{% else %}data-bgset="{% include 'lazy_src', image: section.settings.image %}"{% endif %}></div>
+      </div>
+      {%- endif -%}
+      <div class="grid__item wrapper large--flex-1 medium--flex-1 medium-down--one-whole">
+        <div class="wrap text-{{section.settings.text_align}} small--text-{{section.settings.text_align_mobile}}">
+          {%- if section.settings.title != "" -%}
+          <{% if section.settings.title_h1 %}h1{% else %}h2{% endif %} class="title">{{section.settings.title}}</{% if section.settings.title_h1 %}h1{% else %}h2{% endif %}>
+          {%- endif -%}
+          {%- if section.settings.text != blank -%}
+          <div class="text">{{section.settings.text}}</div>
+          {%- endif -%}
+          {%- if section.settings.button != "" or section.settings.button2 != "" -%}
+          <div class="buttons flex justify-content-center">
+            {%- if section.settings.button != "" -%}
+            <a href="{{section.settings.link}}" class="btn {% if section.settings.button2 != "" %}v2{% endif %}">{{section.settings.button}}</a>
+            {%- endif -%}
+            {%- if section.settings.button2 != "" -%}
+            <a href="{{section.settings.link2}}" class="btn">{{section.settings.button2}}</a>
+            {%- endif -%}
+          </div>
+          {%- endif -%}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+  {
+    "name": "Hero Banner",
+    "presets": [
+      {
+        "name": "Hero Banner",
+        "category": "Home"
+      }
+    ],
+	"settings": [
+          {
+            "type": "color",
+            "id": "bg_color",
+            "label": "Background Color",
+            "default": "#F3EEEA"
+          },
+          {
+            "type": "color",
+            "id": "bg_color_bottom",
+            "label": "Background Color (Bottom)",
+            "default": "#ffffff"
+          },
+          {
+            "type": "checkbox",
+            "id": "full_width",
+            "label": "Full Width?",
+            "default": true
+          },
+          {
+            "type": "text",
+            "id": "section_padding_desktop",
+            "label": "Section Padding (Desktop)",
+            "default": "0"
+          },
+          {
+            "type": "text",
+            "id": "section_padding_mobile",
+            "label": "Section Padding (Mobile)",
+            "default": "0"
+          },
+          {
+            "type": "header",
+            "content": "Image Settings"
+          },
+          {
+            "type": "select",
+            "id": "image_position",
+            "label": "Image Position",
+            "options": [
+              {"value": "normal", "label": "Left"},
+              {"value": "row-reverse", "label": "Right"}
+            ],
+            "default": "normal"
+          },
+          {
+            "type": "range",
+            "id": "image_width_",
+            "min": 0,
+            "max": 100,
+            "step": 1,
+            "unit": "%",
+            "label": "Image Width",
+            "default": 50
+          },
+          {
+            "type": "image_picker",
+            "id": "image",
+            "label": "Image"
+          },
+          {
+            "type": "image_picker",
+            "id": "image_mobile",
+            "label": "Image (Mobile Phones)"
+          },
+          {
+            "type": "text",
+            "id": "image_height_mobile",
+            "label": "Image Height (Mobile)",
+			"default": "120%"
+          },
+          {
+            "type": "header",
+            "content": "Text Settings"
+          },
+          {
+            "type": "select",
+            "id": "text_align",
+            "label": "Text Alignment (Desktop)",
+            "options": [
+              {"value": "left", "label": "Left"},
+              {"value": "center", "label": "Center"},
+              {"value": "right", "label": "Right"}
+            ],
+            "default": "left"
+          },
+          {
+            "type": "select",
+            "id": "text_align_mobile",
+            "label": "Text Alignment (Mobile)",
+            "options": [
+              {"value": "left", "label": "Left"},
+              {"value": "center", "label": "Center"},
+              {"value": "right", "label": "Right"}
+            ],
+            "default": "center"
+          },
+          {
+            "type": "range",
+            "id": "text_width",
+            "min": 0,
+            "max": 100,
+            "step": 1,
+            "unit": "em",
+            "label": "Text Width",
+            "default": 40
+          },
+          {
+            "type": "text",
+            "id": "text_padding_desktop",
+            "label": "Text Padding (Desktop)",
+            "default": "3em 0"
+          },
+          {
+            "type": "text",
+            "id": "text_padding_mobile",
+            "label": "Text Padding (Mobile)",
+            "default": "1em 0"
+          },
+          {
+            "type": "color",
+            "id": "title_color",
+            "label": "Title Color",
+            "default": "#314438"
+          },
+          {
+            "type": "textarea",
+            "id": "title",
+            "label": "Title",
+          	"default": "Lorem ipsum dolor."
+          },
+          {
+            "type": "checkbox",
+            "id": "title_h1",
+            "label": "Turn to H1?",
+          	"default": false,
+			"info": "If this is the first section of the homepage."
+          },
+          {
+            "type": "color",
+            "id": "text_color",
+            "label": "Text Color",
+            "default": "#314438"
+          },
+          {
+            "type": "richtext",
+            "id": "text",
+            "label": "Text",
+            "default": "<p>Lorem ipsum dolor sit amet, consectur adipiscing elit. Nunc eu eros augue. Cras tempus finibus mi, at aliquet orci vestibulum sit amet.</p>"
+          },
+          {
+            "type": "header",
+            "content": "Buttons"
+          },
+          {
+            "type": "text",
+            "id": "buttons_margin_top",
+            "label": "Margin Top",
+          	"default": "8em"
+          },
+          {
+            "type": "text",
+            "id": "button",
+            "label": "Button",
+          	"default": "Button #1"
+          },
+          {
+            "type": "url",
+            "id": "link",
+            "label": "Link #1"
+          },
+          {
+            "type": "text",
+            "id": "button2",
+            "label": "Button #2"
+          },
+          {
+            "type": "url",
+            "id": "link2",
+            "label": "Link #2"
+          }
+    ]
+  }
+{% endschema %}

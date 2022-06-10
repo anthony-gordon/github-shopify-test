@@ -1,0 +1,483 @@
+<style>
+  .hero-form h1 {font-size: 2.85em;}
+  .hero-form .img {min-height: 300px; width: 100%; height: 100%; background-size: cover; background-position: center; background-repeat: no-repeat;}
+  .hero-form .wrap {padding: 4em 3.5em 3em;}
+  .hero-form .btn {margin-top: 2em; width: 100%;}
+  .hero-form .form .grid {margin-left: -0.7em;}
+  .hero-form .form .grid__item {position: relative; padding-left: 0.7em; margin-bottom: 0.7em; }
+  .hero-form .form .asterisk:after {content: '*'; font-size: 1.5em; position: absolute; line-height: 100%; top: 55%; right: 0.5em; -webkit-transform: translateY(-50%); transform: translateY(-50%);}
+  .hero-form .form input, .hero-form select {font-size: 1.2em; padding: 1em 1.3em;}
+  .hero-form .form select {min-height: 100%; padding-right: 3em; border: 2px solid; background-color: #fff; background-size: auto 50%;}
+  .hero-form .form ::-webkit-input-placeholder {text-transform: none;}
+  .hero-form .form :-moz-placeholder {text-transform: none;}
+  .hero-form .form ::-moz-placeholder {text-transform: none;}
+  .hero-form .form :-ms-input-placeholder {text-transform: none;}
+  .hero-form .contact-info {font-size: 1.1em; margin-top: 1.8em;}
+  .hero-form .contact-info p {font-weight: 500; display: -webkit-box !important; display: -moz-box !important; display: -ms-flexbox !important; display: -webkit-flex !important; display: flex !important;-webkit-box-align: center;-ms-flex-align: center;align-items: center;}
+  .hero-form .contact-info p:last-child {margin-bottom: 0;}
+  .hero-form .contact-info img {width: 1.5em; margin-right: 0.5em;}
+  .hero-form .or {font-size: 1.2em; font-weight: 700; text-align: center; margin-top: 1em;}
+  .hero-form .btn.schedule {margin-top: 1.5em;}
+  .hero-form .reason-other {margin-bottom: 0.5em;}
+  .hero-form .checkbox-custom-label {font-weight: 500;}
+  .hero-form .checkbox-custom + .checkbox-custom-label:before {letter-spacing: 0; content: ''; background: transparent url({{"checked-white.png" | asset_url}}) no-repeat center; background-size: 0%; border-radius: 1px; border: 2px solid {{settings.content_main_color}}; display: inline-block; vertical-align: middle; width: 1em; height: 1em; margin-right: 0.8em; text-align: center; }
+  .hero-form .checkbox-custom:checked + .checkbox-custom-label:before {background-color: {{settings.content_main_color}}; background-size: 100%;}
+  
+  .contact-success-popup {text-align: center;}
+  .contact-success-popup .title {font-size: 1.9em; font-weight: 700; margin-bottom: 1em;}
+  .contact-success-popup .text {font-size: 1.2em; font-weight: 500;}
+  
+  @media all and (min-width: 900px){
+    .hero-form .wrap {max-width: 46em;}
+  }
+  
+  .image-text {position: relative; }
+  .image-text .wrap {position: relative; margin: auto;}
+  .image-text img {width: 100%;}
+  .image-text .image-wrap {position: relative; z-index: 2;}
+  .image-text .wrapper {padding: 0 2em;}
+  .image-text .img {width: 100%; height: 100%; background-size: cover; background-position: center; background-repeat: no-repeat;}
+  .image-text p {color: inherit;}
+  .image-text p:last-child {margin: 0;}
+  .image-text .btn {margin-top: 2em;}
+  .image-text .title {line-height: 130%;}
+  .image-text .wrap {position: relative; margin: auto;}
+  
+  @media all and (max-width: 900px){
+    .hero-form  {margin-bottom: 2em;}
+    .hero-form .wrap {padding: 2em 20px;}
+    .hero-form h1 {text-align: center;}
+    .hero-form .btn {width: 100%;}
+    .hero-form .success-msg {text-align: center;}
+    .hero-form .error-msg {text-align: center;}
+    
+    .image-text .wrap {width: 100% !important; max-width: 100%; }
+    .image-text .img {height: 0; padding-top: 50%; }
+    .image-text .container {padding: 0;}
+    .image-text .wrapper {padding: 0;}
+    .image-text .btn {width: 100%; max-width: 19em;}
+  }
+  @media all and (max-width: 600px){
+    .image-text .img {padding-top: {{section.settings.image_height_mobile}};}
+    .image-text .image-wrap {margin: auto;}
+  }
+</style>
+
+<div class="contact-page">
+  <section class="hero-form">
+    <div class="grid-full justify-content-center">
+      {%- if section.settings.image != blank -%}
+      <div class="grid__item one-half medium-down--one-whole">
+        <div class="img lazyload" data-bgset="{% include 'lazy_src', image: section.settings.image %}"></div>
+      </div>
+      {%- endif -%}
+      <div class="grid__item one-half medium-down--one-whole">
+        <div class="wrap">
+          {%- if section.settings.title != "" -%}
+          <h1>{{section.settings.title}}</h1>
+          {%- endif -%}
+          <div class="form">
+            {%- form 'contact' -%}
+            <div class="error-msg"></div>
+            <div class="form-wrap">
+              <input type="hidden" id="section" name="contact[section]" value="Contact" />
+              <div class="grid">
+                <div class="grid__item one-half small--one-whole">
+                  <input aria-label="Name" placeholder="Name" id="name" type="text" class="name" name="contact[name]" autocomplete="name" />
+                </div>
+                <div class="grid__item one-half small--one-whole">
+                  <input aria-label="Company Name" placeholder="Company Name" id="company" type="text" class="company" name="contact[company name]" autocomplete="organization" />
+                </div>
+                <div class="grid__item one-half small--one-whole asterisk">
+                  <input aria-label="Email" placeholder="Email" id="email" type="email" class="email required" name="contact[email]" aria-required="true" autocomplete="email" />
+                </div>
+                <div class="grid__item one-half small--one-whole">
+                  <input aria-label="Phone Number" placeholder="Phone Number" id="phone" type="phone" class="phone" name="contact[phone]" autocomplete="tel" />
+                </div>
+                <div class="grid__item one-half small--one-whole">
+                  <input aria-label="Location" placeholder="Location" id="location" type="text" class="location" name="contact[location]" autocomplete="address-level2" />
+                </div>
+                <div class="grid__item one-half small--one-whole">
+                  <input type="hidden" id="message" class="message" name="contact[body]" value="Please contact me." />
+                  <select aria-label="What can we help with?" name="contact[reason]" class="reason" id="reason">
+                    <option value="">What can we help with?</option>
+                    <option value="Discuss a large or corporate order">Discuss a large or corporate order</option>
+                    <option value="Questions about the furniture">Questions about the furniture</option>
+                    <option value="Discuss a current order">Discuss a current order</option>
+                    <option value="Get a free corporate space plan">Get a free corporate space plan</option>
+                    <option value="Book a showroom visit">Book a showroom visit</option>
+                    <option value="Other">Other</option>
+                  </select>
+                </div>
+              </div>
+              <div class="hide reason-other">
+                <input type="text" id="reason-other" placeholder="Reason" aria-label="Reason" />
+              </div>
+              {%- if settings.use_klaviyo_form -%}
+              <div class="sign-up">
+                <input class="checkbox checkbox-custom" type="checkbox" id="sign-up-to-newsletter" /><label class="checkbox-custom-label flex align-items-center" for="sign-up-to-newsletter">Subscribe to Branch Newsletter</label>
+              </div>
+              {%- endif -%}
+              <button type="submit" class="btn">Submit</button>
+            </div>
+            {%- endform -%}
+          </div>
+          <div class="or">or</div>
+          <a target="_blank" href="https://calendly.com/branchfurniture/showroom-tour" class="btn schedule">Visit Showroom</a>
+          {%- if section.settings.info != blank -%}
+          <div class="contact-info">
+           {{section.settings.info | replace: 'icon-phone', '<img src="https://cdn.shopify.com/s/files/1/0124/5662/4187/files/ic-phone.png?17317" alt="">' | replace: 'icon-location', '<img src="https://cdn.shopify.com/s/files/1/0124/5662/4187/files/icon-map.png?10938" alt="">' | replace: 'icon-email', '<img src="https://cdn.shopify.com/s/files/1/0124/5662/4187/files/icon-envelope.png?10938" alt="">' | replace: 'icon-time', '<img src="https://cdn.shopify.com/s/files/1/0124/5662/4187/files/icon-clock.png?10938" alt="">'}}
+          </div>
+          {%- endif -%}
+        </div>
+      </div>
+    </div>
+  </section>
+  <div class="hide">
+    <div class="contact-success-popup">
+      <a class="close-icon" href="#" onclick="modal.close();return false;">{% include 'icons', icon: 'close' %}</a>
+      <div class="title">Thank you!</div>
+      <div class="text">We'll be in touch ASAP</div>
+    </div>
+  </div>
+  <script>
+    $(function(){
+      var contact_posted = Simplistic.getQueryParam('contact_posted');
+      if(contact_posted){
+        Simplistic.openModal($('.contact-success-popup'), 'regular');
+      }
+
+      $('.contact-page .hero-form .reason').change(function(){
+        if($(this).val() == "Other"){
+        	$('.contact-page .hero-form .reason-other').show().find('input').attr('name', 'contact[other reason]');
+        }else{
+        	$('.contact-page .hero-form .reason-other').hide().find('input').attr('name', null);
+        }
+      });
+      
+      var sendForm = function(form){
+        $.ajax({
+          url: form.attr('action'),
+          data: form.serialize(),
+          type: 'POST'
+        }).done(function(data){
+          if (typeof(data)=='string' && data.indexOf('property="og:title" '+'content="Challenge"')>-1) {
+          	form.unbind("submit");
+          	form.submit();
+          } else {
+          	Simplistic.openModal($('.contact-success-popup'), 'regular');
+          }
+        }).error(function(){
+          form.unbind("submit");
+          form.submit();
+        });   
+      }
+      
+      $('.contact-page .hero-form form').submit(function(e){
+        e.preventDefault();
+        e.stopImmediatePropagation();
+        var form = $(this);
+        
+        if(form.data('validated') != "true" && form.data('processing') != "true"){
+          form.data('processing', 'true'); 
+          
+          var error = false;
+
+          form.find('.error-msg').hide();
+          form.find('.error').removeClass('error');
+
+          form.find('.required').each(function(){
+            if($(this).val()=="") {
+              error = true;
+              $(this).addClass('error');
+            }
+          });
+          if(error){
+            form.find('.error-msg').show().text('Please complete all the required fields.');
+          }else{
+            if(!Simplistic.validateEmail(form.find('.email').val())) {
+              error = true;
+              form.find('.email').addClass('error');
+              form.find('.error-msg').show().text('Please provide a valid email address.');
+            }
+          }
+          if(error) {
+            form.data('processing', 'false'); 
+            return false;
+          }else{
+            form.data('validated', 'true');
+            
+            {% if settings.use_klaviyo_form %}
+              if($('#sign-up-to-newsletter').is(':checked')){
+                $.ajax({
+                  data: {'g': '{{settings.klaviyo_list_id}}', '$fields': 'source', 'source': 'Shopify Contact Page', 'email': form.find('.email').val()},
+                  url: '//manage.kmail-lists.com/ajax/subscriptions/subscribe',
+                  type: 'POST'
+                }).always(function(){
+                   sendForm(form);   
+                });  
+              }else{
+                 sendForm(form);   
+              }
+            {% else %}
+              sendForm(form);
+            {% endif %}
+          }
+        }
+      });
+    });
+  </script>
+  
+  {%- for block in section.blocks -%}
+  <section id="block-{{block.id}}" class="image-text {% if block.settings.image != blank %}with-image{% endif %}">
+    <style>
+      #block-{{block.id}} {padding: {{block.settings.section_padding_desktop}}; background-color: {{block.settings.bg_color}};}
+      #block-{{block.id}} .title {color: {{block.settings.title_color}};}
+      #block-{{block.id}} .text {color: {{block.settings.text_color}};}
+      #block-{{block.id}} .wrap {max-width: {{block.settings.text_width}}em; padding: {{block.settings.text_padding_desktop}};}
+      #block-{{block.id}}:not(.with-image) .text-column {background-color: {{block.settings.text_bg_color}};}
+      #block-{{block.id}}.with-image .text-column:before {content: ''; background-color: {{block.settings.text_bg_color}}; position: absolute; top: 0; right: 0; height: 100%; {% if block.settings.text_bg_extend %}width: calc({{100 | minus: block.settings.image_width_ }}% + 6em){% else %}width: {{100 | minus: block.settings.image_width_ }}%{% endif %}; }
+      #block-{{block.id}}.with-image .row-reverse .text-column:before {right: auto; left: 0;}
+      @media all and (min-width: 901px){
+        #block-{{block.id}} .image-wrap {width: {{block.settings.image_width_}}%; }
+        #block-{{block.id}}:not(.with-image) .text-column {background-color: {{block.settings.text_bg_color}};}
+        #block-{{block.id}}.with-image .text-column:before {content: ''; background-color: {{block.settings.text_bg_color}}; position: absolute; top: 0; right: 0; height: 100%; {% if block.settings.text_bg_extend %}width: calc({{100 | minus: block.settings.image_width_ }}% + 6em){% else %}width: {{100 | minus: block.settings.image_width_ }}%{% endif %};}
+        #block-{{block.id}}.with-image .row-reverse .text-column:before {right: auto; left: 0;}
+        #block-{{block.id}} .title {font-size: {{block.settings.title_size}};}
+        #block-{{block.id}} .text {font-size: {{block.settings.text_size}};}
+      }
+      @media all and (max-width: 900px){
+        #block-{{block.id}} {padding: {{block.settings.section_padding_mobile}};}
+        #block-{{block.id}} .wrap {padding: {{block.settings.text_padding_mobile}};}
+        #block-{{block.id}}.with-image .text-column:before {width: 100%; left: 0; top: 11em; {% if block.settings.button != "" %}bottom: 4.5em;{% else %}bottom: 0{% endif %}; height: auto;}
+      }
+      @media all and (max-width: 600px){
+        #block-{{block.id}} .img {padding-top: {{block.settings.image_height_mobile}};}
+      }
+    </style>
+    <div {% unless block.settings.full_width %}class="container"{% endunless %}>
+      <div class="grid-full content {{block.settings.image_position}}">
+        {%- if block.settings.image != blank -%}
+        <div class="grid__item image-wrap medium-down--one-whole">
+          <div class="img lazyload" data-bgset="{% include 'lazy_src', image: block.settings.image %}"></div>
+        </div>
+        {%- endif -%}
+        <div class="grid__item text-column wrapper large--flex-1 medium--flex-1 medium-down--one-whole">
+          <div class="wrap text-{{block.settings.text_align}} medium-down--text-{{block.settings.text_align_mobile}}">
+            {%- if block.settings.title != "" -%}
+            <h2 class="title">{{block.settings.title}}</h2>
+            {%- endif -%}
+            {%- if block.settings.text != blank -%}
+            <div class="text">{{block.settings.text}}</div>
+            {%- endif -%}
+            {%- if block.settings.button != "" -%}
+            <a href="{{block.settings.link}}" class="btn">{{block.settings.button}}</a>
+            {%- endif -%}
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  {%- endfor -%}
+</div>
+
+{% schema %}
+  {
+    "name": "Contact",
+    "presets": [
+      {
+        "name": "Contact",
+        "category": "Page"
+      }
+    ],
+	"settings": [
+          {
+            "type": "image_picker",
+            "id": "image",
+            "label": "Image"
+          },
+          {
+            "type": "textarea",
+            "id": "title",
+            "label": "Title",
+          	"default": "Let's Talk Office Furniture"
+          },
+          {
+            "type": "richtext",
+            "id": "info",
+            "label": "Contact Info",
+			"default": "<p>icon-location 45 W 28th Street<\/p><p>icon-email <a href='mailto:sales@bureaunetwork.com'>sales@bureaunetwork.com<\/a><\/p><p>icon-time 9AM-6PM Eastern Time, Monday-Friday<\/p>"
+          }
+    ],
+    "blocks": [
+      {
+        "type": "image_text",
+        "name": "Image Text",
+        "settings": [
+          {
+            "type": "color",
+            "id": "bg_color",
+            "label": "Background Color",
+            "default": "#ffffff"
+          },
+          {
+            "type": "checkbox",
+            "id": "full_width",
+            "label": "Full Width?",
+            "default": true
+          },
+          {
+            "type": "text",
+            "id": "section_padding_desktop",
+            "label": "Section Padding (Desktop)",
+            "default": "0"
+          },
+          {
+            "type": "text",
+            "id": "section_padding_mobile",
+            "label": "Section Padding (Mobile)",
+            "default": "0"
+          },
+          {
+            "type": "select",
+            "id": "image_position",
+            "label": "Image Position",
+            "options": [
+              {"value": "normal", "label": "Left"},
+              {"value": "row-reverse", "label": "Right"}
+            ],
+            "default": "normal"
+          },
+          {
+            "type": "range",
+            "id": "image_width_",
+            "min": 0,
+            "max": 100,
+            "step": 1,
+            "unit": "%",
+            "label": "Image Width",
+            "default": 50
+          },
+          {
+            "type": "image_picker",
+            "id": "image",
+            "label": "Image"
+          },
+          {
+            "type": "text",
+            "id": "image_height_mobile",
+            "label": "Image Height (Mobile)",
+			"default": "60%"
+          },
+          {
+            "type": "header",
+            "content": "Text Settings"
+          },
+          {
+            "type": "color",
+            "id": "text_bg_color",
+            "label": "Text Background Color",
+            "default": "#F3EEEA"
+          },
+          {
+            "type": "checkbox",
+            "id": "text_bg_extend",
+            "label": "Extend the background 10% behind the image?",
+            "default": true
+          },
+          {
+            "type": "select",
+            "id": "text_align",
+            "label": "Text Alignment (Desktop)",
+            "options": [
+              {"value": "left", "label": "Left"},
+              {"value": "center", "label": "Center"},
+              {"value": "right", "label": "Right"}
+            ],
+            "default": "left"
+          },
+          {
+            "type": "select",
+            "id": "text_align_mobile",
+            "label": "Text Alignment (Mobile)",
+            "options": [
+              {"value": "left", "label": "Left"},
+              {"value": "center", "label": "Center"},
+              {"value": "right", "label": "Right"}
+            ],
+            "default": "center"
+          },
+          {
+            "type": "range",
+            "id": "text_width",
+            "min": 0,
+            "max": 100,
+            "step": 1,
+            "unit": "em",
+            "label": "Text Width",
+            "default": 40
+          },
+          {
+            "type": "text",
+            "id": "text_padding_desktop",
+            "label": "Text Padding (Desktop)",
+            "default": "3em 0"
+          },
+          {
+            "type": "text",
+            "id": "text_padding_mobile",
+            "label": "Text Padding (Mobile)",
+            "default": "3em 20px"
+          },
+          {
+            "type": "color",
+            "id": "title_color",
+            "label": "Title Color",
+            "default": "#314438"
+          },
+          {
+            "type": "textarea",
+            "id": "title",
+            "label": "Title",
+          	"default": "Lorem ipsum dolor."
+          },
+          {
+            "type": "text",
+            "id": "title_size",
+            "label": "Title Size",
+            "default": "2.8em;"
+          },
+          {
+            "type": "color",
+            "id": "text_color",
+            "label": "Text Color",
+            "default": "#314438"
+          },
+          {
+            "type": "richtext",
+            "id": "text",
+            "label": "Text",
+            "default": "<p>Lorem ipsum dolor sit amet, consectur adipiscing elit. Nunc eu eros augue. Cras tempus finibus mi, at aliquet orci vestibulum sit amet.</p>"
+          },
+          {
+            "type": "text",
+            "id": "text_size",
+            "label": "Text Size",
+            "default": "1.12em;"
+          },
+          {
+            "type": "text",
+            "id": "button",
+            "label": "Button",
+          	"default": "Button"
+          },
+          {
+            "type": "url",
+            "id": "link",
+            "label": "Link"
+          }
+		]
+	  }
+    ]
+  }
+{% endschema %}

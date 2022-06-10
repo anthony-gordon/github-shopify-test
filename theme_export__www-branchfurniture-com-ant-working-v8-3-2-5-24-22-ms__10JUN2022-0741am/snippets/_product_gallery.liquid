@@ -1,0 +1,81 @@
+<div class="product-gallery clearfix {% if settings.product_thumbs_slide == 'vertical' %}vertical {% endif %}{% if currentProduct.images.size > 0 %}{% if settings.main_image_display == 'Zoom-in' or settings.main_image_display == 'Both' %}zoom-in{% endif %}{% endif %}">
+ <div id="stickygallery">
+  <div class="main-images slick-pending {% if settings.product_thumbs_slide == 'vertical' and currentProduct.images.size > 1 %}right five-sixths medium-down--one-whole{% endif %}">
+    
+    {%- for media in currentProduct.media -%}
+      {%- capture groupingData -%}
+          {%- render '_product_gallery_grouping_data', media: media, index: forloop.index -%}
+        {%- endcapture -%}
+
+      <div class="active-wrapper slide" {{ groupingData }} data-media-id="{{media.id}}">
+          {%- case media.media_type -%}
+              {% when 'video' %}
+                   <div class="video-wrap local-video" style="padding-top: {{ 1 | divided_by: media.aspect_ratio | times: 100}}%;">
+                      {{ media | video_tag: controls: true, image_size: "1024x" }}
+                     <div class="custom-video-play">
+                       <button class="custom-video-play-button" aria-label="Play">{% include 'youtube_play_icon' %}</button>
+                     </div>
+                   </div>
+              {% when 'external_video' %}
+                  <div class="video-wrap external-video" style="padding-top: {{ 1 | divided_by: media.aspect_ratio | times: 100}}%;">
+                    {{ media | external_video_tag }}
+                    <div class="custom-video-play">
+                      <button class="custom-video-play-button" aria-label="Play">{% include 'youtube_play_icon' %}</button>
+                    </div>
+                  </div>
+              {% when 'image' %}
+
+                {%- assign alt = media.alt | split: " || " | last -%}
+              
+                {%- if quickView == true -%}
+                  {%- assign imgSize = '500x500' -%}
+                {%- else -%}
+                  {%- assign imgSize = '1000x1000' -%}
+                {%- endif -%}
+
+                <div class="active-wrapper slide" {{ groupingData }}>
+                  {%- if quickView != true -%}
+                    {%- if settings.main_image_display == 'Lightbox' or settings.main_image_display == 'Both' -%}
+                      <a href="{{ media | product_img_url: imgSize }}" class="productImage">
+                    {%- endif -%}
+                 {%- endif -%}
+                  <div><img data-original-src="{{ media | product_img_url: 'master' }}" src="{{ media | product_img_url: imgSize }}" class="large-thumb" itemprop="imamediage" alt="{% unless alt contains 'plp' %}{{alt}}{% endunless %}" /></div>
+                  {%- if quickView != true -%}
+                    {%- if settings.main_image_display == 'Lightbox' or settings.main_image_display == 'Both' -%}
+                      </a>
+                    {%- endif -%}
+                  {%- endif -%}
+                </div>
+
+          {%- endcase -%}
+        </div>
+    {%- endfor -%}
+
+  </div>
+
+  {%- if currentProduct.images.size > 1 -%}
+    <div class="thumbs-wrapper {% if settings.product_thumbs_slide == 'vertical' %}left one-sixth medium-down--one-whole{% endif %}">
+      <div class="thumbs slick-pending switch">
+        
+        {%- for media in currentProduct.media -%}
+          {%- capture groupingData -%}
+            {%- render '_product_gallery_grouping_data', media: media, index: forloop.index -%}
+          {%- endcapture -%}
+          {%- assign image = media.preview_image -%}
+
+          <div class="slide {% if media.media_type contains 'video' %}video-thumb-wrapper{% endif %}" {{ groupingData }}>
+            <a class="gallery {% if media.media_type contains 'video' %}video-thumb{% endif %}" href="{{ image | product_img_url: imgSize }}" data-media-id="{{media.id}}" variant-id="{{ image.variants.first.id }}" aria-label="{% if image.variants != blank %}{{ currentProduct.title }} - {{ image.variants.first.title }}{% endif %}">
+              {% if media.media_type contains 'video' %}
+              <div class="video-thumb-overlay"></div>
+              <svg fill="#8dc0d2" enable-background="new 0 0 477.886 477.886" viewBox="0 0 477.886 477.886" xmlns="http://www.w3.org/2000/svg"><path d="m476.091 231.332c-1.654-3.318-4.343-6.008-7.662-7.662l-443.734-221.866c-8.431-4.214-18.682-.794-22.895 7.638-1.185 2.371-1.801 4.986-1.8 7.637v443.733c-.004 9.426 7.633 17.07 17.059 17.075 2.651.001 5.266-.615 7.637-1.8l443.733-221.867c8.436-4.205 11.866-14.452 7.662-22.888z"/></svg>
+              {% endif %}
+              <img src="{{ image | product_img_url: '150x' }}" alt="" loading="lazy" />
+            </a>
+          </div>
+        {%- endfor -%}
+
+      </div>
+    </div>
+  {%- endif -%}
+ </div>
+</div>

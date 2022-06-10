@@ -1,0 +1,113 @@
+/* Order summary table */
+.order-summary-title h1 {
+  font-family: 'Frank Ruhl Libre', serif;
+  margin-top: 1em;
+  color: #314438;
+}
+
+.section-title {
+  margin-bottom: 1em;
+  border-bottom: 1px solid #ccc;
+}
+
+/* Trust badges */
+.trust-badges {
+  margin-top: 1em;
+}
+
+.trust-badges .container {
+  position: relative;
+  width: calc(100% + 25px);  
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.trust-badges h2 { 
+  font-weight: bold;
+  font-size: 1.1em;
+}
+
+.trust-badges .container .trust-badge-wrap {
+  display: flex;  
+  align-items: flex-start;
+}
+
+.trust-badges .container .trust-badge {
+  width: calc(50% - 10px);
+  float: left;
+  padding: 5px;
+  margin-bottom: 10px;
+}
+
+.trust-badges .container .trust-badge img {
+  max-width: 35px;
+}
+
+.trust-badges .container .trust-badge .text {
+  padding: 0 10px;
+  font-size: 80%;
+  margin-left: 5px;
+}
+
+.clearfix {
+  clear: both;
+}
+
+/* customer reviews */
+#shopify-section-checkout-trust-badges + #shopify-section-checkout-customer-ratings {
+  margin: 1em 0 2.5em;
+}
+
+.customer-reviews .section-title {
+  font-size: 1.25em;
+  font-weight: bold;
+  padding-bottom: 5px;
+  margin-bottom: 10px;
+}
+
+.customer-reviews .review {
+  margin-bottom: 1.75em;
+}
+
+.customer-reviews .review h2 {
+  font-size: 1em;
+  font-weight: bold;
+  margin: 5px 0;
+  margin-bottom: 1em;
+}
+
+@media (min-width: 1000px) {
+  .order-summary__sections {
+    height: 100%;
+  }
+  
+  .order-summary-title h1 {
+    margin-bottom: 1em;
+  }  
+}
+
+/* need help */
+.need-help {
+  margin: 2em 0;
+}
+
+.need-help a {
+  color: #314438;
+  text-decoration: underline;
+}
+
+/* Mobile/Desktop */
+.hide-mobile {
+  display: none !important;
+}
+
+@media (min-width: 1000px) {
+  .hide-desktop {
+    display: none !important;
+  }
+}
+
+
+#continue_button:disabled {
+  background-color: #e0e0e0;
+}

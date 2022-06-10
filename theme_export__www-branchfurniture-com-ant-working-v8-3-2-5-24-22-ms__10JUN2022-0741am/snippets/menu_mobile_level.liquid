@@ -1,0 +1,20 @@
+{%- for child_link in parent_link.links -%}
+  <div class="medium--one-third small--one-half item{% if child_link.links != blank %} has-dropdown{% endif %}"{% if child_link.links != blank %} aria-haspopup="true"{% endif %}>
+    <a href="{{ child_link.url }}">
+      <div class="menu-mobile-image-item menu-mobile-{{ child_link.title | downcase | replace: ' ', '-' }}"></div>
+    </a>
+    <a class="child-title text-center" href="{{ child_link.url }}" {% if child_link.url == "#" %}onclick="$(this).next('.icon').click(); return false;"{% endif %}>
+      {{ child_link.title | escape }}
+    </a>
+    {%- if child_link.links != blank -%}
+    {% comment %}
+    {%- include 'icons', icon: 'arrow-down' -%}
+    {% endcomment %}
+                {% include 'custom-plus' %}
+              {% include 'custom-minus' %}
+    <div class="submenu">
+      {%- include 'menu_mobile_level', parent_link: child_link -%}
+    </div>
+    {%- endif -%}
+  </div>
+{%- endfor -%}

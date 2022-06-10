@@ -1,0 +1,42 @@
+{% assign show_desktop = section.settings.desktop_enable %}
+{% assign show_mobile = section.settings.mobile_enable %}
+
+{% if section.settings.need_help_content != blank %}
+<div class="need-help{% if show_desktop == false %} hide-desktop{% endif %}{% if show_mobile == false %} hide-mobile{% endif %}">
+  <div class="container">
+    {{ section.settings.need_help_content }}
+  </div>
+</div>
+{% endif %}
+
+{% schema %}
+  {
+    "name": "Checkout Need Help",
+    "settings": [
+      {
+        "type": "richtext",
+        "id": "need_help_content",
+        "label": "Content",
+        "default": "<p>Need Help? <a href='#chat'>Chat Now</a> or <strong>call us at </strong><a href='tel:888-888-8888'><strong>888-888-8888<strong></strong></strong></a></p>"
+      }, 
+	  {
+		"type": "checkbox",
+		"label": "Enable Need Help (Desktop)",
+		"id": "desktop_enable",
+		"default": true
+	  },
+	  {
+		"type": "checkbox",
+		"label": "Enable Need Help (Mobile)",
+		"id": "mobile_enable",
+		"default": true
+	  }
+	]
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

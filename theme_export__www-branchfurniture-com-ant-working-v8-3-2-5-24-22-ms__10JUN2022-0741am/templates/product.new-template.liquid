@@ -1,0 +1,99 @@
+{% render 'shogun-products', content: product %}
+{% include 'shogun-products', content: product -%}
+{%- include '_product-new-template' -%}
+{%- section 'pdp_popups_banner' -%}
+{{product.metafields.shogun.above}}
+{%- include 'pdp_features' -%}
+{{product.metafields.shogun.below}}
+{%- section 'pdp_logos' -%}
+{%- section 'image_text' -%}
+{%- section 'pdp_related_products' -%}
+{%- section 'pdp_recently_viewed' -%}
+{%- section 'pdp_reviews' -%}
+
+
+<div id="stamped-main-widget" 
+data-widget-style="standard"
+data-product-id="{{ product.id }}" 
+data-name="{{ product.title | escape }}" 
+data-url="{{ shop.url }}{{ product.url }}" 
+data-image-url="{{ product.featured_image | product_img_url: "large" |replace: '?', '%3F' | replace: '&','%26'}}" 
+data-description="{{ product.description | escape }}" 
+data-product-sku="{{product.handle}}"
+     data-offset="100"> 
+</div>
+
+
+
+
+<script>
+//     $(function(){
+// //     var mm2 = $(".custom-main-menu2").html();
+// //     setTimeout(function(){
+// //       $(".custom-header-drop2").html(mm2);
+// //     }, 500);
+// //     $(".mega-menu-trigger").hover(function(){
+// //       alert("asadas");
+// //     });
+//       $(document).on('mouseenter mouseleave', '.mega-menu-trigger', function (e) {
+//         e.stopPropagation();
+//         var $this = $(this);
+// //         setTimeout(function () {
+//           $this.children(".submenu").stop(true, true).slideToggle();
+//         $this.children("i").toggleClass("custom-header-icon-drop-toggle");
+// //         }, 500);
+//       });
+      
+//       setTimeout(function(){
+//       $(".main-menu .item").each(function(){
+//         if($(this).hasClass("mega-menu-trigger")){
+//           var a = $(this).children("a");
+//           a.html(a.text() + ' <i class="fa fa-caret-down custom-header-icon-drop"></i>');
+//         }
+//       });
+//         }, 500);
+// //     $(document).on('mouseenter mouseleave', '.main-menu .item', function () {
+// //       $(this).children("a").children("i").toggleClass("custom-header-icon-drop-toggle");
+// //     });
+
+//     });
+</script>
+
+  <!-- Klaviyo Product Viewed Script  -->
+<script type="text/javascript">
+  var _learnq = _learnq || [];
+  var item = {
+    $value: {{ product.price|divided_by:100.0|json }},
+    Name: {{ product.title|json }},
+    ProductID: {{ product.id|json }},
+    Categories: {{ product.collections|map:'title'|json }},
+    ImageURL: "https:{{ product.featured_image.src|img_url:'grande' }}",
+    URL: "{{ shop.secure_url }}{{ product.url }}",
+    Brand: {{ product.vendor|json }},
+    Price: {{ product.price|money|json }},
+    CompareAtPrice: {{ product.compare_at_price_max|money|json }}
+  };
+  _learnq.push(['track', 'Viewed Product', item]);
+  _learnq.push(['trackViewedItem', {
+    Title: item.Name,
+    ItemId: item.ProductID,
+    Categories: item.Categories,
+    ImageUrl: item.ImageURL,
+    Url: item.URL,
+    Metadata: {
+      Brand: item.Brand,
+      Price: item.Price,
+      CompareAtPrice: item.CompareAtPrice
+    }
+  }]);
+</script>
+<!-- End of Klaviyo Product Viewed Script -->
+
+<!-- Klaviyo added to cart script -->
+
+<script type="text/javascript">
+var _learnq = _learnq || [];
+	document.getElementById("add-to-cart-button").addEventListener('click',function (){
+ 		_learnq.push(['track', 'Added to Cart', item]);
+	});</script>
+<!-- End of Klaviyo Product added to cart script -->

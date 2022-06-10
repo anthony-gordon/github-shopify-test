@@ -1,0 +1,65 @@
+<style>
+  .image-text {position: relative; text-align: left;}
+  .image-text .text-layer .container {height: 100%;}
+  .image-text .text-layer .container .grid-full {height: 100%;}
+  .image-text .title {color: inherit; max-width: 10em; letter-spacing: 0.02em; margin-bottom: 0.5em;}
+  .image-text .img {width: 100%; background-size: cover; background-position: center; background-repeat: no-repeat;}
+  .image-text p {color: inherit; }
+  .image-text p:last-child {margin: 0;}
+  .image-text .captions {padding: 0 1.5em;}
+  .image-text .btn {margin-top: 2.5em; white-space: nowrap; min-width: 13em;}
+  .image-text p a {text-decoration: underline;}
+
+  #block-collection-custom-text-image {padding: 0 0; }  
+  #block-collection-custom-text-image .text-layer {padding: 0 0;}  
+
+  #block-collection-custom-text-image .image-layer {background: #314438;}
+  #block-collection-custom-text-image .img {padding-top: 60%;}
+  #block-collection-custom-text-image .captions {max-width: 38em; padding: 3em 4em 3em 0;}
+  @media all and (min-width: 900px){
+    #block-collection-custom-text-image .text-layer {position: absolute; top: 0; height: 100%; width: 100%; left: 0; }  
+    #block-collection-custom-text-image .title {font-size: 2.57em;}
+    #block-collection-custom-text-image .text {font-size: 1.25em;}
+  }
+  @media all and (max-width: 900px){
+    #block-collection-custom-text-image {padding: 1.5em 0 0;}
+    #block-collection-custom-text-image .captions {padding: 2em 1.5rem 3em;}
+    #block-collection-custom-text-image .img {padding-top: 60%;}
+    #block-collection-custom-text-image .image-layer {padding: 0 1.5em; background: transparent; position: relative;}
+    #block-collection-custom-text-image .image-layer:before {content: ''; background: #314438; display: block; position: absolute; bottom: 0; height: 50%; width: 100%; left: 0;}
+    #block-collection-custom-text-image .image-layer .img {position: relative;}
+    #block-collection-custom-text-image .text-layer {padding: 0; background: #314438;} 
+    #block-collection-custom-text-image .title {font-size: 2.14em;}
+  }
+</style>
+<section class="image-text" id="block-collection-custom-text-image">
+  <div class="grid-full image-layer align-items-center row-reverse">
+    {%- if collection.image != blank -%}
+    <div class="grid__item image one-half medium-down--one-whole">
+      <div class="img lazyload" data-bgset="{% include 'lazy_src', image: collection.image %}"></div>
+    </div>
+    {%- endif -%}
+    <div class="grid__item content one-half medium-down--hide">
+    </div>
+  </div>
+  <div class="text-layer">
+    <div class="container">
+      <div class="grid-full align-items-center row-reverse">
+        {%- if collection.image != blank -%}
+        <div class="grid__item image one-half medium-down--hide">
+        </div>
+        {%- endif -%}
+        <div class="grid__item content one-half medium-down--one-whole">
+          <div class="captions" style="color: #ffffff">
+            {%- if collection.title != "" -%}
+            <h1 class="title">{{ collection.title }}</h1>
+            {%- endif -%}
+            {%- if collection.description != "" -%}
+            <div class="text">{{ collection.description }}</div>
+            {%- endif -%}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

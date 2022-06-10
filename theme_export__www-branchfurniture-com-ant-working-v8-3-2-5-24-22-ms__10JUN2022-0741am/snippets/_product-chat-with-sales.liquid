@@ -1,0 +1,684 @@
+<style>
+  #header.header,
+  .header-drop {background-color:#fff!important}
+
+  .tingle-modal.quick-view .quick-view {max-width: 70em;}
+
+  .product-wrap {margin: 1.5em auto 3em; overflow: visible; max-width: 95%;}
+  .product-wrap .product-info {width:{{ settings.right_column_width }}; padding:0em 0 1em 4em;align-self: flex-start; position: sticky; position: -webkit-sticky; top: 130px;}
+  .product-wrap .product-info .form-wrapper {min-width: 420px; width: 88.5%;}
+  .product-wrap .title-price {margin-bottom: 1.3em;}
+  .product-wrap .title {margin: 0; font-size:2.857em; letter-spacing: -0.03em;}
+  .product-wrap .stamped-badge-starrating .stamped-fa {color: {{settings.content_third_color}}!important}
+  .product-wrap .price {font-size: 1.429em; white-space: nowrap; font-weight: bold; letter-spacing: 0;}
+  .product-wrap .price .retail {display: inline-block; margin-right: 0.4em; text-decoration:line-through;opacity:0.4;font-weight:normal}  
+  .product-wrap .price .deal {display: inline-block; }
+  .product-wrap .traprice {font-size:0.857em;background-color:#F3F3F3;padding: 0.1em 0.4em; margin-left: 0.5em;}
+  .product-wrap .qty-btn-wrap {margin: 1em 0 1em;}
+  .product-wrap .quantity-box {display: inline-block; padding-right: 0.8em;} 
+  .product-wrap .quantity-box input[type=number] {border:0;font-size:1.143em;width:2em}
+  .product-wrap .quantity-box button {font-size:1.143em}
+  .product-wrap .quantity-box>div {height: 100%;border-width:1px}
+  .product-wrap .btn {width: 100%; font-size: 1em; padding-left: 5px; padding-right: 5px;}
+  .product-wrap .options .selector-wrapper {margin-bottom: 2em;}
+  .product-wrap .options label {margin-right: 0.8em; font-weight: {{ settings.body_font_weight }}; font-style: {{ settings.body_font_style }}; color: {{ settings.content_text_color}}; }
+  .product-wrap .options label.single {margin-bottom: 1em; display: block;}
+  .product-wrap .options .select-variant {display: none;margin-bottom: 2em;}
+  .product-wrap .availability {margin: 1em 0;text-align:center;}
+  .product-wrap .availability .unavailable {display: none;}
+  .product-wrap .availability a {text-decoration: none; border-bottom: 1px solid;}
+  .product-wrap .availability span {position:relative;font-size:0.929em}
+  .product-wrap .availability span:before {content:'';display:inline-block;border-radius:100%;width:8px;height:8px;background:{{settings.content_third_color}};margin-right:0.5em}
+  .product-wrap .description {margin-bottom: 2em;}
+  .product-wrap .description a {text-decoration: none; border-bottom: 1px solid {{settings.content_third_color}};}
+  .product-wrap .description p {margin-bottom: 0.5em;}
+  .product-wrap .description ul {list-style-position: inside; margin-bottom: 1em;}
+
+  .product-wrap .product-tabs .tabs {border-bottom:1px solid {{settings.content_main_color | color_modify: 'alpha', 0.15}};margin-top:1.5em}
+  .product-wrap .product-tabs .tabs .tab {font-size:0.857em; letter-spacing: 0.06em; font-weight:bold;text-transform:uppercase;opacity:0.5;margin-left:2.4em;border-bottom:3px solid transparent}
+  .product-wrap .product-tabs .tabs .tab:first-child {margin-left:0}
+  .product-wrap .product-tabs .tabs .tab.active {opacity:1;border-bottom:3px solid {{settings.content_third_color}}}
+  .product-wrap .product-tabs .tabs-content {padding-top:1em;line-height:150%}
+  .product-wrap .product-tabs .tabs-content .content {opacity:0;display:none}
+  .product-wrap .product-tabs .tabs-content .content.active {opacity:1;display:block}
+  .product-wrap .product-tabs .tabs-content .content li {text-indent: -20px;margin-left:20px;}
+
+
+  .product-wrap .display-afirm-with-clyde {display: flex; flex-direction: column-reverse;font-size:0.857em}
+  .product-wrap .display-afirm-with-clyde > div {width:100%}
+  .product-wrap .display-afirm-with-clyde .separator {display:none}
+  .product-wrap .display-afirm-with-clyde .product-clyde {display: flex; justify-content: center;}
+  .product-wrap .display-afirm-with-clyde .product-clyde .clyde-pdp--simple {height:auto}
+  .product-wrap .display-afirm-with-clyde .product-clyde .logodiv {padding-top:4px}
+  .product-wrap .display-afirm-with-clyde .product-clyde .addtext span {font-weight:bold;text-decoration:underline}
+  .product-wrap .display-afirm-with-clyde .product-clyde .pricewrapper {font-weight:initial}
+  .product-wrap .product-clyde .clyde-pdp--simple:hover .prompttext .pricewrapper {border:0}
+  .product-wrap .display-afirm-with-clyde .large-order {    display: flex; justify-content: center;}
+  .product-wrap .display-afirm-with-clyde .large-order a {font-weight:600;text-decoration:underline}
+
+  .product-wrap .get-quote {margin-top:1em;background:#f3eeea;padding:1.2em 2em 1.5em;display:flex;align-items:center;letter-spacing:normal}
+  .product-wrap .get-quote div.icon {font-size:2.3em;margin-right:1em}
+  .product-wrap .get-quote .title {font-size:1em;font-weight:bold}
+  .product-wrap .get-quote .text {font-size:0.857em;line-height:150%}
+  .product-wrap .get-quote a {font-weight:bold;border-bottom:2px solid {{settings.content_third_color}}}
+
+  /*.product-wrap .description > *:not(:first-child) {display: none;}*/
+  .product-wrap .description .read-more {margin-left: 5px;} .product-wrap .description .read-less {margin-left: 0;}
+  .product-wrap .large-order {text-align: center; margin-left: auto;}
+  .product-wrap .large-order a {text-decoration: none;}
+  a.read-less {display: block;width: 5.2em; margin-top: 10px;}
+  {%- unless settings.product_thumbs_slide == 'vertical' -%}
+  .product-wrap .slick-track {display: flex; display: -webkit-flex; align-items: center;}
+  {%- endunless -%}
+  .product-wrap .slick-vertical .slick-track {display: block; align-items: center;}
+  .product-wrap .main-images.slick-slider {overflow: hidden;}
+  .product-wrap .main-images.slick-slider .slick-slide {margin: 0;}
+  .product-wrap .main-images.slick-slider .slick-arrow {font-size: 1.5em; display: flex; display: -webkit-flex; justify-content: center; align-items: center; width: 1.8em; height: 1.8em; padding: 0.3em; background: rgba(255,255,255,0.5); }
+  .product-wrap .main-images.slick-slider .slick-arrow.right-arrow {right: -2em;}
+  .product-wrap .main-images.slick-slider .slick-arrow.left-arrow {left: -2em;}
+  .product-wrap .main-images.slick-slider:hover .slick-arrow.right-arrow {right: 0;}
+  .product-wrap .main-images.slick-slider:hover .slick-arrow.left-arrow {left: 0;}
+
+  .product-wrap .product-gallery {position: relative;z-index: 4;}
+  .product-wrap .product-gallery .main-images {margin-left:-1rem}
+  .product-wrap .product-gallery.vertical .thumbs {margin-top: -5px; padding-right: 10px;}
+  .product-wrap .product-gallery .active-wrapper .magnify {position: absolute; font-size: 1.8em; color: #000; bottom: 1em; right: 1em; z-index: 100; opacity:0; filter: alpha(opacity = 0);}
+  .product-wrap .product-gallery .active-wrapper.gallery-item {position: relative; padding-left: 1rem; padding-bottom: 1rem;}
+  .product-wrap .product-gallery .active-wrapper img {display: block; width: 100%; margin: auto; }
+  .product-wrap .product-gallery .active-wrapper .zoomed {position: absolute; top: 0; left: 0;}
+  .product-wrap .product-gallery .video-wrap {position: relative;}
+  .product-wrap .product-gallery .video-wrap iframe, .product-wrap .product-gallery .video-wrap video {position: absolute; top: 0; left: 0; width: 100%; height: 100%;}
+  .isNotMobile .product-wrap .product-gallery .active-wrapper:hover .magnify {opacity: 1; filter: alpha(opacity=100);}
+  .isNotMobile .product-wrap .product-gallery .active-wrapper:hover .magnify:hover { color: {{settings.content_main_color}}; }
+  .product-wrap .product-gallery .thumbs {list-style: none; text-align: center;}
+  .product-wrap .product-gallery .thumbs a {display: block; overflow: hidden; border: 2px solid transparent; border-radius: 50%; max-width: 4.5em; margin: auto;}
+  {% comment %}.product-wrap .product-gallery .thumbs a.video-thumb{border-radius: 0;}{% endcomment %}
+  .product-wrap .product-gallery .thumbs a.video-thumb{position: relative;}
+  .product-wrap .product-gallery .thumbs a.video-thumb .video-thumb-overlay {display: block;overflow: hidden;border: 2px solid transparent;border-radius: 50%;max-width: 4.5em;margin: auto;background: #f3eeea;position: absolute;height: 100%;width: 100%;opacity:.6;}
+  .product-wrap .product-gallery .thumbs a.video-thumb svg {position: absolute;height: 19px;top: 33%;left: 0;right: 0;margin: 0 auto;}
+  .product-wrap .product-gallery .thumbs .active a {border-color: {{settings.content_third_color}};}
+  .product-wrap .product-gallery .thumbs img {margin: 0 auto; display: block; max-width: 100%;}
+  #stickygallery {position: relative;}.product-wrap .thumbs-wrapper {position: absolute; bottom: 2em; max-width: 22em; left: 50%; -webkit-transform: translateX(-50%); transform: translateX(-50%);} 
+  .product-wrap .thumbs-wrapper .slick-slider .slick-arrow {background: {{settings.content_third_color}}; border-radius: 50%; width: 0.9em; height: 0.9em; padding: 0.2em; display: -webkit-box !important; display: -moz-box !important; display: -ms-flexbox !important; display: -webkit-flex !important; display: flex !important; -webkit-box-pack: center;-ms-flex-pack: center;justify-content: center; -webkit-box-align: center;-ms-flex-align: center;align-items: center;}
+  .product-wrap .thumbs-wrapper .slick-slider .slick-arrow path {fill: #fff;}
+
+  .product-wrap .product-gallery .video-wrap .custom-video-play{position: absolute;width: 100%;height: 100%;top: 0;left: 0;cursor: pointer;}
+  .product-wrap .product-gallery .video-wrap {position: relative;}
+  .product-wrap .product-gallery .video-wrap .custom-video-play-button{position: absolute;left: 50%;top: 50%;transform: translate(-50%,-50%);width: 100px;height: 100px; background: #fff; border-radius: 50%; box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.05); display: -webkit-box; display: -moz-box; display: -ms-flexbox; display: -webkit-flex; display: flex; -webkit-box-pack: center;-ms-flex-pack: center;justify-content: center; -webkit-box-align: center;-ms-flex-align: center;align-items: center;}
+  .product-wrap .product-gallery .video-wrap .custom-video-play-button svg {display: block; font-size: 1.8em; margin-left: 0.2em;}
+  .isNotMobile .product-wrap .product-gallery .video-wrap .custom-video-play-button:hover svg path:first-child{fill: {{settings.content_third_color}};}
+  .product-wrap .product-gallery .gallery-item {display: none}
+  .product-wrap .product-gallery .gallery-item.slideVisible {display: block;}
+
+  .product-wrap .availability .info {border:1px solid {{settings.content_text_color}};cursor: pointer; position: absolute; padding-top: 0.1em; text-align: center; left: 104%; top: 50%; -webkit-transform: translateY(-50%); transform: translateY(-50%); color: {{settings.content_text_color}}; font-weight: 700; width: 1.5em; height: 1.5em; border-radius: 50%; font-size: 0.7em; line-height:120%; font-family: {{settings.heading_font.family}}, {{settings.heading_font.fallback_families}}; -webkit-transition: all 0.2s linear; -moz-transition: all 0.2s linear; -o-transition: all 0.2s linear; -ms-transition: all 0.2s linear; transition: all 0.2s linear;}
+  .product-wrap .availability .info .tooltip {width: 20em; white-space: normal; font-weight: 500; font-family: {{settings.body_font.family}}, {{settings.body_font.fallback_families}}; display: none; text-align:center; line-height: 150%; background:{{settings.content_third_color}}; color: #fff; right: -6.5em; bottom:80%; padding: 0.8em; font-size: 12px; font-weight: 500; {% if settings.enable_color_swatches == true %}display: block;{% else %}display:none;{% endif %} position:absolute; -webkit-transform: translateY(10px); transform: translateY(10px); margin-bottom:10px; filter:alpha(opacity=0); -khtml-opacity: 0; -moz-opacity: 0; opacity:0; visibility:hidden; -webkit-transition: all .25s ease-out; -moz-transition: all .25s ease-out; -ms-transition: all .25s ease-out; -o-transition: all .25s ease-out; transition: all .25s ease-out; z-index: 10000;}
+  .product-wrap .availability .info .tooltip:after {content:" "; border: 10px solid transparent; border-top: 10px solid {{settings.content_third_color}}; border-bottom: 0; bottom: -8px; height:0; right: 6.5em; -webkit-transform: translateX(0.3em); transform: translateX(0.3em); position:absolute; width:0;}
+  .isNotMobile .product-wrap .availability .info:hover .tooltip, .product-wrap .availability .info.active .tooltip {filter:alpha(opacity=100); -khtml-opacity:1; -moz-opacity:1; opacity:1; visibility:visible; bottom: 100%; -webkit-transform: translateY(0); transform: translateY(0);}
+
+  .tingle-modal.quick-view .product-wrap {max-width:initial; margin: 0;}
+  .tingle-modal.quick-view .product-item-inner {padding:4em;}
+  .tingle-modal.quick-view .product-wrap .product-info {position:initial;width:53%;padding:0 0 0 4em}
+  .tingle-modal.quick-view .product-wrap .product-info .form-wrapper {min-width: unset; width: auto;}
+  .tingle-modal.quick-view .product-wrap .product-gallery {width:50%}
+  .tingle-modal.quick-view .product-wrap .product-gallery .active-wrapper.gallery-item {padding: 0;}
+  .tingle-modal.quick-view .product-wrap .product-gallery .main-images {margin: 0;}
+  {% comment %}.tingle-modal.quick-view .product-wrap .title {font-size:1.429em;font-family:{{settings.body_font.family}};font-weight:bold}{% endcomment %}
+  .tingle-modal.quick-view .tingle-modal-box {border-radius:0}
+  .tingle-modal.quick-view #stickyATC {display: none !important;}
+  .quick-view .swatch .variants-wrap{margin-bottom: 1.5em;}
+
+
+  .tingle-modal.quick-view > .tingle-modal__close {display:none}
+  .tingle-modal.quick-view .tingle-modal__close {font-size:1.5em}
+  .tingle-modal.quick-view .tingle-modal__closeIcon svg path {fill:{{settings.content_text_color}}}
+
+  .product-wrap .product-gallery .slick-dots {margin-top:0}
+  .product-wrap .product-gallery .slick-dots li {margin:0 0.4em}
+  .product-wrap .product-gallery .slick-dots li button {width:8px;height:8px;opacity:0.2}
+  .product-wrap .product-gallery .slick-dots li.slick-active button {transform:none;opacity:1}
+
+  {%- if settings.variants_layout == 'swatches' -%}
+  .product-wrap .options {margin-left: -5%;}
+  .product-wrap .selector-wrapper {display: none;}
+  .swatch {margin: 0 0 0.7em 0; padding-left: 5%;flex: 2;  width: auto; min-width: 50%;}
+  .swatch.first {min-width: 100%;}
+  .swatch.color {margin-bottom: 1.5em;}
+  .swatch.size {min-width:100%; margin-bottom: 0;}
+  .swatch .head {margin-bottom: 0.8em; line-height: 100%; font-weight: bold;font-size: 0.857em;text-transform:uppercase}
+  .swatch .head .opt-var-name {display: none; font-weight: 400;font-size: 1rem;text-transform:none}
+  .swatch .head .opt-var-name.active {display: inline;}
+  .swatch .variants-wrap {width: calc(100% + 1em);}
+  .swatch-element {margin: 0 1em 0 0; position:relative;}
+  .swatch-element.color {margin-top:0.4em; padding-left: 3px;}
+  .swatch-element.other label {display: block; width: 100%; padding: 0; margin: 0;white-space:nowrap; position: relative;border: 1px solid {{settings.content_main_color | color_modify: 'alpha', 0.2}}; padding: 1em; text-align: center;}
+  .swatch-element.other label .name {font-size: 1em; letter-spacing: 0; font-weight: 500; line-height: 120%;}
+  .swatch-element.other label > div {flex-direction:column}
+  .swatch-element.other label .specs {margin-top: 0.5em;font-size: 0.929em}
+  .swatch-element.other label .note {white-space: initial;font-size: 0.929em;margin-top:0.5em}
+  .swatch-element.other input:checked + label {opacity: 1;border:1px solid {{settings.content_third_color}} }   
+  .swatch-element.other label:before {content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; border: 1px solid transparent; -webkit-transition: all 0.2s linear; -moz-transition: all 0.2s linear; -o-transition: all 0.2s linear; -ms-transition: all 0.2s linear; transition: all 0.2s linear;}
+  .swatch-element.other input:checked + label:before {border-color: {{settings.content_third_color}};}
+  .swatch-element.color label {padding: 0; margin-top:0.3em; display: block; margin: 0; width: 26px; height: 26px; padding:0; border: 1px solid #ebebeb; border-radius: 50%; position: relative; }
+  .swatch-element.color label.hide {display: none;}
+  .swatch-element.color label:before {content: ''; position: absolute; top: -7px; left: -7px; bottom: -7px; right: -7px; border: 2px solid transparent; border-radius: 50%; -webkit-transition: all 0.2s linear; -moz-transition: all 0.2s linear; -o-transition: all 0.2s linear; -ms-transition: all 0.2s linear; transition: all 0.2s linear;}
+  .swatch-element.color input:checked + label:before {border-color: {{settings.content_third_color}};}   
+  body.user-is-tabbing .swatch-element input:focus + label {outline-width: 2px; outline-style: solid; outline-color: Highlight;}
+  @media (-webkit-min-device-pixel-ratio:0) {
+    body.user-is-tabbing .swatch-element input:focus + label {outline-color: -webkit-focus-ring-color; outline-style: auto;}
+  }
+  .crossed-out { position:absolute; width:100%; height:100%; left:0; top:0; opacity: 0.5; filter: alpha(opacity=50); }
+  .swatch-element .crossed-out { display:none; }
+  .swatch-element.soldout .crossed-out { display:block; }
+  .swatch-element.soldout label {color: {{settings.content_text_color}};}
+  .swatch-element.soldout label.color {border: 1px solid rgba(180,180,180,0.5);}
+  .swatch-element.soldout label.color img {opacity: 1; display: block !important; width: 80%; height: 80%; left: 10%; top: 10%;}
+  .swatch-element .cross {position: absolute; top: 0; left: 0; width: 100%; height: 100%;}
+  .swatch-element.soldout .cross:before {content: ''; z-index: 2; position: absolute; left: 50%; top: 0; height: 100%; width: 2px; margin-left: -1px; background: rgba(180,180,180,0.5); transform: rotate(45deg);}
+  .swatch-element.soldout .cross:after {content: ''; z-index: 2; position: absolute; left: 50%; top: 0; height: 100%; width: 2px; margin-left: -1px; background: rgba(180,180,180,0.5); transform: rotate(-45deg);}
+
+  .swatch-element .tooltip {text-align:center; line-height: 120%; white-space: nowrap; background:{{settings.content_main_color}}; color:#fff; bottom:80%; padding: 0.5em 0.8em; font-weight: 500; font-size: 10px; {% if settings.enable_color_swatches == true %}display: block;{% else %}display:none;{% endif %} position:absolute; left: 50%; -webkit-transform: translateX(-50%) translateY(5px); transform: translateX(-50%) translateY(5px); margin-bottom:10px; filter:alpha(opacity=0); -khtml-opacity: 0; -moz-opacity: 0; opacity:0; visibility:hidden; -webkit-transition: all .25s ease-out; -moz-transition: all .25s ease-out; -ms-transition: all .25s ease-out; -o-transition: all .25s ease-out; transition: all .25s ease-out; z-index: 10000;}
+  .swatch-element .tooltip:after {content:" "; border: 10px solid transparent; border-top: 10px solid {{settings.content_main_color}}; border-bottom: 0; bottom: -8px; height:0; left:50%; margin-left: -10px; position:absolute; width:0;}
+  .isNotMobile .swatch-element:hover .tooltip {filter:alpha(opacity=100); -khtml-opacity:1; -moz-opacity:1; opacity:1; visibility:visible; bottom: 100%; -webkit-transform: translateX(-50%) translateY(0); transform: translateX(-50%) translateY(0);}
+
+  {%- endif -%}
+
+  @media all and (max-width: 1280px) and (min-width: 901px){
+    .product-wrap .product-info {width: 450px;}
+  }
+
+  @media all and (min-width: 900px){
+    .product-wrap .product-gallery .main-images > .whole {width: 100%;}
+    .product-wrap .product-gallery .main-images > .half {width: 50%;}
+    .product-wrap .product-gallery .main-images > .half .img {padding-top: 130%;}
+    .product-wrap .swatch-element.other {margin-bottom: 1em;}
+    .product-wrap .swatch-element.other:last-child {margin-bottom: 0;}
+  }
+
+  @media all and (max-width: 1200px){
+    .product-wrap .product-gallery .video-wrap .custom-video-play-button {width: 80px; height: 80px;}
+    .product-wrap .product-gallery .video-wrap .custom-video-play-button svg {font-size: 1.6em;}
+  }
+
+  @media all and (max-width: 900px){
+    .product-wrap {padding: 0; margin: 1.5em auto 0 auto;}
+    .product-wrap .product-info {float: none; margin: 1.5em auto; width: 100%; padding: 0 15px;max-width:600px}
+    .product-wrap .product-info .form-wrapper {width: auto; min-width: unset;}
+    .product-wrap .title {font-size: 2.571em}
+    .product-wrap .product-gallery {float: none; width: 100%; margin: 0 auto}
+    .product-wrap .product-gallery .active-wrapper.gallery-item {padding-bottom:0}
+
+    .tingle-modal.quick-view .product-wrap .product-info {width:60%;}
+    .tingle-modal.quick-view .product-wrap .product-gallery {width:40%}
+
+    .product-wrap .product-gallery .video-wrap .custom-video-play {width: 70px; height: 70px; top: 50%; left: 50%; -webkit-transform: translate(-50%, -50%); transform: translate(-50%, -50%);}
+    .product-wrap .product-gallery .video-wrap .custom-video-play-button {width: 60px; height: 60px;}
+    .product-wrap .product-gallery .video-wrap .custom-video-play-button svg {font-size: 1.5em;}
+
+  }
+
+  @media all and (max-width: 600px){
+    .product-wrap {margin-top:0;max-width:initial}
+    .product-wrap .thumbs-wrapper  {display: none !important;}
+    .product-wrap .title-price {margin-bottom: 1.8em;}
+    .product-wrap .title {font-size: 2em; padding-right: 0.5em; line-height: 110%;}
+    .product-wrap .price {font-size: 1.429em; line-height: 110%;}
+
+    .product-wrap .product-gallery .main-images .slick-dots li button.play-button {background: transparent !important;width: 0;height: 0;border-top: 3px solid transparent;border-left: 6px solid #8dc0d2;border-bottom: 3px solid transparent;border-radius: 0;}
+    .product-wrap .product-gallery .video-wrap .custom-video-play-button svg path:first-child{fill: {{settings.content_third_color}};}
+    .product-wrap .description {}
+    .product-wrap .swatch .variants-wrap {width:100%}
+    .product-wrap .swatch-element {max-width: 20em; margin: 0 10% 0.5em 0;}
+    .product-wrap .swatch-element.other {margin: 0 0.2em 0 0;max-width:100%;}
+    .product-wrap .swatch-element.other label {padding:1em 0.5em}
+    .product-wrap .swatch {margin: 0 0 1em 0;}
+    .swatch.color {margin-bottom: 1em;}
+    .swatch.size {margin-bottom: 0;}
+    .product-wrap .qty-btn-wrap {margin-top: 0;}
+    .product-wrap .quantity-box {}
+    .quantity-box input[type=number] {}
+    .product-wrap .large-order {}
+
+    .tingle-modal.quick-view .product-wrap .product-info {width:100%;padding-left:0}
+    .tingle-modal.quick-view .product-wrap .swatch-element.other {max-width:initial}
+    .tingle-modal.quick-view .product-item-inner {padding:3em 1.5em 2em}
+    .tingle-modal.quick-view .product-wrap .product-gallery {width:100%}
+    .tingle-modal.quick-view .tingle-modal__close {font-size:0.8rem}
+  }
+}
+
+</style>
+
+{%- if settings.variants_layout == 'swatches' -%}
+{%- include 'color_swatches_css' -%}
+{%- endif -%}
+
+{%- assign currentProduct = product -%}
+
+<script>
+  
+  const formatCurrency = amount => {
+    var num = parseInt(amount);
+    return "$" + num / 100;
+  };
+  
+  
+  $(function(){
+    $('#product-item-{{ currentProduct.id }}').on('variantChange', function(ev, variant){
+      
+      //###############################################################################################  -->
+      //BEGIN STICKY Add to Cart Price and Size                                                          -->
+      //###############################################################################################  -->
+      {% if settings.enable_mobile_sticky_atc %}
+      var cp = {{ currentProduct | json }};
+      var sizeSpot = document.getElementById("hlxn-sticky-variant-size");
+      if (sizeSpot){
+        sizeSpot.innerHTML = `${variant.option3}`;
+      }
+
+      var option1 = document.getElementById("option-1");
+      if (option1) {
+        option1.innerHTML = `${variant.option1}`.replace("Powder ", "").replace(" COLOR", "" );
+      }
+
+      var option2 = document.getElementById("option-2");
+      if (option2){
+        option2.innerHTML = `${variant.option2}`.replace(" COLOR", "" ).replace("Linden ", "");
+      }
+
+      var moneySpot = document.getElementById("hlxn-sticky-variant-price");
+      if (moneySpot){
+        moneySpot.innerHTML = formatCurrency(variant.price);
+      }
+    {% endif %}
+    
+      //###############################################################################################  -->
+      //END STICKY Add to Cart Price and Size                                                            -->
+      //###############################################################################################  -->
+      
+      $('#hlxn-product-{{ currentProduct.id }}-variant').attr('value', variant.id);
+      $('.product-wrap .swatch').each(function(key, obj){
+      var variantText = variant['option'+(key+1)];
+      if (variantText) {
+        $(this).find('.head span').addClass('active').html(variantText);
+      }
+    });
+    $(this).find(`.availability .available`).hide();
+    $(this).find(`.availability .unavailable`).hide();
+    if(variant) {
+      $(this).find('epigraph-ar').attr('sku', variant.sku);
+    };
+    if(variant && variant.available){
+      $(this).find(`.availability .available.${variant.id}`).show();
+    }else{
+      $(this).find('.availability .unavailable').show();
+      $(this).find('.availability .hlxn-unavailable').show();
+    }
+  });
+
+  var product = {{ currentProduct | json }};
+  new ProductJsNew($('#product-item-{{ currentProduct.id }}'), product{% if quickView %}, true{% endif %});
+
+                   if(window.location.hash.indexOf('search') >= 0) {
+    $('.collection-nav .return_search').removeClass('hide');
+  }
+
+  setTimeout(function(){
+    $('.product-wrap .price').css('min-width', $('.product-wrap .price').width() + 5);
+  },500);
+
+  function ReadMore(existingId) {
+    $('.product-wrap .description').each(function(){
+      if($(this).children().length > 1){
+        if (existingId && $(`#read-more-${existingId}`).length) {
+          $(this).children(':first').show();
+          $(`#read-more-${existingId}`).show();
+        } else if (!$(this).children().find('.read-more').length) {
+          var randomId = ~~(Math.random() * 1000);
+          $(this).children(':first').append(`<a href="#" id="read-more-${randomId}" data-id="${randomId}" class="read-more">Read More</a>`).show();
+        }
+      }
+    });
+  }
+  function ReadLess(existingId){
+    $('.product-wrap .description').each(function(){
+      if($(this).children().length > 1){
+        if (existingId && $(`#read-less-${existingId}`).length) {
+          $(this).children(':nth-last-child(1)').show();
+          $(`#read-less-${existingId}`).show();
+        } else {
+          $(this).children(':nth-last-child(1)').append(`<a href="#" id="read-less-${existingId}" data-id="${existingId}" class="read-less">Read Less </a>`).show();
+        }
+      }
+    });
+  }
+
+  //ReadMore();
+  $(document).on('click', '.product-wrap .description .read-more', function(){
+    $(this).closest('.description').children().show();
+    $(this).hide();
+    var existingId = $(this).attr("data-id")
+    ReadLess(existingId);
+    return false;
+  });
+
+  $(document).on('click', '.product-wrap .description .read-less', function(){
+    $(this).closest('.description').children().hide();
+    $(this).hide();
+    var existingId = $(this).attr("data-id");
+    ReadMore(existingId);
+    return false;
+  });
+  
+  // prevent mix of gallery image onclick interaction and ar button onclick interaction
+  $('epigraph-ar').click(function(ev) {
+      ev.preventDefault();
+      ev.stopPropagation();
+  });
+  });
+</script>
+
+{%- assign specSheet = 'specs-' | append: currentProduct.handle | append: '.pdf' -%}
+
+{%- if quickView != true -%}
+{%- include '_product-microdata', currentProduct: currentProduct -%}
+{%- endif -%}
+
+{% include '_product-sticky-atc' %}
+
+{% if quickView %}
+<button class="tingle-modal__close" onclick="modal.close();return false;">
+  <span class="tingle-modal__closeIcon">
+    {% include 'icons', icon:'close' %}
+  </span><span class="tingle-modal__closeLabel">Close</span>
+</button>
+{% endif %}
+
+<div class="product-wrap">
+
+
+  <div id="product-item-{{ currentProduct.id }}" class="flex medium-down--flex-wrap product-item-inner" style="position:relative">
+    {%- include '_product_gallery_new' -%}
+    <div class="product-info">
+
+      {% assign price_swatch = false %}
+      {% assign partner_swatch = false %}
+      {% for tag in product.tags %}
+      {% if tag contains 'tp-' %}
+      {% assign price_swatch = tag | remove: "tp-" | times: 100 | money_without_trailing_zeros | prepend: 'Dealer Price: ' %}
+      {% endif %}
+      {% if tag contains 'partner-' %}
+      {% assign partner_swatch = tag | remove: "partner-" | replace: '-', ' ' | prepend: 'By ' %}
+      {% endif %}
+      {% endfor %}
+
+      {% if price_swatch and settings.modal_image %}
+      <div class="contents-outer">
+        <div id="contents">
+          <div class="contents-inner">
+            <input type="button" id="hideshow2" value="close">
+            <img data-src="{{ settings.modal_image | img_url:"960x" }}" class="lazyload" /></div>
+        </div>
+      </div>
+      {% elsif partner_swatch and settings.modal_image_partner %}
+      <div class="contents-outer">
+        <div id="contents">
+          <div class="contents-inner">
+            <input type="button" id="hideshow2" value="close">
+            <img data-src="{{ settings.modal_image_partner | img_url:"960x" }}" class="lazyload" /></div>
+        </div>
+      </div>
+      {% endif %}
+
+      <div class="form-wrapper">
+
+        <form action="/cart/add" method="post" class="variants add-to-cart-form" enctype="multipart/form-data" id="pnt-add-to-cart-form">
+          <h1 class="title">{{ currentProduct.title }}</h1>
+
+
+          {%- comment -%}
+          <input class="modal-state" id="modal-1" type="checkbox" />
+          <div class="modal">
+            <label class="modal__bg" for="modal-1"></label>
+            <div class="modal__inner">
+              <p>
+                <label class="modal__close" for="modal-1"></label>
+                <img data-src="{{ settings.modal_image | img_url:"960x" }}" class="lazyload" /></p>
+            </div>
+          </div>
+          {%- endcomment -%}
+
+
+          <span class="stamped-product-reviews-badge stamped-main-badge" data-id="{{ product.id }}" style="display: block;margin-top: 10px;margin-bottom:10px;"  data-product-sku="{{product.handle}}"></span>
+
+          {%- unless quickView -%}
+          <div class="flex">
+            {%- include '_product_price' -%}
+
+            {% if price_swatch %}
+            <div {% if settings.modal_image %}id="hideshow"{% endif %} class="traprice">
+              {{ price_swatch }}{% if settings.modal_image %} <label for="modal-1"><img src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-expand="-10" data-src="{{'tooltip_90860.png' | file_url}}" class="lazyload" /></label>{% endif %}
+            </div>
+            {% elsif partner_swatch %}
+            <div {% if settings.modal_image_partner %}id="hideshow"{% endif %} class="traprice">
+              {{ partner_swatch }}{% if settings.modal_image_partner %} <label for="modal-1"><img src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-expand="-10" data-src="{{'tooltip_90860.png' | file_url}}" class="lazyload" /></label>{% endif %}
+            </div>
+            {% endif %}
+          </div>
+          {%- endunless -%}
+
+          <div class="description">
+            {% include '_product-tabs' %}
+            {%- comment -%}
+            {{ currentProduct.description | replace: '<img src=', '<img class="lazyload" data-src=' }}
+            <div class="request-spec">For more details request <a href="{{specSheet | file_url}}" class="specs-trigger" target="_blank">our Spec Sheet</a></div>
+            {%- endcomment -%}
+          </div>
+          <span class="validation-msg hide"></span>
+          {%- include '_product_variants_new' -%}
+          
+          {%- if quickView -%}
+          <div class="availability">
+            {%- for variant in currentProduct.variants -%}
+            {%- assign shipping = variant.metafields.variant.shipping -%}
+            {% if shipping != blank %}
+            <div id="available-{{variant.id}}" class="available {{variant.id}}" style="display:none;" data-shipping="{{shipping}}"><span><strong>Available</strong> | {{shipping}} <a href="#" class="chat-trigger info hover-tooltip" tabindex="0">i<div class="tooltip">{{settings.product_availability_tooltip}}</div></a></span></div>
+            {%- else -%}
+            <div id="available-{{variant.id}}" class="available {{variant.id}}" style="display:none;" data-shipping="{{shipping}}"><span><strong>Available</strong> | Ships in 1-3 days <a href="#" class="chat-trigger info hover-tooltip" tabindex="0">i<div class="tooltip">{{settings.product_availability_tooltip}}</div></a></span></div>
+            {%- endif -%}
+            {%- endfor -%}
+            <div class="unavailable"><strong>Ships in 4-6 weeks.</strong> | <a href="/pages/contact">Contact us</a> to inquire</div>
+          </div>
+
+          <div id="atc-cta" class="qty-btn-wrap flex flex-wrap medium-down--justify-content-center">
+            {%- include '_product_quantity' -%}
+            {%- include '_product_buttons', newPdp:true, shipDate: {{product.selected_or_first_available_variant.metafields.variant.shipping}} -%}
+          </div>
+          {%- endif -%}
+
+          {%- unless quickView -%}
+          <div id="static-atc">
+            <div class="availability">
+              {%- for variant in product.variants -%}
+              {%- assign shipping = variant.metafields.variant.shipping -%}
+              {% if shipping != blank %}
+              <div id="available-{{variant.id}}" class="available {{variant.id}}" style="display:none;" data-shipping="{{shipping}}"><span><strong>Available</strong> | {{shipping}} <a href="#" class="chat-trigger info hover-tooltip" tabindex="0">i<div class="tooltip">{{settings.product_availability_tooltip}}</div></a></span></div>
+              {%- else -%}
+              <div id="available-{{variant.id}}" class="available {{variant.id}}" style="display:none;" data-shipping="{{shipping}}"><span><strong>Available</strong> | Ships in 1-3 days <a href="#" class="chat-trigger info hover-tooltip" tabindex="0">i<div class="tooltip">{{settings.product_availability_tooltip}}</div></a></span></div>
+              {%- endif -%}
+              {%- endfor -%}
+              <div class="unavailable"><strong>Ships in 4-6 weeks.</strong> | <a href="/pages/contact">Contact us</a> to inquire</div>
+            </div>
+
+            <div id="atc-cta" class="qty-btn-wrap flex flex-wrap medium-down--justify-content-center">
+              {%- include '_product_quantity' -%}
+              {%- include '_product_buttons', newPdp:true, shipDate: {{product.selected_or_first_available_variant.metafields.variant.shipping}} -%}
+            </div>
+
+
+            <div class="display-afirm-with-clyde">
+
+              <div class="product-clyde">
+                <div class="clyde-pdp clyde-pdp--simple" id="pdp-simple">
+                  <div class="logodiv">
+                    <svg width="17px" height="16px" viewBox="0 0 17 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                      <title>Clyde Logo</title>
+                      <g id="CTAs" stroke="none" stroke-width="1" fill="#1A5EE5" fill-rule="evenodd">
+                        <g id="Clyde-Prompt-Cart" transform="translate(-319.000000, -491.000000)" fill="#1A5EE5">
+                          <g id="Group-13" transform="translate(307.000000, 483.000000)">
+                            <g id="Group-7">
+                              <g id="Group-4">
+                                <g id="Group-5" transform="translate(11.000000, 8.000000)">
+                                  <g id="Horizontal-Lockup" transform="translate(0.400000, 0.000000)">
+                                    <path d="M14.6229679,8.80256 C15.5747901,9.00273778 16.3246568,9.76611556 16.578879,10.7947378 C16.8299012,11.8119822 16.5443901,12.8971378 15.8339901,13.6267378 C14.3993234,15.10016 12.4807457,15.76576 10.569279,15.6512711 C12.5440346,14.8754489 14.348479,12.3954489 14.5216346,11.7963378 C14.5795901,11.6619378 14.5635901,11.5300267 14.5440346,11.4510933 C14.5205679,11.35616 14.4387901,11.1307378 14.1785234,11.0759822 L14.159679,11.0720711 L14.1589679,11.0720711 C14.1394123,11.0678044 14.1195012,11.0667378 14.0995901,11.06496 C14.0910568,11.06496 14.0832346,11.0646044 14.0743457,11.0646044 C13.9221679,11.0670933 13.7763901,11.1659378 13.6423457,11.3600711 C13.6242123,11.3860267 13.606079,11.4134044 13.5883012,11.4429156 C13.3458123,11.8919822 13.065279,12.3051378 12.7570123,12.6845156 C11.4649234,14.3133156 9.58225678,15.2878933 7.53816789,15.2878933 C6.46759011,15.2878933 5.43754567,15.0247822 4.50634567,14.5252267 C3.78172345,14.13696 3.11719011,13.6061156 2.53976789,12.9454933 C1.79701234,12.0957156 1.25479011,11.0948267 0.935501225,10.0082489 C0.686967892,9.16309333 0.57354567,8.26602667 0.605190114,7.34727111 C0.740656781,3.42229333 3.634879,0.199182222 7.19505678,0.00967111111 C7.31594567,0.00256 7.43612345,0.00113777778 7.55630123,0.00184888889 C6.79434567,0.429582222 6.09283456,0.998471111 5.47985678,1.69998222 C4.88785678,2.37767111 4.41141234,3.14211556 4.05550123,3.96416 C3.26012345,4.87793778 2.75345678,6.09749333 2.70723456,7.43544889 C2.69123456,7.89304889 2.72714567,8.34318222 2.812479,8.77731556 C2.82919011,8.86442667 2.84803456,8.95047111 2.86865678,9.03580444 C2.99381234,9.54958222 3.18936789,10.0388267 3.449279,10.4900267 C3.62279011,10.7908267 3.82510123,11.0749156 4.05479011,11.3373156 C4.97532345,12.3908267 6.21230123,12.9703822 7.53816789,12.9703822 C8.76519011,12.9703822 9.90759011,12.4640711 10.7762123,11.5986489 C10.7957679,11.5794489 10.8135457,11.5584711 10.8327457,11.5392711 C10.9419012,11.42656 11.0485679,11.3106489 11.148479,11.1869156 C11.1491901,11.1854933 11.1506123,11.1851378 11.151679,11.1837156 C11.4098123,10.8708267 11.6370123,10.5390933 11.8162123,10.2372267 C11.8169234,10.2365156 11.8176346,10.2350933 11.8183457,10.2343822 C12.3218123,9.27722667 13.2455457,8.71616 14.2059012,8.75064889 C14.2197679,8.75100444 14.2339901,8.75278222 14.2471457,8.75349333 C14.2990568,8.75633778 14.3509679,8.75953778 14.4021679,8.76558222 C14.4661679,8.77304889 14.5291012,8.78371556 14.5931012,8.79687111 C14.5963012,8.79758222 14.6002123,8.79793778 14.6041234,8.79864889 L14.6229679,8.80256 Z M16.6981679,4.10656 C16.698879,4.14531556 16.6999457,4.18407111 16.698879,4.22282667 C16.6981679,4.26051556 16.695679,4.29856 16.6935457,4.33589333 C16.689279,4.41376 16.6818123,4.49162667 16.6715012,4.56842667 C16.6686568,4.59224889 16.6654568,4.61642667 16.6615457,4.64024889 C16.6537234,4.69073778 16.644479,4.74051556 16.6345234,4.79029333 C16.6331012,4.79669333 16.6323901,4.80309333 16.6306123,4.80949333 C16.6277679,4.82442667 16.6231457,4.83900444 16.6199457,4.85429333 C16.6007457,4.93713778 16.5779901,5.01856 16.551679,5.09891556 C16.5417234,5.12984889 16.532479,5.16113778 16.5218123,5.19171556 C16.510079,5.22371556 16.4969234,5.25500444 16.484479,5.28664889 C16.4667012,5.33073778 16.4482123,5.37447111 16.4286568,5.41713778 C16.4176346,5.44096 16.4069679,5.46478222 16.3952346,5.48824889 C16.3635901,5.55331556 16.3291012,5.61802667 16.2928346,5.67989333 C16.2921234,5.68096 16.2914123,5.68202667 16.2910568,5.68309333 C16.2487457,5.75456 16.202879,5.82282667 16.1552346,5.88967111 C16.1523901,5.89287111 16.1499012,5.89642667 16.1470568,5.89998222 C16.100479,5.96362667 16.052479,6.02407111 16.0009234,6.08273778 C15.998079,6.08593778 15.9952346,6.08949333 15.9923901,6.09233778 C15.8857234,6.21322667 15.7683901,6.32344889 15.6421679,6.42051556 C15.6354123,6.42620444 15.6272346,6.43189333 15.6201234,6.43758222 C15.5621679,6.48131556 15.5031457,6.52184889 15.4427012,6.55989333 C15.4355901,6.56416 15.4295457,6.56878222 15.4227901,6.57269333 C15.3570123,6.61287111 15.2887457,6.65056 15.2187012,6.68433778 C15.2080346,6.69002667 15.1970123,6.69464889 15.1863457,6.69927111 C15.1283901,6.72664889 15.0693679,6.75082667 15.009279,6.77358222 C14.9911457,6.78033778 14.9723012,6.78780444 14.9534568,6.79384889 C14.8823457,6.81802667 14.8098123,6.84042667 14.7358568,6.85891556 L14.7337234,6.85927111 L14.6800346,6.87242667 C13.6098123,7.12984889 12.4926568,6.59047111 11.8999457,5.52949333 C11.4494568,4.72202667 10.8272346,4.07384889 10.1104346,3.62158222 C11.9429679,2.88202667 13.786879,4.49269333 13.786879,4.49269333 C13.8946123,4.59793778 14.0375457,4.64487111 14.1698123,4.61287111 L14.2227901,4.60042667 C14.4336346,4.54922667 14.5858123,4.33269333 14.5907901,4.09909333 L14.5907901,4.09162667 C14.5907901,4.05927111 14.5886568,4.02691556 14.5833234,3.99562667 C14.5822568,3.98602667 14.5797679,3.97571556 14.5765679,3.96504889 C14.5765679,3.96398222 14.5758568,3.96362667 14.5758568,3.96291556 C14.5630568,3.91384889 14.5335457,3.84629333 14.4752346,3.76238222 C14.462079,3.74602667 14.4496346,3.73038222 14.4339901,3.71544889 C14.0930123,3.38584889 13.7186123,3.11242667 13.3221679,2.89802667 C13.3111457,2.89162667 13.2994123,2.88593778 13.2880346,2.88024889 C12.5243012,2.47527111 11.6830568,2.27438222 10.8368346,2.33056 C10.8325679,2.33091556 10.8290123,2.33127111 10.8251012,2.33162667 C10.7049234,2.33980444 10.5851012,2.35331556 10.465279,2.37216 C10.4457234,2.37500444 10.4272346,2.37287111 10.4083901,2.37464889 C9.342079,2.53784889 8.36252345,3.07936 7.60163456,3.95047111 C7.03239011,4.60078222 6.63345678,5.37873778 6.42261234,6.22353778 L6.42296789,6.22389333 C6.40874567,6.28149333 6.39559011,6.34051556 6.38314567,6.39811556 C6.37852345,6.42051556 6.37319011,6.44184889 6.36856789,6.46389333 C6.359679,6.50869333 6.35150123,6.55349333 6.34296789,6.59829333 C6.33550123,6.64024889 6.32803456,6.68327111 6.32199011,6.72522667 C6.31630123,6.75793778 6.311679,6.79064889 6.30741234,6.82336 C6.298879,6.88273778 6.29141234,6.94282667 6.28465678,7.00291556 C6.282879,7.02211556 6.28074567,7.04096 6.27825678,7.06051556 C6.25301234,7.31936 6.244479,7.58247111 6.25372345,7.84771556 L6.25372345,7.85269333 C6.25372345,7.85553778 6.25372345,7.85873778 6.25372345,7.86158222 C6.25870123,7.97927111 6.266879,8.09624889 6.27790123,8.21216 C6.28110123,8.24202667 6.28430123,8.27224889 6.28750123,8.30211556 C6.29710123,8.38424889 6.30883456,8.46567111 6.321279,8.54638222 C6.38919011,8.97376 6.50439011,9.39189333 6.66794567,9.78869333 L6.66119011,9.79296 C7.01176789,10.6669156 7.57176789,11.4157156 8.26794567,11.9675378 C8.03043456,12.0162489 7.786879,12.0439822 7.53799011,12.0439822 C6.49550123,12.0439822 5.51985678,11.6091378 4.77283456,10.8166044 C4.44145678,10.0194489 4.23096789,9.14904889 4.16732345,8.23349333 C4.16412345,8.18656 4.16234567,8.13962667 4.15985678,8.09269333 C4.15701234,8.04220444 4.15310123,7.99171556 4.15132345,7.94051556 C4.15096789,7.93447111 4.15132345,7.92842667 4.15096789,7.92202667 C4.14279011,7.67704889 4.145279,7.43136 4.15843456,7.18602667 C4.16056789,7.14869333 4.16412345,7.11278222 4.16590123,7.07616 C4.17159011,6.99758222 4.177279,6.91936 4.18474567,6.84113778 C4.19043456,6.78211556 4.19683456,6.72344889 4.20359011,6.66478222 C4.209279,6.61393778 4.21603456,6.56309333 4.22279011,6.51189333 C4.23274567,6.43544889 4.24412345,6.35936 4.25621234,6.28327111 C4.260479,6.25802667 4.26510123,6.23313778 4.26936789,6.20789333 C4.516479,4.76327111 5.13621234,3.42922667 6.08554567,2.34300444 C7.40643456,0.831893333 9.18101234,-0.000106666667 11.0843012,-0.000106666667 C12.2910568,-0.000106666667 13.4537234,0.344782222 14.4773679,0.978737778 C14.9314123,1.23687111 15.4110568,1.56184889 15.8103457,1.98887111 C15.8963901,2.08024889 15.9763901,2.17767111 16.0528346,2.27829333 C16.0574568,2.28433778 16.062079,2.29038222 16.0670568,2.29607111 C16.094079,2.33198222 16.1211012,2.36789333 16.1470568,2.40487111 C16.2405679,2.53749333 16.3223457,2.67722667 16.3931012,2.82300444 C16.3987901,2.83367111 16.4037679,2.84540444 16.4087457,2.85607111 C16.4389679,2.92078222 16.4677679,2.98620444 16.4926568,3.05233778 C16.4990568,3.06762667 16.5058123,3.08327111 16.5118568,3.09927111 C16.5374568,3.16931556 16.5602123,3.24042667 16.580479,3.31260444 C16.5897234,3.34424889 16.5975457,3.37660444 16.6057234,3.40896 C16.6192346,3.46193778 16.6313234,3.51491556 16.6409234,3.56860444 C16.6455457,3.58958222 16.6512346,3.60949333 16.6551457,3.63118222 C16.6562123,3.63829333 16.6569234,3.64576 16.6579901,3.65358222 C16.6697234,3.72540444 16.6786123,3.79793778 16.6857234,3.87082667 C16.6889234,3.90567111 16.6907012,3.94016 16.6931901,3.97464889 C16.6960346,4.01838222 16.6974568,4.06247111 16.6981679,4.10656 Z" id="Logo_Mark"></path>
+                                  </g>
+                                </g>
+                              </g>
+                            </g>
+                          </g>
+                        </g>
+                      </g>
+                    </svg>
+                  </div>
+
+                  <div class="promptdiv">
+                    <div class="prompttext">
+                      <div class="addtext"><span>Add accident protection</span> for</div>
+                      <div class="pricewrapper">
+                        <div class="pricewrapper__pricetext">
+                          $<span class="first-contract-price"></span>
+                        </div>
+                      </div>
+                    </div>
+
+                  </div>
+
+                  <div class="clyde-pdp__bs"></div>
+
+                </div>
+              </div>
+              <div class="separator">&nbsp;</div>
+              <div class="large-order">
+                {% comment %}<p>Large order? <a href="#" class="chat-trigger">Chat with a specialist</a> for any questions!</p>{% endcomment %} 
+                <p class="affirm-as-low-as" data-page-type="product" data-amount="{{current_variant.price}}"></p>
+              </div>
+            </div>
+            <div class="product-clyde-quick-view" data-variant-id="{{ product.selected_or_first_available_variant.id }}">
+              <div class="clyde-pdp clyde-pdp--simple">
+                <div class="logodiv">
+                  <svg width="17px" height="16px" viewBox="0 0 17 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                    <title>Clyde Logo</title>
+                    <g id="CTAs" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                      <g id="Clyde-Prompt-Cart" transform="translate(-319.000000, -491.000000)" fill="currentColor">
+                        <g id="Group-13" transform="translate(307.000000, 483.000000)">
+                          <g id="Group-7">
+                            <g id="Group-4">
+                              <g id="Group-5" transform="translate(11.000000, 8.000000)">
+                                <g id="Horizontal-Lockup" transform="translate(0.400000, 0.000000)">
+                                  <path d="M14.6229679,8.80256 C15.5747901,9.00273778 16.3246568,9.76611556 16.578879,10.7947378 C16.8299012,11.8119822 16.5443901,12.8971378 15.8339901,13.6267378 C14.3993234,15.10016 12.4807457,15.76576 10.569279,15.6512711 C12.5440346,14.8754489 14.348479,12.3954489 14.5216346,11.7963378 C14.5795901,11.6619378 14.5635901,11.5300267 14.5440346,11.4510933 C14.5205679,11.35616 14.4387901,11.1307378 14.1785234,11.0759822 L14.159679,11.0720711 L14.1589679,11.0720711 C14.1394123,11.0678044 14.1195012,11.0667378 14.0995901,11.06496 C14.0910568,11.06496 14.0832346,11.0646044 14.0743457,11.0646044 C13.9221679,11.0670933 13.7763901,11.1659378 13.6423457,11.3600711 C13.6242123,11.3860267 13.606079,11.4134044 13.5883012,11.4429156 C13.3458123,11.8919822 13.065279,12.3051378 12.7570123,12.6845156 C11.4649234,14.3133156 9.58225678,15.2878933 7.53816789,15.2878933 C6.46759011,15.2878933 5.43754567,15.0247822 4.50634567,14.5252267 C3.78172345,14.13696 3.11719011,13.6061156 2.53976789,12.9454933 C1.79701234,12.0957156 1.25479011,11.0948267 0.935501225,10.0082489 C0.686967892,9.16309333 0.57354567,8.26602667 0.605190114,7.34727111 C0.740656781,3.42229333 3.634879,0.199182222 7.19505678,0.00967111111 C7.31594567,0.00256 7.43612345,0.00113777778 7.55630123,0.00184888889 C6.79434567,0.429582222 6.09283456,0.998471111 5.47985678,1.69998222 C4.88785678,2.37767111 4.41141234,3.14211556 4.05550123,3.96416 C3.26012345,4.87793778 2.75345678,6.09749333 2.70723456,7.43544889 C2.69123456,7.89304889 2.72714567,8.34318222 2.812479,8.77731556 C2.82919011,8.86442667 2.84803456,8.95047111 2.86865678,9.03580444 C2.99381234,9.54958222 3.18936789,10.0388267 3.449279,10.4900267 C3.62279011,10.7908267 3.82510123,11.0749156 4.05479011,11.3373156 C4.97532345,12.3908267 6.21230123,12.9703822 7.53816789,12.9703822 C8.76519011,12.9703822 9.90759011,12.4640711 10.7762123,11.5986489 C10.7957679,11.5794489 10.8135457,11.5584711 10.8327457,11.5392711 C10.9419012,11.42656 11.0485679,11.3106489 11.148479,11.1869156 C11.1491901,11.1854933 11.1506123,11.1851378 11.151679,11.1837156 C11.4098123,10.8708267 11.6370123,10.5390933 11.8162123,10.2372267 C11.8169234,10.2365156 11.8176346,10.2350933 11.8183457,10.2343822 C12.3218123,9.27722667 13.2455457,8.71616 14.2059012,8.75064889 C14.2197679,8.75100444 14.2339901,8.75278222 14.2471457,8.75349333 C14.2990568,8.75633778 14.3509679,8.75953778 14.4021679,8.76558222 C14.4661679,8.77304889 14.5291012,8.78371556 14.5931012,8.79687111 C14.5963012,8.79758222 14.6002123,8.79793778 14.6041234,8.79864889 L14.6229679,8.80256 Z M16.6981679,4.10656 C16.698879,4.14531556 16.6999457,4.18407111 16.698879,4.22282667 C16.6981679,4.26051556 16.695679,4.29856 16.6935457,4.33589333 C16.689279,4.41376 16.6818123,4.49162667 16.6715012,4.56842667 C16.6686568,4.59224889 16.6654568,4.61642667 16.6615457,4.64024889 C16.6537234,4.69073778 16.644479,4.74051556 16.6345234,4.79029333 C16.6331012,4.79669333 16.6323901,4.80309333 16.6306123,4.80949333 C16.6277679,4.82442667 16.6231457,4.83900444 16.6199457,4.85429333 C16.6007457,4.93713778 16.5779901,5.01856 16.551679,5.09891556 C16.5417234,5.12984889 16.532479,5.16113778 16.5218123,5.19171556 C16.510079,5.22371556 16.4969234,5.25500444 16.484479,5.28664889 C16.4667012,5.33073778 16.4482123,5.37447111 16.4286568,5.41713778 C16.4176346,5.44096 16.4069679,5.46478222 16.3952346,5.48824889 C16.3635901,5.55331556 16.3291012,5.61802667 16.2928346,5.67989333 C16.2921234,5.68096 16.2914123,5.68202667 16.2910568,5.68309333 C16.2487457,5.75456 16.202879,5.82282667 16.1552346,5.88967111 C16.1523901,5.89287111 16.1499012,5.89642667 16.1470568,5.89998222 C16.100479,5.96362667 16.052479,6.02407111 16.0009234,6.08273778 C15.998079,6.08593778 15.9952346,6.08949333 15.9923901,6.09233778 C15.8857234,6.21322667 15.7683901,6.32344889 15.6421679,6.42051556 C15.6354123,6.42620444 15.6272346,6.43189333 15.6201234,6.43758222 C15.5621679,6.48131556 15.5031457,6.52184889 15.4427012,6.55989333 C15.4355901,6.56416 15.4295457,6.56878222 15.4227901,6.57269333 C15.3570123,6.61287111 15.2887457,6.65056 15.2187012,6.68433778 C15.2080346,6.69002667 15.1970123,6.69464889 15.1863457,6.69927111 C15.1283901,6.72664889 15.0693679,6.75082667 15.009279,6.77358222 C14.9911457,6.78033778 14.9723012,6.78780444 14.9534568,6.79384889 C14.8823457,6.81802667 14.8098123,6.84042667 14.7358568,6.85891556 L14.7337234,6.85927111 L14.6800346,6.87242667 C13.6098123,7.12984889 12.4926568,6.59047111 11.8999457,5.52949333 C11.4494568,4.72202667 10.8272346,4.07384889 10.1104346,3.62158222 C11.9429679,2.88202667 13.786879,4.49269333 13.786879,4.49269333 C13.8946123,4.59793778 14.0375457,4.64487111 14.1698123,4.61287111 L14.2227901,4.60042667 C14.4336346,4.54922667 14.5858123,4.33269333 14.5907901,4.09909333 L14.5907901,4.09162667 C14.5907901,4.05927111 14.5886568,4.02691556 14.5833234,3.99562667 C14.5822568,3.98602667 14.5797679,3.97571556 14.5765679,3.96504889 C14.5765679,3.96398222 14.5758568,3.96362667 14.5758568,3.96291556 C14.5630568,3.91384889 14.5335457,3.84629333 14.4752346,3.76238222 C14.462079,3.74602667 14.4496346,3.73038222 14.4339901,3.71544889 C14.0930123,3.38584889 13.7186123,3.11242667 13.3221679,2.89802667 C13.3111457,2.89162667 13.2994123,2.88593778 13.2880346,2.88024889 C12.5243012,2.47527111 11.6830568,2.27438222 10.8368346,2.33056 C10.8325679,2.33091556 10.8290123,2.33127111 10.8251012,2.33162667 C10.7049234,2.33980444 10.5851012,2.35331556 10.465279,2.37216 C10.4457234,2.37500444 10.4272346,2.37287111 10.4083901,2.37464889 C9.342079,2.53784889 8.36252345,3.07936 7.60163456,3.95047111 C7.03239011,4.60078222 6.63345678,5.37873778 6.42261234,6.22353778 L6.42296789,6.22389333 C6.40874567,6.28149333 6.39559011,6.34051556 6.38314567,6.39811556 C6.37852345,6.42051556 6.37319011,6.44184889 6.36856789,6.46389333 C6.359679,6.50869333 6.35150123,6.55349333 6.34296789,6.59829333 C6.33550123,6.64024889 6.32803456,6.68327111 6.32199011,6.72522667 C6.31630123,6.75793778 6.311679,6.79064889 6.30741234,6.82336 C6.298879,6.88273778 6.29141234,6.94282667 6.28465678,7.00291556 C6.282879,7.02211556 6.28074567,7.04096 6.27825678,7.06051556 C6.25301234,7.31936 6.244479,7.58247111 6.25372345,7.84771556 L6.25372345,7.85269333 C6.25372345,7.85553778 6.25372345,7.85873778 6.25372345,7.86158222 C6.25870123,7.97927111 6.266879,8.09624889 6.27790123,8.21216 C6.28110123,8.24202667 6.28430123,8.27224889 6.28750123,8.30211556 C6.29710123,8.38424889 6.30883456,8.46567111 6.321279,8.54638222 C6.38919011,8.97376 6.50439011,9.39189333 6.66794567,9.78869333 L6.66119011,9.79296 C7.01176789,10.6669156 7.57176789,11.4157156 8.26794567,11.9675378 C8.03043456,12.0162489 7.786879,12.0439822 7.53799011,12.0439822 C6.49550123,12.0439822 5.51985678,11.6091378 4.77283456,10.8166044 C4.44145678,10.0194489 4.23096789,9.14904889 4.16732345,8.23349333 C4.16412345,8.18656 4.16234567,8.13962667 4.15985678,8.09269333 C4.15701234,8.04220444 4.15310123,7.99171556 4.15132345,7.94051556 C4.15096789,7.93447111 4.15132345,7.92842667 4.15096789,7.92202667 C4.14279011,7.67704889 4.145279,7.43136 4.15843456,7.18602667 C4.16056789,7.14869333 4.16412345,7.11278222 4.16590123,7.07616 C4.17159011,6.99758222 4.177279,6.91936 4.18474567,6.84113778 C4.19043456,6.78211556 4.19683456,6.72344889 4.20359011,6.66478222 C4.209279,6.61393778 4.21603456,6.56309333 4.22279011,6.51189333 C4.23274567,6.43544889 4.24412345,6.35936 4.25621234,6.28327111 C4.260479,6.25802667 4.26510123,6.23313778 4.26936789,6.20789333 C4.516479,4.76327111 5.13621234,3.42922667 6.08554567,2.34300444 C7.40643456,0.831893333 9.18101234,-0.000106666667 11.0843012,-0.000106666667 C12.2910568,-0.000106666667 13.4537234,0.344782222 14.4773679,0.978737778 C14.9314123,1.23687111 15.4110568,1.56184889 15.8103457,1.98887111 C15.8963901,2.08024889 15.9763901,2.17767111 16.0528346,2.27829333 C16.0574568,2.28433778 16.062079,2.29038222 16.0670568,2.29607111 C16.094079,2.33198222 16.1211012,2.36789333 16.1470568,2.40487111 C16.2405679,2.53749333 16.3223457,2.67722667 16.3931012,2.82300444 C16.3987901,2.83367111 16.4037679,2.84540444 16.4087457,2.85607111 C16.4389679,2.92078222 16.4677679,2.98620444 16.4926568,3.05233778 C16.4990568,3.06762667 16.5058123,3.08327111 16.5118568,3.09927111 C16.5374568,3.16931556 16.5602123,3.24042667 16.580479,3.31260444 C16.5897234,3.34424889 16.5975457,3.37660444 16.6057234,3.40896 C16.6192346,3.46193778 16.6313234,3.51491556 16.6409234,3.56860444 C16.6455457,3.58958222 16.6512346,3.60949333 16.6551457,3.63118222 C16.6562123,3.63829333 16.6569234,3.64576 16.6579901,3.65358222 C16.6697234,3.72540444 16.6786123,3.79793778 16.6857234,3.87082667 C16.6889234,3.90567111 16.6907012,3.94016 16.6931901,3.97464889 C16.6960346,4.01838222 16.6974568,4.06247111 16.6981679,4.10656 Z" id="Logo_Mark"></path>
+                                </g>
+                              </g>
+                            </g>
+                          </g>
+                        </g>
+                      </g>
+                    </g>
+                  </svg>
+                </div>
+
+                <div class="promptdiv">
+                  <div class="prompttext">
+                    <div class="addtext"><span>Add accident protection</span> for</div>
+                    <div class="pricewrapper">
+                      <div class="pricewrapper__pricetext">
+                        $<span class="first-contract-price-quick-view"></span>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+
+                <div class="clyde-pdp__bs"></div>
+
+              </div>
+            </div>
+          </div>
+
+          <div class="get-quote">
+            <div class="icon">{% include 'icons', icon:'desk' %}</div>
+            <div>
+              <div class="title">Shopping for a team of 10 or more?</div>
+              <div class="text">From planning to installation, let us help you build your office. <a href="/pages/corporate-office-furniture">Get a quote</a></div>
+            </div>
+          </div>
+          {% endunless %}
+          {% include 'bundles' %}
+        </form>
+        {%- include 'social_sharing' -%}
+      </div>
+    </div>
+  </div>
+  <div class="addon-add-btn"></div>
+  
+  
+<!-- ###############################################################################################  -->
+<!-- BEGIN STICKY MARKUP  -->
+<!-- ###############################################################################################  -->
+  {% if settings.enable_mobile_sticky_atc %}
+  <div id="sticky-atc" class="sticky-el">
+    {% comment %}
+    <form action="/cart/add" method="POST" class="variants add-to-cart-form" enctype="multipart/form-data" id="hlxn-atc-form">
+    {% endcomment %}
+      <input type="hidden" id="hlxn-product-{{product.id}}-variant" name="id[]" value="{{product.selected_or_first_available_variant.id}}" />
+      <div class="sticky-grid">
+        <div class="sticky-left-side">
+          
+         <div><h4 id="hlxn-sticky-variant-price" class="hlxn-sticky-price  branch-brown">{{ product.price | money_without_trailing_zeros  }}</h4></div>
+          {% for product_option in product.options_with_values %}
+          {% unless forloop.index == 3 %}
+            {% continue %}
+          {% endunless %}
+      	  
+          <div {% unless product_option.values.size > 1 %}style="display:none;"{% endunless %}><h4><strong>{{ product_option.name }}:</strong>&nbsp;<span id="hlxn-sticky-variant-size" class="hlxn-less-weight">{{ product_option.selected_value }}</span></h4></div>
+          
+          {% endfor %}
+          <div class="single-line-header">
+          	{% for product_option in product.options_with_values %}
+            {% if forloop.index == 3 %}
+            {% continue %}
+            {% endif %}
+            <div>
+              <p {% if forloop.index == 2 %}class="space"{% endif %}><strong>{{ product_option.name | remove: " Color" }}</strong>:</p><p id="option-{{ forloop.index }}">{{ product_option.selected_value }}</p>
+            </div>
+            {% endfor %}
+          </div>
+
+          
+        </div>
+        <div class="btn-side">
+          {%- include '_product_buttons', newPdp:true, shipDate: {{product.selected_or_first_available_variant.metafields.variant.shipping}} -%}
+        </div>
+      </div>
+    {% comment %}
+    </form>
+    {% endcomment %}
+  </div>
+  <script>
+  $(function(){
+    // submits the pdp's main form atc button
+  	var pntAtcForm = $('#pnt-add-to-cart-form');
+    $('#sticky-atc .content-available button').click(function() {
+		pntAtcForm.submit()
+    });
+  });
+  </script>
+  {% endif %}
+<!-- ###############################################################################################  -->
+<!-- END STICKY MARKUP  -->
+<!-- ###############################################################################################  -->
+
+</div>
+{%- include 'specs_sheet_popup' -%}
+
+
+
+

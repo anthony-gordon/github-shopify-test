@@ -1,0 +1,223 @@
+<style>  
+  #shopify-section-{{ section.id }} .gallery-section {text-align: center; background: {{section.settings.section_bg}}; padding: {{section.settings.padding_desktop}};}
+  #shopify-section-{{ section.id }} .gallery-section .item {overflow: hidden; margin: 0 !important; padding: {{section.settings.blocks_padding}}; height: {{section.settings.blocks_height}};}
+  #shopify-section-{{ section.id }} .gallery-section .group .item {height: {{section.settings.blocks_height | remove: 'em' | remove: 'px' | divided_by: 2}}em;}
+  .gallery-section .container {max-width: 70.71em;}
+  .gallery-section .btn {margin-top: 5em;}
+  .gallery-section .item .wrap {position: relative; display: block; width: 100%; height: 100%;}
+  .gallery-section .item .info {position: absolute; text-align: left; padding: 1.5em 1.5em 1em; bottom: 0; left: 0; width: 100%;}
+  .gallery-section .item .info * {position: relative;}
+  .gallery-section .item .info:before {content: ''; position: absolute; left: 0; bottom: 0; width: 100%; height: 10em; background: -moz-linear-gradient(top, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 100%, rgba(255,255,255,1) 101%); background: -webkit-linear-gradient(top, rgba(255,255,255,0) 0%,rgba(255,255,255,1) 100%,rgba(255,255,255,1) 101%); background: linear-gradient(to bottom, rgba(255,255,255,0) 0%,rgba(255,255,255,1) 100%,rgba(255,255,255,1) 101%);}
+  .gallery-section .item .img {position: absolute; left: 0; top: 0; width: 100%; height: 100%; background-size: cover; background-position: center; background-repeat: no-repeat; -webkit-transition: all 0.7s ease-out; -moz-transition: all 0.7s ease-out; -o-transition: all 0.7s ease-out; -ms-transition: all 0.7s ease-out; transition: all 0.7s ease-out;}
+  .gallery-section .item .icon svg {font-size: 2.3em;}
+  .gallery-section .item .text p {margin: 0; line-height: 100%;}
+  .gallery-section .item .text p:first-child {margin-bottom: 0.2em;}
+  .gallery-section .item .text p:last-child {display: block; line-height: 100%; font-size: 3em; {% if settings.heading_font_custom != "" %}{{settings.heading_font_custom_name}}{% else %}font-family: {{settings.heading_font.family}}, {{settings.heading_font.fallback_families}};{% endif %} }
+  .gallery-section .item .text p strong {font-weight: 400;}
+    
+  @-webkit-keyframes fadeInUpShort {0%{opacity:0;-webkit-transform:translate3d(0,1em,0);transform:translate3d(0,1em,0)}100%{opacity:1;-webkit-transform:none;transform:none}}
+  @keyframes fadeInUpShort {0%{opacity:0;-webkit-transform:translate3d(0,1em,0);transform:translate3d(0,1em,0)}100%{opacity:1;-webkit-transform:none;transform:none}}
+  @-webkit-keyframes fadeOutDownShort {0%{opacity:1}100%{opacity:0;-webkit-transform:translate3d(0,1em,0);transform:translate3d(0,1em,0)}}
+  @keyframes fadeOutDownShort {0%{opacity:1}100%{opacity:0;-webkit-transform:translate3d(0,1em,0);transform:translate3d(0,1em,0)}}
+  @-webkit-keyframes fadeInLeftShort {0%{opacity:0;-webkit-transform:translate3d(-1em,0,0);transform:translate3d(-1em,0,0)}100%{opacity:1;-webkit-transform:none;transform:none}}
+  @keyframes fadeInLeftShort {0%{opacity:0;-webkit-transform:translate3d(-1em,0,0);transform:translate3d(-1em,0,0)}100%{opacity:1;-webkit-transform:none;transform:none}}
+  @-webkit-keyframes fadeOutLeftShort {0%{opacity:1}100%{opacity:0;-webkit-transform:translate3d(-1em,0,0);transform:translate3d(-1em,0,0)}}
+  @keyframes fadeOutLeftShort {0%{opacity:1}100%{opacity:0;-webkit-transform:translate3d(-1em,0,0);transform:translate3d(-1em,0,0)}}
+ 
+  @media all and (min-width: 901px){
+    .gallery-section .item .text {-webkit-animation-duration:0.2s;animation-duration:0.2s;-webkit-animation-fill-mode:both;animation-fill-mode:both; -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)"; filter: alpha(opacity=0); -moz-opacity: 0; -khtml-opacity: 0; opacity: 0;}
+    .gallery-section .item .icon {-webkit-animation-duration:0.5s;animation-duration:0.5s;-webkit-animation-fill-mode:both;animation-fill-mode:both; -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)"; filter: alpha(opacity=0); -moz-opacity: 0; -khtml-opacity: 0; opacity: 0;}
+    .gallery-section .item .info:before {-webkit-animation-duration:0.7s;animation-duration:0.7s;-webkit-animation-fill-mode:both;animation-fill-mode:both; -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)"; filter: alpha(opacity=0); -moz-opacity: 0; -khtml-opacity: 0; opacity: 0;}
+    .isNotMobile .gallery-section .item:hover .img {-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=85)"; filter: alpha(opacity=85); -moz-opacity: 0.85; -khtml-opacity: 0.85; opacity: 0.85;}
+    .isNotMobile .gallery-section .item.go-in .text {-webkit-animation-name:fadeInUpShort;animation-name:fadeInUpShort;}
+    .isNotMobile .gallery-section .item.go-in .icon {-webkit-animation-delay: 0.2s;animation-delay: 0.2s; -webkit-animation-name:fadeInLeft;animation-name:fadeInLeft; }
+    .isNotMobile .gallery-section .item.go-in .info:before {-webkit-animation-name:fadeIn;animation-name:fadeIn;}
+    .isNotMobile .gallery-section .item.go-out .text {-webkit-animation-name:fadeOutDownShort;animation-name:fadeOutDownShort;}
+    .isNotMobile .gallery-section .item.go-out .icon {-webkit-animation-delay: 0s;animation-delay: 0s; -webkit-animation-name:fadeOutRight;animation-name:fadeOutRight; }
+    .isNotMobile .gallery-section .item.go-out .info:before {-webkit-animation-name:fadeOut;animation-name:fadeOut;}
+  }
+  
+  @media all and (max-width: 900px) {
+    #shopify-section-{{ section.id }} .gallery-section {padding: {{section.settings.padding_mobile}};}
+    .gallery-section .container {padding: 0;}
+    .gallery-section .item .img {-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=70)"; filter: alpha(opacity=70); -moz-opacity: 0.7; -khtml-opacity: 0.7; opacity: 0.7;}
+    #shopify-section-{{ section.id }} .gallery-section .item {height: auto !important; padding: 0;}
+    #shopify-section-{{ section.id }} .gallery-section .item .wrap {padding-top: 50% !important; height: auto;}
+    .gallery-section .item .info {padding: 1.5em 1em 1em;}
+    .gallery-section .btn {margin-top: 3em; max-width: 19em; width: 100%;}
+  }
+  
+  @media all and (max-width: 600px) {
+    #shopify-section-{{ section.id }} .gallery-section .item .wrap {padding-top: 100% !important;}
+  }
+</style>
+
+<section class="gallery-section">
+  <div class="container">
+    {%- if section.settings.title != "" -%}
+    	<h2>{{section.settings.title}}</h2>
+    {%- endif -%}
+    <div class="carousel slick-pending"></div>
+    <div class="flex desktop-grid flex-wrap justify-content-center">
+      {%- for block in section.blocks -%}
+        {%- if section.blocks.size > 2 -%}
+          {%- if forloop.first -%}
+            <div class="item larger one-half-small medium-down--one-whole">
+              {%- include 'home_gallery_item' -%}
+            </div>    
+          {%- else -%}
+            {%- if forloop.index == 2 -%}<div class="group flex flex-wrap one-half-large medium-down--one-whole">{%- endif -%}
+              {%- if section.blocks.size > 3  -%}
+                  <div class="item smaller {% if forloop.index == 2 %}one-whole{% else %}one-half medium-down--one-whole{% endif %}">
+                    {%- include 'home_gallery_item' -%}
+                  </div>
+              {%- else -%}
+                <div class="item smaller one-whole">
+                  {%- include 'home_gallery_item' -%}
+                </div>
+              {%- endif -%}
+            {%- if forloop.last -%}</div>{%- endif -%}
+      	  {%- endif -%}
+        {%- else -%}
+          <div class="item larger one-half medium-down--one-whole">
+            {%- include 'home_gallery_item' -%}
+          </div>      
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+    {%- if section.settings.button != "" -%}
+    <a href="{{section.settings.link}}" class="btn">{{section.settings.button}}</a>
+    {%- endif -%}
+  </div>
+</section>
+<script>
+  $(function(){
+    var checkScroll = function(){
+      if($(window).width() > 900){
+        var hoverConfig = {
+          over: function () {
+            $(this).removeClass('go-out');
+            $(this).addClass('go-in');
+          }, 
+          timeout: 100, 
+          out: function () {
+            $(this).removeClass('go-in');
+            $(this).addClass('go-out');
+          }
+        };
+        $('#shopify-section-{{ section.id }} .gallery-section .item').hoverIntent(hoverConfig);
+        if($('#shopify-section-{{ section.id }} .gallery-section .carousel').hasClass('slick-initialized')){
+          $('#shopify-section-{{ section.id }} .gallery-section .carousel').slick('unslick');
+          $('#shopify-section-{{ section.id }} .gallery-section .item.smaller').each(function(){
+            $('#shopify-section-{{ section.id }} .gallery-section .group').append($(this));
+          });
+          $('#shopify-section-{{ section.id }} .gallery-section .desktop-grid').prepend($('#shopify-section-{{ section.id }} .gallery-section .item.larger'));
+        }
+      }else{
+        if(!$('#shopify-section-{{ section.id }} .gallery-section .carousel').hasClass('slick-initialized')){
+          $('#shopify-section-{{ section.id }} .gallery-section .item').each(function(){
+            $('#shopify-section-{{ section.id }} .gallery-section .carousel').append($(this));
+          });
+          $('#shopify-section-{{ section.id }} .gallery-section .carousel').slick({
+            autoplay: false,
+            speed: 700,
+            dots: true,
+            arrows: false,
+            slidesToShow: 1,
+            slidesToScroll: 1
+          });
+        }
+      }
+    }
+    checkScroll();
+    $(window).resize($.throttle(15, function(){
+      checkScroll();
+    }));
+  });
+</script>
+
+{% schema %}
+  {
+    "name": "Gallery",
+	"max_blocks": 4,
+    "presets": [
+      {
+        "name": "Gallery",
+        "category": "Home"
+      }
+    ],
+    "settings": [
+	  {
+        "type": "color",
+        "id": "section_bg",
+        "label": "Background Color",
+        "default": "#ffffff"
+      },
+	  {
+        "type": "text",
+        "id": "padding_desktop",
+        "label": "Section Padding (Desktop)",
+        "default": "4em 0"
+      },
+      {
+        "type": "text",
+        "id": "padding_mobile",
+        "label": "Section Padding (Mobile)",
+        "default": "3em 0"
+      },
+	  {
+        "type": "text",
+        "id": "title",
+        "label": "Title",
+		"default": "Lorem Ipsum"
+      },
+      {
+        "type": "text",
+        "id": "blocks_height",
+        "label": "Blocks Height",
+        "default": "33.28em"
+      },
+      {
+        "type": "text",
+        "id": "blocks_padding",
+        "label": "Blocks Padding",
+        "default": "0.3em"
+      },
+      {
+        "type": "text",
+        "id": "button",
+        "label": "Button",
+        "default": "Shop All"
+      },
+      {
+        "type": "url",
+        "id": "link",
+        "label": "Link"
+      }
+    ],
+    "blocks": [
+      {
+      	"type": "image",
+      	"name": "Image",
+      	"settings": [
+          {
+            "type": "image_picker",
+            "id": "image",
+            "label": "Logo"
+          },
+          {
+            "type": "url",
+            "id": "link",
+            "label": "Link"
+          },
+          {
+            "type": "richtext",
+            "id": "info",
+            "label": "Label",
+			"default": "<p>explore our</p><p><strong>Chairs</strong></p>"
+          }
+      	]
+      }
+	]
+  }
+{% endschema %}

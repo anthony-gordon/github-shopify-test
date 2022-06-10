@@ -1,0 +1,18 @@
+<div id="collection" class="container">
+  {%- paginate collection.products by 50 -%}
+  {%- if collection.products.size > 0 -%}
+  	<div class="grid">
+      {%- for product in collection.products -%}
+        {%- include 'product_item_custom', currentProduct: product, quickview: settings.allow_quick_view -%}
+      {%- endfor -%}
+  	</div>
+  	{%- include 'pagination' -%}
+  {%- else -%}    
+  <div class="empty">
+    <div class="head">{% include 'icons', icon: 'product-tag' %}</div>
+    <div class="title">This Collection is currently empty. Please come back later.</div>
+    <a href="/collections/all" class="btn">Check out our products</a>
+  </div>
+  {%- endif -%}
+  {%- endpaginate -%}
+</div>

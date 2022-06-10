@@ -1,0 +1,109 @@
+{% assign show_desktop = section.settings.desktop_enable %}
+{% assign show_mobile = section.settings.mobile_enable %}
+
+<div class="customer-reviews{% if show_desktop == false %} hide-desktop{% endif %}{% if show_mobile == false %} hide-mobile{% endif %}">
+  {% if section.settings.title != blank %}
+  <h2 class="section-title">{{ section.settings.title }}</h2>
+  {% endif %}
+  
+  <div class="container">
+    {% for block in section.blocks %}
+    <div class="review">
+      <h2>
+        <i class="fa fa-star" aria-hidden="true"></i>
+        <i class="fa fa-star" aria-hidden="true"></i>
+        <i class="fa fa-star" aria-hidden="true"></i>
+        <i class="fa fa-star" aria-hidden="true"></i>
+        <i class="fa fa-star" aria-hidden="true"></i>
+        {{ block.settings.title }}
+      </h2>
+      
+      {{ block.settings.review_text }}
+    </div>
+    {% endfor %}
+  </div>
+</div>
+{% style %}
+.customer-reviews .review .fa-star {
+  color: {{ section.settings.review_stars_color }};
+}
+{% endstyle %}
+
+
+{% schema %}
+  {
+    "name": "Checkout Customer Reviews",
+    "settings": [
+	  {
+		"type": "text",
+		"label": "Section Title",
+		"id": "title",
+		"default": "Customer Ratings"
+	  },
+	  {
+		"type": "color",
+		"label": "Review Stars Color",
+		"id": "review_stars_color",
+		"default": "#ECD444"
+	  },
+	  {
+		"type": "checkbox",
+		"label": "Enable Trust Badges (Desktop)",
+		"id": "desktop_enable",
+		"default": true
+	  },
+	  {
+		"type": "checkbox",
+		"label": "Enable Trust Badges (Mobile)",
+		"id": "mobile_enable",
+		"default": true
+	  }
+	],
+    "blocks": [
+      {
+        "type": "review",
+        "name": "Review",
+        "settings": [
+          {
+            "type": "text",
+            "id": "title",
+            "label": "Title",
+            "default": "Review Title"
+          },
+          {
+            "type": "richtext",
+            "id": "review_text",
+            "label": "Review",
+            "default": "<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit.</p>"
+          }
+        ]
+      }
+    ],
+    "presets": [
+      {
+        "name": "Icons list",
+        "category": "Image",
+        "blocks": [
+          {
+            "type": "review"
+          },
+          {
+            "type": "review"
+          },
+          {
+            "type": "review"
+          },
+          {
+            "type": "review"
+          }
+        ]
+      }
+    ]
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

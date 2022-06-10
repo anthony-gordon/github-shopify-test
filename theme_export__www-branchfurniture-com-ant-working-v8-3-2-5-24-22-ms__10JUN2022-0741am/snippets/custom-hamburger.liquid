@@ -1,0 +1,15 @@
+{%- if iconColor == blank -%}
+  {%- assign iconColor = settings.content_text_color -%}
+{%- endif -%}
+{%- if iconAriaHidden == blank -%}
+  {%- assign iconAriaHidden = 'true' -%}
+{%- endif -%}
+{%- if iconTabIndex == blank -%}
+  {%- assign iconTabIndex = '-1' -%}
+{%- endif -%}
+{%- if iconRole == blank -%}
+  {%- assign iconRole = 'presentation' -%}
+{%- endif -%}
+<svg aria-hidden="{{iconAriaHidden}}" tabindex="{{iconTabIndex}}" role="{{iconRole}}" class="icon custom-hamburger" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M3 4H21V6H3V4ZM3 11H21V13H3V11ZM3 18H21V20H3V18Z" fill="#314438"/>
+</svg>

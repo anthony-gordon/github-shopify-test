@@ -1,0 +1,51 @@
+<div class="login-page account">
+  <div class="container">
+    <div id="customer-login">
+      <h1>Activate Account</h1>
+      <p class="note">Create your password to activate your account</p>
+      {%- form 'activate_customer_password' -%}
+      	<div class="error-msg"></div>
+        {{ form.errors | default_errors }}
+      	<label for="customer-password">Password *</label>
+        <input type="password" name="customer[password]" id="customer-password" class="password required" aria-required="true" />
+      	<label for="customer-confirm-password">Confirm Password *</label>
+        <input type="password" name="customer[password_confirmation]" id="customer-confirm-password" class="password-confirm required" aria-required="true" />
+        <button class="btn" type="submit">Activate Account</button>
+        <span class="note">or <input type="submit" name="decline" value="Decline Invitation" /></span>
+      {%- endform -%}
+    </div>
+  </div>
+</div>
+<script>
+  $(function(){    
+    $('.login-page form').each(function(){
+      var form = $(this);
+      form.submit(function(e){
+        var error = false;
+
+        form.find('.error-msg').hide();
+        form.find('.error').removeClass('error');
+
+        form.find('.required').each(function(){
+          if($(this).val()=="") {
+            error = true;
+            $(this).addClass('error');
+          }
+        });
+        if(error){
+          form.find('.error-msg').show().text('Please complete all the required fields.');
+        }else{
+          if(form.find('[name="customer[password]"]').val()!=form.find('[name="customer[password_confirmation]"]').val()) {
+            error = true;
+            form.find('.password, .password-confirm').addClass('error');
+            form.find('.error-msg').show().text('Password do not match its confirmation');
+          }
+        }
+        if(error) {
+          return false;
+        }
+      });
+      
+    });    
+  });
+</script>

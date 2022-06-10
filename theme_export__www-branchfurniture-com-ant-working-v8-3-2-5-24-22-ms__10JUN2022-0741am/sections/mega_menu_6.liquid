@@ -1,0 +1,109 @@
+<span class="mm6">
+    {%- include 'mega_menu_content_shopby' -%}
+    </span>
+    <script>
+      $(function(){
+          var content = $("#shopify-section-{{ section.id }} .mega-menu");
+          var parent = "{{section.settings.parent_link | handleize}}";
+          $(".main-menu [data-parent='"+ parent +"']").addClass('has-dropdown mega-menu-trigger').attr('aria-haspopup','true').find('.submenu').remove();
+          $(".main-menu [data-parent='"+ parent +"']").append(content);
+      });
+    </script>
+
+    {% schema %}
+
+{
+  "name": "Shop By Menu",
+  "class": "mega-menu-section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "parent_link",
+      "label": "Parent Link"
+    },
+    {
+      "type": "text",
+      "id": "class_",
+      "label": "Class",
+	  "default": "c__mega_menu_6"
+    },
+    {
+      "type": "image_picker",
+      "id": "shopby_image",
+      "label": "Menu Image (377w x 200h)"
+    },
+	{
+	  "type": "text",
+	  "label": "Image Headline",
+      "id": "shopby_image_headline"
+	},    
+	{
+      "type": "richtext",
+      "id": "shopby_image_caption",
+      "label": "Image Caption"
+    },
+	{
+	  "type": "text",
+	  "label": "Menu 1 Headline",
+      "id": "shopby_menu1_headline"
+	},
+    {
+      "type": "link_list",
+      "id": "shopby_menu_1",
+      "label": "Menu 1"
+    },
+	{
+	  "type": "text",
+	  "label": "Menu 2 Headline",
+      "id": "shopby_menu2_headline"
+	},
+    {
+      "type": "link_list",
+      "id": "shopby_menu_2",
+      "label": "Menu 2"
+    },
+	{
+	  "type": "text",
+	  "label": "Menu 3 Headline",
+      "id": "shopby_menu3_headline"
+	},
+    {
+      "type": "link_list",
+      "id": "shopby_menu_3",
+      "label": "Menu 3"
+    },	
+	{
+	  "type": "url",
+	  "label": "Link 1",
+      "id": "shopby_link_1"
+	},
+	{
+	  "type": "text",
+	  "label": "Link 1 Text",
+      "id": "shopby_link1_text"
+	},    
+	{
+      "type": "richtext",
+      "id": "shopby_link1_caption",
+      "label": "Link 1 Caption"
+    },	
+	{
+	  "type": "url",
+	  "label": "Link 2",
+      "id": "shopby_link_2"
+	},
+	{
+	  "type": "text",
+	  "label": "Link 2 Text",
+      "id": "shopby_link2_text"
+	},    
+	{
+      "type": "richtext",
+      "id": "shopby_link2_caption",
+      "label": "Link 2 Caption"
+    }
+  ]
+}
+
+
+{% endschema %}

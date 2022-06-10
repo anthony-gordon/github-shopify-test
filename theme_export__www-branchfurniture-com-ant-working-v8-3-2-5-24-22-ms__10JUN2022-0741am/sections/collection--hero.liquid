@@ -1,0 +1,77 @@
+{% for block in section.blocks %}
+  {% if block.settings.collection == collection.handle %}
+	{% assign block_collection = block %}
+    {% break %}
+  {% endif %}
+{% endfor %}
+
+{% if block_collection.settings.enabled %}
+<div class="hero--collection-top" data-block-id="{{ block_collection.id }}">
+  <div class="wrapper image-layer">
+    {% assign hero_image = block_collection.settings.image %}
+    <div class="hero--bg">
+      <div class="img lazyload" data-bgset="{% include 'lazy_src', image: hero_image %}">
+        <img src="{{ hero_image | img_url: 'x600' }}" loading="lazy"/>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="hero--captions-wrapper">
+        <div class="hero--captions">
+          <h1 class="title">{{ collection.title }}</h1>
+          <p class="text">{{ collection.description }}</p>
+        </div>        
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  [data-block-id="{{ block_collection.id }}"] .hero--bg {
+    max-height: {{ block_collection.settings.img_max_height }}px;
+  }  
+</style>
+{% endif %}
+
+{% schema %}
+  {
+    "name": "Collection Hero Title",
+    "settings": [],
+	"blocks": [
+	  {
+		"type": "collection-hero",
+		"name": "Collection Hero",
+		"settings": [
+          {
+            "type": "collection",
+            "id": "collection",
+            "label": "Assign Collection"
+          },
+          {
+            "type": "checkbox",
+            "id": "enabled",
+            "label": "Enabled?"
+          },
+          {
+            "type": "image_picker",
+            "id": "image",
+            "label": "Image"
+          },
+          {
+            "id": "img_max_height",
+            "type": "number",
+            "label": "Max Height",
+			"default": 450,
+			"info": "px"
+          }
+		]
+	  }
+	]
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

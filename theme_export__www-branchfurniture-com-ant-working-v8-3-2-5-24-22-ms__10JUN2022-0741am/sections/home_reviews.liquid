@@ -1,0 +1,215 @@
+<style>
+  #shopify-section-{{ section.id }} .home-reviews {text-align: center; position: relative; padding: {{section.settings.section_padding_desktop}}; background-color: {{section.settings.bg_color}};}
+  #shopify-section-{{ section.id }} .home-reviews .head .text {max-width: {{section.settings.text_width}}; margin: auto;}
+  .home-reviews .container {max-width: 83.28em;}
+  .home-reviews .head {margin-bottom: 3em;}
+  .home-reviews img {width: auto !important; max-width: 100%; display: inline-block;}
+  .home-reviews .block-title {margin-bottom: 1em;}
+  .home-reviews .block-title p {margin: 0;}
+  .home-reviews p {color: inherit;}
+  .home-reviews .description p em {font-style: normal; font-size: 0.8em;}
+  .home-reviews .slick-dots {margin-top: 0;}
+  @media all and (max-width: 900px){
+    #shopify-section-{{ section.id }} .home-reviews {width: 100% !important; padding: {{section.settings.section_padding_mobile}};}
+    #shopify-section-{{ section.id }} .home-reviews .slick-slider .slick-slide {margin: 0;}
+    .home-reviews .container {padding: 0;}
+    .home-reviews .wrap {max-width: 24em; margin: auto;}
+  }
+  @media all and (max-width: 600px){
+    .home-reviews .head {display: none;}
+  }
+</style>
+
+<section class="home-reviews">
+  <div class="container">
+    {%- if section.settings.title != "" -%}
+    <div class="head">
+      {%- if section.settings.title != "" -%}
+      <h2 class="title">{{section.settings.title}}</h2>
+      {%- endif -%}
+      {%- if section.settings.text != blank -%}
+      <div class="text">{{section.settings.text}}</div>
+      {%- endif -%}
+    </div>
+    {%- endif -%}
+    <div class="carousel slick-pending">
+      {%- for block in section.blocks -%}
+      <div class="item block-{{block.id}}">
+        <style>
+          #shopify-section-{{ section.id }} .block-{{block.id}} .wrap {background: {{block.settings.background_color}}; padding: {{block.settings.padding}}; color: {{block.settings.text_color}};}
+          #shopify-section-{{ section.id }} .block-{{block.id}} .info {padding: {{block.settings.text_padding}};}
+          #shopify-section-{{ section.id }} .block-{{block.id}} img {max-height: {{block.settings.image_height}};}
+          #shopify-section-{{ section.id }} .block-{{block.id}} .block-title p {font-size: {{block.settings.title_size}};}
+          #shopify-section-{{ section.id }} .block-{{block.id}} .description p {font-size: {{block.settings.description_size}};}
+          
+          @media all and (max-width: 900px){
+            #shopify-section-{{ section.id }} .block-{{block.id}} img {max-width: 85%; width: 100%; height: auto;}
+          }
+        </style>
+        <div class="wrap">
+          {%- if block.settings.image != blank -%}
+          	<img class="lazyload" src="{{"placeholder.png" | asset_url}}" data-srcset="{% include 'lazy_src', image: block.settings.image %}" />
+          {%- endif -%}
+          <div class="info">
+            {%- if block.settings.title != blank -%}
+            <div class="block-title">{{block.settings.title}}</div>
+            {%- endif -%}
+            {%- if block.settings.description != blank -%}
+            <div class="description">{{block.settings.description}}</div>
+            {%- endif -%}
+            {%- if block.settings.button != "" -%}
+            <a href="{{block.settings.link}}" class="btn">{{block.settings.button}}</a>
+            {%- endif -%}
+          </div>
+        </div>
+      </div>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+<script>
+  $(function(){
+    	$('#shopify-section-{{ section.id }} .home-reviews .carousel').slick({
+          autoplay: false,
+          speed: 700,
+          slidesToShow: 3,
+          slidesToScroll: 3,
+          arrows: false,
+          dots: true,
+          responsive: [
+            {
+              breakpoint: 900,
+              settings: {
+                slidesToShow: 1,
+                slidesToScroll: 1
+              }
+            }
+          ]
+        });
+  });
+</script>
+
+{% schema %}
+  {
+    "name": "Home Reviews",
+    "presets": [
+      {
+        "name": "Home Reviews",
+        "category": "Home"
+      }
+    ],
+	"settings": [
+          {
+            "type": "color",
+            "id": "bg_color",
+            "label": "Background Color",
+            "default": "#ffffff"
+          },
+          {
+            "type": "text",
+            "id": "section_padding_desktop",
+            "label": "Section Padding (Desktop)",
+            "default": "3em 0"
+          },
+          {
+            "type": "text",
+            "id": "section_padding_mobile",
+            "label": "Section Padding (Mobile)",
+            "default": "2em 0"
+          },
+          {
+            "type": "text",
+            "id": "title",
+            "label": "Title",
+            "default": "Custom Blocks"
+          },
+          {
+            "type": "richtext",
+            "id": "text",
+            "label": "Text"
+          },
+          {
+            "type": "text",
+            "id": "text_width",
+            "label": "Text Width",
+            "default": "40em"
+          }
+    ],
+    "blocks": [
+      {
+        "type": "block",
+        "name": "Block",
+        "settings": [
+		  {
+            "type": "color",
+            "id": "background_color",
+            "label": "Background color",
+            "default": "#ffffff"
+          },
+		  {
+            "type": "color",
+            "id": "text_color",
+            "label": "Text color",
+            "default": "#314438"
+          },
+		  {
+            "type": "text",
+            "id": "padding",
+            "label": "Block Padding",
+            "default": "0"
+          },
+		  {
+            "type": "text",
+            "id": "text_padding",
+            "label": "Text Padding",
+            "default": "1em 0 0"
+          },
+		  {
+            "type": "image_picker",
+            "id": "image",
+            "label": "Image"
+          },
+		  {
+            "type": "text",
+            "id": "image_height",
+            "label": "Image Height",
+            "default": "2.5em"
+          },
+          {
+            "type": "richtext",
+            "id": "title",
+            "label": "Title"
+          },
+          {
+            "type": "text",
+            "id": "title_size",
+            "label": "Title Font Size",
+			"default": "1.5em"
+          },
+          {
+            "type": "richtext",
+            "id": "description",
+            "label": "Description",
+			"default": "<p>Donec vulputate eget metus sed tincidunt. Aenean euismod risus quis turpis ullamcorper, id aliquet quam gravida.<\/p>\n<p><strong>Joe Ray<\/strong><br><em>CEO of Workspace<\/em><\/p>"
+          },
+          {
+            "type": "text",
+            "id": "description_size",
+            "label": "Description Font Size",
+			"default": "1.3em"
+          },
+		  {
+            "type": "text",
+            "id": "button",
+            "label": "Button"
+          },
+          {
+            "type": "url",
+            "id": "link",
+            "label": "Link"
+          }
+        ]
+      }
+    ]
+  }
+{% endschema %}

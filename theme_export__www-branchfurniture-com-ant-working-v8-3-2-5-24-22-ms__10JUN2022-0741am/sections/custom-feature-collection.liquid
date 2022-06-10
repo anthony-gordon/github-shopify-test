@@ -1,0 +1,102 @@
+<div class="c-fc-section">
+  <div class="c-fc-container">
+    {% if section.settings.heading != blank %}
+    <p class="c-fc-heading" style="font-size: {{ section.settings.font_size }}px">{{ section.settings.heading }}</p>
+    {% endif %}
+    <div class="c-fc-flex-container">
+      {% for block in section.blocks %}
+      {% assign c = collections[block.settings.col] %}
+      <div class="c-fc-flex-item">
+        <div class="c-fc-flex-item-content">
+          <a href="{{ c.url }}">
+            {% if block.settings.img %}
+            <img src="{{ block.settings.img | img_url: 'master' }}" class="c-fc-img" loading="lazy"/>
+            {% else %}
+            <img src="{{ c | img_url: 'master' }}" class="c-fc-img" loading="lazy"/>
+            {% endif %}
+            <div href="{{ c.url }}" class="c-fc-link">
+              {% if c.title != blank %}
+              <span class="c-fc-title">{{ c.title }}</span>
+              {% endif %}
+              <span class="c-fc-sub-link" href="{{ c.url }}">See All <i class="fa fa-angle-right"></i></span>
+            </div>
+          </a>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    <a href="/collections/all?view=all" class="c-fc-btn">SHOP COLLECTIONS</a>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Feature Collection",
+  "settings": [
+    {
+      "id": "heading",
+      "type": "text",
+      "label": "Heading",
+      "default": "Categories:"
+    },
+{
+    "type":      "range",
+    "id":        "font_size",
+    "min":       12,
+    "max":        50,
+    "step":       1,
+    "unit":       "px",
+    "label":     "Heading Font size",
+    "default":   25
+}
+  ],
+  "blocks": [
+    {
+      "type": "select",
+      "name": "Block",
+      "settings": [
+		{
+          "id": "col",
+          "type": "collection",
+       	  "label": "Collection"
+        },
+        {
+          "id": "img",
+          "type": "image_picker",
+       	  "label": "Image"
+        },
+		{
+          "id": "see",
+          "type": "checkbox",
+       	  "label": "Show see all button",
+		  "default": true
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Feature Collection",
+      "category": "Custom",
+      "blocks": [
+        { 
+          "type": "select"
+        },
+        {
+          "type": "select"
+        },
+        {
+          "type": "select"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
+
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

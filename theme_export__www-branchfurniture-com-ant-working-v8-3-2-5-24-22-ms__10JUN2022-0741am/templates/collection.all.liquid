@@ -1,0 +1,16 @@
+<style>
+  .collection-wrapper {padding: 2.5em 0;}
+  .collection-wrapper .button {margin-top: 1em;}
+  @media all and (max-width: 900px){
+    .collection-wrapper {padding: 1.5em 0;}
+  }
+</style>
+
+<section class="collection-wrapper collection-{{collection.handle}}">
+  <h1 class="visuallyhidden">All Products</h1>
+  {%- include '_collection_menu' -%}
+  {%- include '_collection_list' -%}
+  <div class="button text-center">
+    <a class="btn" href="/pages/quiz">Take Quiz</a>
+  </div>
+</section>

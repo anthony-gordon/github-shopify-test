@@ -1,0 +1,34 @@
+<div class="top-utils">
+  <div class="flex">
+    {%- if block.settings.show_phone -%}
+    <a href="tel:{{block.settings.phone | remove: "(" | remove: ")" | remove: " " | remove: "-" | remove: "."}}" class="phone-number medium-down--hide" {% if headerDrop %}aria-hidden="true" focusable="false" tabindex="-1"{% endif %}>
+      {{block.settings.phone}}
+    </a>
+    {%- endif -%}
+    {%- if block.settings.show_newsletter -%}
+    <a href="#" aria-label="Newsletter" class="newsletter-target small--hide" {% if headerDrop %}aria-hidden="true" focusable="false" tabindex="-1"{% endif %}>
+      {% include 'icons', icon: 'envelope' %}
+    </a>
+    {%- endif -%}
+    {%- if block.settings.show_search -%}
+    <a href="#" aria-label="Search" class="search-target" {% if headerDrop %}aria-hidden="true" focusable="false" tabindex="-1"{% endif %}>
+      {% include 'icons', icon: 'search' %}
+    </a>
+	{%- endif -%}
+    {%- if shop.customer_accounts_enabled and block.settings.show_user -%}
+      {%- if customer -%}
+      <a href="/account" class="small--hide" aria-label="My Account" class="user" {% if headerDrop %}aria-hidden="true" focusable="false" tabindex="-1"{% endif %}> 
+        {% include 'icons', icon: 'user' %}
+      </a>
+      {%- else -%}
+      <a href="/account/login" class="small--hide" aria-label="Log In" class="user" {% if headerDrop %}aria-hidden="true" focusable="false" tabindex="-1"{% endif %}>
+        {% include 'icons', icon: 'user' %}
+      </a>
+      {%- endif -%}
+    {%- endif -%}
+    <a class="cart-wrap" aria-label="Cart" href="/cart" {% if headerDrop %}aria-hidden="true" focusable="false" tabindex="-1"{% endif %}>
+      {% include 'icons', icon: 'basket' %}
+      <div class="count-wrap"><span class="count animation flex align-items-center justify-content-center"></span></div>
+    </a>
+  </div>
+</div>

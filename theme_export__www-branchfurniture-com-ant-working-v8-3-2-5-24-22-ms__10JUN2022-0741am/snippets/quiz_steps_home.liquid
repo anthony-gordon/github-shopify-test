@@ -1,0 +1,468 @@
+<!-- Home Office Products -->
+<section id="quiz-home" data-quiz="home" class="step disabled">
+  <div class="step-content-wrap">
+    <div class="heading">
+      <h2>What do you need for your home office?</h2>
+      <div class="text">Select all that apply:</div>
+    </div>
+    
+    <div class="options checkbox flex flex-wrap justify-content-center">
+      <div class="item ease-animation" role="checkbox" aria-checked="false" tabindex="0" data-step-related="quiz-home-chair" data-hubspot="Office Chair">
+        <div class="wrap">
+          <img alt="" class="checked-icon" src="{{"quiz-checked.png" | asset_url}}" />
+          {%- if section.settings.quiz_home_image1 -%}
+          <img class="lazyload lazypreload" alt="" src="{{"placeholder.png" | asset_url}}" data-srcset="{% include 'lazy_src', image: section.settings.quiz_home_image1 %}" />
+          {%- endif -%}
+          <div class="title">Office Chair</div>
+        </div>
+      </div>
+      <div class="item ease-animation" role="checkbox" aria-checked="false" tabindex="0" data-step-related="quiz-home-desk" data-hubspot="Desk">
+        <div class="wrap">
+          <img alt="" class="checked-icon" src="{{"quiz-checked.png" | asset_url}}" />
+          {%- if section.settings.quiz_home_image2 -%}
+          <img class="lazyload lazypreload" alt="" src="{{"placeholder.png" | asset_url}}" data-srcset="{% include 'lazy_src', image: section.settings.quiz_home_image2 %}" />
+          {%- endif -%}
+          <div class="title">Desk</div>
+        </div>
+      </div>
+      <div class="item ease-animation" role="checkbox" aria-checked="false" tabindex="0" data-step-related="quiz-home-storage" data-hubspot="Storage">
+        <div class="wrap">
+          <img alt="" class="checked-icon" src="{{"quiz-checked.png" | asset_url}}" />
+          {%- if section.settings.quiz_home_image3 -%}
+          <img class="lazyload lazypreload" alt="" src="{{"placeholder.png" | asset_url}}" data-srcset="{% include 'lazy_src', image: section.settings.quiz_home_image3 %}" />
+          {%- endif -%}
+          <div class="title">Storage</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Height -->
+<section id="quiz-home-chair-height" data-quiz="home" class="step disabled">
+  <div class="step-content-wrap">
+    <div class="heading">
+      <h2>Office Chair Needs</h2>
+      <div class="text">How tall are you?</div>
+    </div>
+    <div class="options flex flex-wrap justify-content-center" role="radiogroup">
+      <div class="item ease-animation" role="radio" aria-checked="false" tabindex="0" data-value="60" data-hubspot="Height 5' - 5'4">
+        <div class="wrap medium-down--flex align-items-center">
+          <img alt="" class="checked-icon" src="{{"quiz-checked.png" | asset_url}}" />
+          {%- if section.settings.quiz_home_chair_height_image1 -%}
+          <img class="lazyload" alt="" src="{{"placeholder.png" | asset_url}}" data-srcset="{% include 'lazy_src', image: section.settings.quiz_home_chair_height_image1 %}" />
+          {%- endif -%}
+          <div class="title">5' - 5'4"</div>
+        </div>
+      </div>
+
+      <div class="item ease-animation" role="radio" aria-checked="false" tabindex="0" data-value="65" data-hubspot="Height 5'5 - 6">
+        <div class="wrap medium-down--flex align-items-center">
+          <img alt="" class="checked-icon" src="{{"quiz-checked.png" | asset_url}}" />
+          {%- if section.settings.quiz_home_chair_height_image2 -%}
+          <img class="lazyload" alt="" src="{{"placeholder.png" | asset_url}}" data-srcset="{% include 'lazy_src', image: section.settings.quiz_home_chair_height_image2 %}" />
+          {%- endif -%}
+          <div class="title">5'5" - 6'</div>
+        </div>
+      </div>
+
+      <div class="item ease-animation" role="radio" aria-checked="false" tabindex="0" data-value="72" data-hubspot="Height 6'+">
+        <div class="wrap medium-down--flex align-items-center">
+          <img alt="" class="checked-icon" src="{{"quiz-checked.png" | asset_url}}" />
+          {%- if section.settings.quiz_home_chair_height_image3 -%}
+          <img class="lazyload" alt="" src="{{"placeholder.png" | asset_url}}" data-srcset="{% include 'lazy_src', image: section.settings.quiz_home_chair_height_image3 %}" />
+          {%- endif -%}
+          <div class="title">6'+</div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="flex align-items-center justify-content-center has-tooltip hover-tooltip" tabindex="0">
+      <div class="info">i</div>
+      <div class="tooltip center">Your height helps us recommend a chair with the right dimensions and weight capacity for you.</div>
+      <span>From The Ergonomist</span>
+    </div>
+    
+  </div>
+</section>
+
+<!-- Sitting time -->
+<section id="quiz-home-chair-time" data-quiz="home" class="step disabled">
+  <div class="step-content-wrap">
+    <div class="heading">
+      <h2>Office Chair Needs</h2>
+      <div class="text">How long will you sit in your chair every day?</div>
+    </div>
+    <div class="options flex flex-wrap justify-content-center" role="radiogroup">
+      <div class="item ease-animation" role="radio" aria-checked="false" tabindex="0" data-value="1" data-hubspot="Home - Chair - Time (1-4 hours)">
+        <div class="wrap medium-down--flex align-items-center">
+          <img alt="" class="checked-icon" src="{{"quiz-checked.png" | asset_url}}" />
+          {%- if section.settings.quiz_home_chair_time_image1 -%}
+          <img class="lazyload" alt="" src="{{"placeholder.png" | asset_url}}" data-srcset="{% include 'lazy_src', image: section.settings.quiz_home_chair_time_image1 %}" />
+          {%- endif -%}
+          <div class="title">1-4 hours</div>
+        </div>
+      </div>
+
+      <div class="item ease-animation" role="radio" aria-checked="false" tabindex="0" data-value="5" data-hubspot="Home - Chair - Time (5-7 hours)">
+        <div class="wrap medium-down--flex align-items-center">
+          <img alt="" class="checked-icon" src="{{"quiz-checked.png" | asset_url}}" />
+          {%- if section.settings.quiz_home_chair_time_image2 -%}
+          <img class="lazyload" alt="" src="{{"placeholder.png" | asset_url}}" data-srcset="{% include 'lazy_src', image: section.settings.quiz_home_chair_time_image2 %}" />
+          {%- endif -%}
+          <div class="title">5-7 hours</div>
+        </div>
+      </div>
+
+      <div class="item ease-animation" role="radio" aria-checked="false" tabindex="0" data-value="8" data-hubspot="Home - Chair - Time (8+ hours)">
+        <div class="wrap medium-down--flex align-items-center">
+          <img alt="" class="checked-icon" src="{{"quiz-checked.png" | asset_url}}" />
+          {%- if section.settings.quiz_home_chair_time_image3 -%}
+          <img class="lazyload" alt="" src="{{"placeholder.png" | asset_url}}" data-srcset="{% include 'lazy_src', image: section.settings.quiz_home_chair_time_image3 %}" />
+          {%- endif -%}
+          <div class="title">8+ hours</div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="flex align-items-center justify-content-center has-tooltip hover-tooltip" tabindex="0">
+      <div class="info">i</div>
+      <div class="tooltip center">All Branch chairs support a full day of work. But the right cushion and adjustments make longer hours more comfortable.</div>
+      <span>From The Ergonomist</span>
+    </div>
+    
+  </div>
+</section>
+
+<!-- Adjustments  -->
+<section id="quiz-home-chair-adjustments" data-quiz="home" class="step disabled">
+  <div class="step-content-wrap">
+    <div class="heading">
+      <h2>Office Chair Needs</h2>
+      <div class="text">How important is adjustability?</div>
+    </div>
+    <div class="options flex flex-wrap justify-content-center" role="radiogroup">
+      <div class="item ease-animation" role="radio" aria-checked="false" tabindex="0" data-value="simple" data-hubspot="Home - Chair - Adjustability (Simple)">
+        <div class="wrap medium-down--flex align-items-center">
+          <img alt="" class="checked-icon" src="{{"quiz-checked.png" | asset_url}}" />
+          {%- if section.settings.quiz_home_chair_adjustability_image1 -%}
+          <img class="lazyload" alt="" src="{{"placeholder.png" | asset_url}}" data-srcset="{% include 'lazy_src', image: section.settings.quiz_home_chair_adjustability_image1 %}" />
+          {%- endif -%}
+          <div class="title">Simple is better</div>
+        </div>
+      </div>
+
+      <div class="item ease-animation" role="radio" aria-checked="false" tabindex="0" data-value="balanced" data-hubspot="Home - Chair - Adjustability (Balanced)">
+        <div class="wrap medium-down--flex align-items-center">
+          <img alt="" class="checked-icon" src="{{"quiz-checked.png" | asset_url}}" />
+          {%- if section.settings.quiz_home_chair_adjustability_image2 -%}
+          <img class="lazyload" alt="" src="{{"placeholder.png" | asset_url}}" data-srcset="{% include 'lazy_src', image: section.settings.quiz_home_chair_adjustability_image2 %}" />
+          {%- endif -%}
+          <div class="title">Balance of simplicity and features</div>
+        </div>
+      </div>
+
+      <div class="item ease-animation" role="radio" aria-checked="false" tabindex="0" data-value="complex" data-hubspot="Home - Chair - Adjustability (Complex)">
+        <div class="wrap medium-down--flex align-items-center">
+          <img alt="" class="checked-icon" src="{{"quiz-checked.png" | asset_url}}" />
+          {%- if section.settings.quiz_home_chair_adjustability_image3 -%}
+          <img class="lazyload" alt="" src="{{"placeholder.png" | asset_url}}" data-srcset="{% include 'lazy_src', image: section.settings.quiz_home_chair_adjustability_image3 %}" />
+          {%- endif -%}
+          <div class="title">Give me all the adjustments!</div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="flex align-items-center justify-content-center has-tooltip hover-tooltip" tabindex="0">
+      <div class="info">i</div>
+      <div class="tooltip center">All Branch chairs offer core adjustments. Extra adjustments like seat depth and armrest width can help create a perfect fit.</div>
+      <span>From The Ergonomist</span>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- Lumbar Support  -->
+<section id="quiz-home-chair-lumbar" data-quiz="home" class="step disabled">
+  <div class="step-content-wrap">
+    <div class="heading">
+      <h2>Office Chair Needs</h2>
+      <div class="text">How much lumbar support do you like?</div>
+    </div>
+    <div class="options flex flex-wrap justify-content-center" role="radiogroup">
+      <div class="item ease-animation" role="radio" aria-checked="false" tabindex="0" data-value="firm" data-hubspot="Home - Chair - Lumbar (Firm)">
+        <div class="wrap medium-down--flex align-items-center">
+          <img alt="" class="checked-icon" src="{{"quiz-checked.png" | asset_url}}" />
+          {%- if section.settings.quiz_home_chair_lumbar_image1 -%}
+          <img class="lazyload" alt="" src="{{"placeholder.png" | asset_url}}" data-srcset="{% include 'lazy_src', image: section.settings.quiz_home_chair_lumbar_image1 %}" />
+          {%- endif -%}
+          <div class="title">Adjusts You (Firm)</div>
+        </div>
+      </div>
+
+      <div class="item ease-animation" role="radio" aria-checked="false" tabindex="0" data-value="medium" data-hubspot="Home - Chair - Lumbar (Medium)">
+        <div class="wrap medium-down--flex align-items-center">
+          <img alt="" class="checked-icon" src="{{"quiz-checked.png" | asset_url}}" />
+          {%- if section.settings.quiz_home_chair_lumbar_image2 -%}
+          <img class="lazyload" alt="" src="{{"placeholder.png" | asset_url}}" data-srcset="{% include 'lazy_src', image: section.settings.quiz_home_chair_lumbar_image2 %}" />
+          {%- endif -%}
+          <div class="title">Supports You (Medium)</div>
+        </div>
+      </div>
+
+      <div class="item ease-animation" role="radio" aria-checked="false" tabindex="0" data-value="light" data-hubspot="Home - Chair - Lumbar (Light)">
+        <div class="wrap medium-down--flex align-items-center">
+          <img alt="" class="checked-icon" src="{{"quiz-checked.png" | asset_url}}" />
+          {%- if section.settings.quiz_home_chair_lumbar_image3 -%}
+          <img class="lazyload" alt="" src="{{"placeholder.png" | asset_url}}" data-srcset="{% include 'lazy_src', image: section.settings.quiz_home_chair_lumbar_image3 %}" />
+          {%- endif -%}
+          <div class="title">Reminds You (Light)</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="flex align-items-center justify-content-center has-tooltip hover-tooltip" tabindex="0">
+      <div class="info">i</div>
+      <div class="tooltip center">If your posture is good already, opt for a firm lumbar to reinforce it. If you tend to round your back, start with medium or light support.</div>
+      <span>From The Ergonomist</span>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- (Home) Desk Quiz (step 1) -->
+<section id="quiz-home-desk-people" data-quiz="home" class="step disabled">
+  <div class="step-content-wrap">
+    <div class="heading">
+      <h2>Office Desk Needs</h2>
+      <div class="text">How many people will use this desk?</div>
+    </div>
+    <div class="options flex flex-wrap justify-content-center" role="radiogroup">
+      <div class="item ease-animation" role="radio" aria-checked="false" tabindex="0" data-value="single" data-hubspot="Home - Desk - People (Single)">
+        <div class="wrap medium-down--flex align-items-center">
+          <img alt="" class="checked-icon" src="{{"quiz-checked.png" | asset_url}}" />
+          {%- if section.settings.quiz_home_desk_people_image1 -%}
+          <img class="lazyload" alt="" src="{{"placeholder.png" | asset_url}}" data-srcset="{% include 'lazy_src', image: section.settings.quiz_home_desk_people_image1 %}" />
+          {%- endif -%}
+          <div class="title">Just me</div>
+        </div>
+      </div>
+
+      <div class="item ease-animation" role="radio" aria-checked="false" tabindex="0" data-value="multiple" data-hubspot="Home - Desk - People (Multiple)">
+        <div class="wrap medium-down--flex align-items-center">
+          <img alt="" class="checked-icon" src="{{"quiz-checked.png" | asset_url}}" />
+          {%- if section.settings.quiz_home_desk_people_image2 -%}
+          <img class="lazyload" alt="" src="{{"placeholder.png" | asset_url}}" data-srcset="{% include 'lazy_src', image: section.settings.quiz_home_desk_people_image2 %}" />
+          {%- endif -%}
+          <div class="title">More than one person</div>
+        </div>
+      </div>
+
+    </div>
+      
+    <div class="flex align-items-center justify-content-center has-tooltip hover-tooltip" tabindex="0">
+      <div class="info">i</div>
+      <div class="tooltip center">An adjustable height desk can help multiple people find the right fit.</div>
+      <span>From The Ergonomist</span>
+    </div>
+      
+  </div>
+</section>
+
+<!-- (Home) Desk Quiz (step 2) -->
+<section id="quiz-home-desk-goals" data-quiz="home" class="step disabled">
+  <div class="step-content-wrap">
+    <div class="heading">
+      <h2>What are your workspace goals?</h2>
+      <div class="text">Select all that apply:</div>
+    </div>
+    <div class="options checkbox flex flex-wrap justify-content-center">
+      <div class="item ease-animation" role="checkbox" aria-checked="false" tabindex="0" data-value="design" data-step-related="3" data-hubspot="Home - Desk - Goals (Beautiful Design)">
+        <div class="wrap">
+          <img alt="" class="checked-icon" src="{{"quiz-checked.png" | asset_url}}" />
+          {%- if section.settings.quiz_home_desk_goals_image1 -%}
+          <img class="lazyload lazypreload" alt="" src="{{"placeholder.png" | asset_url}}" data-srcset="{% include 'lazy_src', image: section.settings.quiz_home_desk_goals_image1 %}" />
+          {%- endif -%}
+          <div class="title">Modern Design</div>
+        </div>
+      </div>
+      <div class="item ease-animation" role="checkbox" aria-checked="false" tabindex="0" data-value="stability" data-step-related="4" data-hubspot="Home - Desk - Goals (Stable Work Surface)">
+        <div class="wrap">
+          <img alt="" class="checked-icon" src="{{"quiz-checked.png" | asset_url}}" />
+          {%- if section.settings.quiz_home_desk_goals_image2 -%}
+          <img class="lazyload lazypreload" alt="" src="{{"placeholder.png" | asset_url}}" data-srcset="{% include 'lazy_src', image: section.settings.quiz_home_desk_goals_image2 %}" />
+          {%- endif -%}
+          <div class="title">Stable Work Surface</div>
+        </div>
+      </div>
+      <div class="item ease-animation" role="checkbox" aria-checked="false" tabindex="0" data-value="posture" data-step-related="5" data-hubspot="Home - Desk - Goals (Better Posture)">
+        <div class="wrap">
+          <img alt="" class="checked-icon" src="{{"quiz-checked.png" | asset_url}}" />
+          {%- if section.settings.quiz_home_desk_goals_image3 -%}
+          <img class="lazyload lazypreload" alt="" src="{{"placeholder.png" | asset_url}}" data-srcset="{% include 'lazy_src', image: section.settings.quiz_home_desk_goals_image3 %}" />
+          {%- endif -%}
+          <div class="title">Better Posture</div>
+        </div>
+      </div>
+      <div class="item ease-animation" role="checkbox" aria-checked="false" tabindex="0" data-value="movement" data-step-related="4" data-hubspot="Home - Desk - Goals (Healthy Movement)">
+        <div class="wrap">
+          <img alt="" class="checked-icon" src="{{"quiz-checked.png" | asset_url}}" />
+          {%- if section.settings.quiz_home_desk_goals_image4 -%}
+          <img class="lazyload lazypreload" alt="" src="{{"placeholder.png" | asset_url}}" data-srcset="{% include 'lazy_src', image: section.settings.quiz_home_desk_goals_image4 %}" />
+          {%- endif -%}
+          <div class="title">Healthy Movement</div>
+        </div>
+      </div>
+      <div class="item ease-animation" role="checkbox" aria-checked="false" tabindex="0" data-value="accessories" data-step-related="4" data-hubspot="Home - Desk - Goals (Convenient Accessories)">
+        <div class="wrap">
+          <img alt="" class="checked-icon" src="{{"quiz-checked.png" | asset_url}}" />
+          {%- if section.settings.quiz_home_desk_goals_image5 -%}
+          <img class="lazyload lazypreload" alt="" src="{{"placeholder.png" | asset_url}}" data-srcset="{% include 'lazy_src', image: section.settings.quiz_home_desk_goals_image5 %}" />
+          {%- endif -%}
+          <div class="title">Convenient Accessories</div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="flex align-items-center justify-content-center has-tooltip hover-tooltip" tabindex="0">
+      <div class="info">i</div>
+      <div class="tooltip center">We'll select the right desk and recommend accessories like in-desk power to meet your needs.</div>
+      <span>From The Ergonomist</span>
+    </div>
+    
+  </div>
+</section>
+
+<!-- (Home) Desk Quiz (step 3) -->
+<section id="quiz-home-desk-size" data-quiz="home" class="step disabled">
+  <div class="step-content-wrap">
+    <div class="heading">
+      <h2>Office Desk Needs</h2>
+      <div class="text">How large of a work surface do you prefer?</div>
+    </div>
+    <div class="options flex flex-wrap justify-content-center" role="radiogroup">
+      <div class="item ease-animation" role="radio" aria-checked="false" tabindex="0" data-value="spacious" data-hubspot="Home - Desk - Size (Spacious)">
+        <div class="wrap medium-down--flex align-items-center">
+          <img alt="" class="checked-icon" src="{{"quiz-checked.png" | asset_url}}" />
+          {%- if section.settings.quiz_home_desk_size_image1 -%}
+          <img class="lazyload" alt="" src="{{"placeholder.png" | asset_url}}" data-srcset="{% include 'lazy_src', image: section.settings.quiz_home_desk_size_image1 %}" />
+          {%- endif -%}
+          <div class="title">Spacious</div>
+        </div>
+      </div>
+
+      <div class="item ease-animation" role="radio" aria-checked="false" tabindex="0" data-value="compact" data-hubspot="Home - Desk - Size (Compact)">
+        <div class="wrap medium-down--flex align-items-center">
+          <img alt="" class="checked-icon" src="{{"quiz-checked.png" | asset_url}}" />
+          {%- if section.settings.quiz_home_desk_size_image2 -%}
+          <img class="lazyload" alt="" src="{{"placeholder.png" | asset_url}}" data-srcset="{% include 'lazy_src', image: section.settings.quiz_home_desk_size_image2 %}" />
+          {%- endif -%}
+          <div class="title">Compact</div>
+        </div>
+      </div>
+
+    </div>
+    
+    <div class="flex align-items-center justify-content-center has-tooltip hover-tooltip" tabindex="0">
+      <div class="info">i</div>
+      <div class="tooltip center">Our larger desks are 60" wide and our smaller desks are 48" wide.</div>
+      <span>From The Ergonomist</span>
+    </div>
+    
+  </div>
+</section>
+
+<section id="quiz-home-storage-type" data-quiz="home" class="step disabled">
+  <div class="step-content-wrap">
+    <div class="heading">
+      <h2>Office Storage Needs</h2>
+      <div class="text">What will you use your office storage for?</div>
+    </div>
+    <div class="options flex flex-wrap justify-content-center" role="radiogroup">
+      <div class="item ease-animation" role="radio" aria-checked="false" tabindex="0" data-value="folders-files" data-hubspot="Home - Storage - Type (Folders & Files)">
+        <div class="wrap medium-down--flex align-items-center">
+          <img alt="" class="checked-icon" src="{{"quiz-checked.png" | asset_url}}" />
+          {%- if section.settings.quiz_home_storage_type_image1 -%}
+          <img class="lazyload" alt="" src="{{"placeholder.png" | asset_url}}" data-srcset="{% include 'lazy_src', image: section.settings.quiz_home_storage_type_image1 %}" />
+          {%- endif -%}
+          <div class="title">Mostly folders and files</div>
+        </div>
+      </div>
+      <div class="item ease-animation" role="radio" aria-checked="false" tabindex="0" data-value="knicknacks" data-hubspot="Home - Storage - Type (Knicknacks)">
+        <div class="wrap medium-down--flex align-items-center">
+          <img alt="" class="checked-icon" src="{{"quiz-checked.png" | asset_url}}" />
+          {%- if section.settings.quiz_home_storage_type_image2 -%}
+          <img class="lazyload" alt="" src="{{"placeholder.png" | asset_url}}" data-srcset="{% include 'lazy_src', image: section.settings.quiz_home_storage_type_image2 %}" />
+          {%- endif -%}
+          <a href="{{page.quiz}}">
+            <div class="title">Mostly supplies and knicknacks</div>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="quiz-home-storage-size" data-quiz="home" class="step disabled">
+  <div class="step-content-wrap">
+    <div class="heading">
+      <h2>Office Storage Needs</h2>
+      <div class="text">How much storage do you need?</div>
+    </div>
+    <div class="options flex flex-wrap justify-content-center" role="radiogroup">
+      <div class="item ease-animation" role="radio" aria-checked="false" tabindex="0" data-value="small" data-hubspot="Home - Storage - Size (Small)">
+        <div class="wrap medium-down--flex align-items-center">
+          <img alt="" class="checked-icon" src="{{"quiz-checked.png" | asset_url}}" />
+          {%- if section.settings.quiz_home_storage_size_image1 -%}
+          <img class="lazyload" alt="" src="{{"placeholder.png" | asset_url}}" data-srcset="{% include 'lazy_src', image: section.settings.quiz_home_storage_size_image1 %}" />
+          {%- endif -%}
+          <div class="title">Not a lot</div>
+        </div>
+      </div>
+      <div class="item ease-animation" role="radio" aria-checked="false" tabindex="0" data-value="large" data-hubspot="Home - Storage - Size (Large)">
+        <div class="wrap medium-down--flex align-items-center">
+          <img alt="" class="checked-icon" src="{{"quiz-checked.png" | asset_url}}" />
+          {%- if section.settings.quiz_home_storage_size_image2 -%}
+          <img class="lazyload" alt="" src="{{"placeholder.png" | asset_url}}" data-srcset="{% include 'lazy_src', image: section.settings.quiz_home_storage_size_image2 %}" />
+          {%- endif -%}
+          <a href="{{page.quiz}}">
+            <div class="title">A lot</div>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Contact -->
+<section id="quiz-home-contact" data-quiz="home" class="step disabled">
+  <div class="step-content-wrap">
+    <div class="heading">
+      <h2>One last step...</h2>
+      <div class="text">We'll use this info to save your answers</div>
+    </div>
+    <div class="form-wrap">
+      <div class="error-msg"></div>
+      {%- if settings.use_klaviyo_form -%}
+      <form class="form" id="home" action="//manage.kmail-lists.com/subscriptions/subscribe" data-ajax-submit="//manage.kmail-lists.com/ajax/subscriptions/subscribe" method="GET" target="_blank" novalidate="novalidate">
+        <input type="hidden" name="g" value="{{settings.klaviyo_home_quiz_list_id}}">
+        <input type="hidden" name="$fields" value="source">
+        <input type="hidden" name="source" value="Build Your Office">
+        <input type="text" placeholder="Your Name" name="name" class="required name cart-attribute" data-cart-attribute="Name" aria-label="Enter your Name" aria-required="true" autocomplete="given-name" />
+        <input type="text" placeholder="Phone Number (optional)" name="phone" class="phone cart-attribute" data-cart-attribute="Phone Number" aria-label="Enter your phone number" autocomplete="tel" />
+        <input type="email" placeholder="Email Address" name="email" id="quiz-home-email-input" class="required email cart-attribute" data-cart-attribute="Email" aria-label="Enter your email address" aria-required="true" autocomplete="email" />
+        <button class="btn" type="submit">See Results</button>
+      </form>
+      {%- else -%}
+      <form class="form" id="home">
+        <input type="text" placeholder="Your Name" name="name" class="required name cart-attribute" data-cart-attribute="Name" aria-label="Enter your Name" aria-required="true" autocomplete="given-name" />
+        <input type="text" placeholder="Phone Number (optional)" name="phone" class="phone cart-attribute" data-cart-attribute="Phone Number" aria-label="Enter your phone number" autocomplete="tel" />
+        <input type="email" placeholder="Email Address" name="email" class="email required cart-attribute" data-cart-attribute="Email" aria-label="Enter your Email Address" aria-required="true" autocomplete="email" />
+        <button class="btn" type="submit">See Results</button>
+      </form>
+      {%- endif -%}
+    </div>
+  </div>
+</section>

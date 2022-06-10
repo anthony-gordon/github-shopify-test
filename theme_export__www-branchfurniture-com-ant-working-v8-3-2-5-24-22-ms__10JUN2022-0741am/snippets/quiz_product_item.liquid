@@ -1,0 +1,64 @@
+<div class="product-item animation grid__item one-third small--one-half">
+  <div class="image-wrapper" style="position: relative;">
+    {%- if settings.grid_product_image_behavior == "thumbs_swatches" -%}
+    {%- include 'product_item_img_swatches' -%}
+    {%- elsif settings.grid_product_image_behavior == "alternate_image" -%}
+    {%- include 'product_item_img_alternate' -%}
+    {%- else -%}
+    {%- include 'product_item_img' -%}
+    {%- endif -%}
+
+    {%- if item.quantity > 1 -%}
+    <div class="quantity flex align-items-center justify-content-center"><span>x{{item.quantity}}</span></div>
+    {%- endif -%}
+    
+    {%- if quickview -%}
+    <div class="layer edit-item customize-btn ease-animation flex align-items-center justify-content-center" tabindex="0"data-url="{{ currentProduct.url }}?view=quick-view-new" data-qty="{{ item.quantity }}" data-variant="{{item.variant.id}}" data-item-key="{{ item.key }}">
+      Customize
+    </div>
+    {%- endif -%}
+  </div>
+
+  {%- if settings.grid_product_image_behavior == "thumbs_swatches" -%}
+  {%- include 'thumbs_swatches' -%}
+  {%- endif -%}
+
+  <div class="info flex justify-content-between align-items-start">
+    <div class="title animation">{{ currentProduct.title }}</div>
+    <div class="price flex align-items-center">
+      {%- if currentProduct.price_min != currentProduct.price_max -%}
+      <span class="from">from</span>
+      {%- endif -%}
+      <div class="deal">
+        <span class="red-price" data-price="deal">{{ currentProduct.price_min | money | remove: '.00' | remove: ' ' }}</span>
+      </div>
+    </div>
+  </div>
+    <span class="stamped-product-reviews-badge stamped-main-badge" data-id="{{ currentProduct.id }}" style="display: block;margin-top:10px;margin-bottom:10px;" data-product-sku="{{product.handle}}"></span>
+    {%- if currentProduct.metafields.global.collection_bullet_one or currentProduct.metafields.global.collection_bullet_two or currentProduct.metafields.global.collection_bullet_three -%}
+    <style>
+      ul.collection-ul {
+        list-style-image: url('{{ 'checkmark-blue-spaced.png' | asset_url }}');
+        margin-left: 1px;
+      }
+      .collection-ul li {
+      	margin-bottom: 10px;
+      }
+      @media all and (max-width: 900px){
+        .hide-collection-li {
+          display: none;
+        }
+      }
+    </style>
+    <div>
+      <ul class="collection-ul">
+        {% assign collection_bullets = "collection_bullet_one,collection_bullet_two,collection_bullet_three" | split: ',' %}
+        {% for bullet in collection_bullets %}
+          {%- if currentProduct.metafields.global[bullet] -%}
+            <li {% unless forloop.first == true %}class="hide-collection-li"{% endunless %}>{{currentProduct.metafields.global[bullet]}}</li>
+          {%- endif -%}
+        {% endfor %}
+      </ul>
+    </div>
+    {%- endif -%}
+</div>

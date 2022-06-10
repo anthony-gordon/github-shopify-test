@@ -1,0 +1,49 @@
+<div class="green_wrapper">
+  <div class="container">
+    <div class="main_green_wrap">
+       <div class="row">
+         <div class="col-sm-12">
+           <div class="main_section_green">
+           <div class="section_green">
+             <p>{{ section.settings.title }}</p>
+           </div>
+           <div class="section_green button">
+             <a href="{{ section.settings.button_url }}">{{ section.settings.button_text }}</a>
+           </div>
+           </div>
+         </div>
+      </div>
+    </div> 
+  </div>
+</div>
+
+
+{% schema %}
+{
+  "name": "Green Bar Section",
+  "class": "index-section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading"
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button Text"
+    },
+    {
+      "type": "url",
+      "id": "button_url",
+      "label": "Button Link"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Green Bar Section",
+      "category": "text"
+    }
+  ]
+}
+{% endschema %}

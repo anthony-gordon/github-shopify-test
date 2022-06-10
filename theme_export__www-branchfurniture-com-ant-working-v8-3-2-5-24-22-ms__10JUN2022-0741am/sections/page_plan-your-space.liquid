@@ -1,0 +1,947 @@
+<style>
+  #header {border: none;}
+  
+  .hero-banner {position: relative; }
+  .hero-banner .wrap {position: relative;}
+  .hero-banner img {display: block; width: 100%; position: relative;}
+  .hero-banner .image-wrap {position: relative; z-index: 2;}
+  .hero-banner .text-column .copy {position: relative;}
+  .hero-banner p {color: inherit;}
+  .hero-banner p:last-child {margin: 0;}
+  .hero-banner .btn {margin-top: 1.5em; width: 100%; max-width: 18em;}
+  .hero-banner .title {line-height: 110%; margin-bottom: 0.3em;}
+  .hero-banner .wrap {position: relative;}
+  
+  .how-it-works {text-align: center;}
+  .how-it-works .content {text-align: left;}
+  .how-it-works img {display: block; width: 100%;}
+  .how-it-works .title {color: inherit; line-height: 130%; margin-bottom: 1.3em;}
+  .how-it-works p {color: inherit;}
+  .how-it-works p:last-child {margin: 0;}
+  .how-it-works .step {position: relative;}
+  .how-it-works .step:first-child .img {margin-top: -1em;}
+  .how-it-works .step:not(:last-child) {margin-bottom: 3em;}
+  .how-it-works .step .step-img {width: 16.8%;}
+  .how-it-works .step .info {padding-left: 2em; padding-top: 0.2em;}
+  .how-it-works .step .step-title {font-size: 1.35em; line-height: 150%; margin-bottom: 0.5em; font-weight: 500;}
+  .how-it-works .step .step-text p  {line-height: 200%;}
+  .how-it-works .text-column .wrap:before {content: ''; position: absolute; left: 8.4%; height: 100%; width: 2px; background: #AA6F58; margin-left: -1px;}
+  
+  .zigzag {position: relative; overflow: hidden;}
+  .zigzag .wrap {position: relative;}
+  .zigzag img {width: 100%; display: block;}
+  .zigzag .image-wrap {position: relative; z-index: 2;}
+  .zigzag p {color: inherit;}
+  .zigzag p:last-child {margin: 0;}
+  .zigzag .btn {margin-top: 2em; width: 100%; max-width: 18em;}
+  .zigzag .title {max-width: 9em; color: inherit;}
+  .zigzag .wrap {position: relative;}
+  .zigzag .copy {position: relative; margin: auto; z-index: 3;}
+  .zigzag .grid-full:not(:last-child) {margin-bottom: 4em;}
+  
+  .image-text {position: relative; }
+  .image-text .wrap {position: relative;}
+  .image-text img {width: 100%;}
+  .image-text .image-wrap {position: relative; z-index: 2;}
+  .image-text .text-column {padding: 0 2em;}
+  .image-text p {color: inherit;}
+  .image-text p:last-child {margin: 0;}
+  .image-text .btn {margin-top: 2em; width: 100%; max-width: 18em;}
+  .image-text .title {line-height: 110%;}
+  .image-text .wrap {position: relative; margin: auto;}
+  
+  @media all and (min-width: 900px){
+    .hero-banner .btn {padding: 1.7em 3em;}
+    
+    .zigzag .btn {padding: 1.7em 3em; }
+    
+    .image-text .btn {padding: 1.7em 3em;}
+  }
+  
+  @media all and (max-width: 900px){
+    .zigzag .container {padding: 0;}
+    .zigzag .wrap {margin: 0 !important; padding: 2.5em 1em 3em !important; max-width: 100% !important;}
+    .zigzag .title {max-width: 10em;}
+    .zigzag .grid-full {margin-bottom: 0 !important;}
+    
+    .image-text .img {height: 0; padding-top: 50%; }
+    .image-text .container {padding: 0 1rem;}
+    .image-text .text-column {padding: 0;}
+    .image-text .btn {width: 100%; max-width: 100%;}
+    
+    .how-it-works .step .info {padding-left: 1.2em;}
+    .how-it-works .step .step-img {width: 16%;}
+    .how-it-works .text-column .wrap:before {left: 8%;}
+    .how-it-works .step:not(:last-child) {margin-bottom: 2em;}
+    .how-it-works .step .step-text p {font-weight: 400; line-height: 190%;}
+    .how-it-works .step .step-title {font-size: 1.25em;}
+   
+    .hero-banner .title {font-size: 2.14em !important;}
+    .how-it-works .title {font-size: 1.8em !important; letter-spacing: 0.02em;}
+    .zigzag .title {font-size: 2.14em !important;}
+    .image-text .title {font-size: 2.14em !important;}
+  }
+  
+  @media all and (max-width: 600px){
+    .hero-banner .btn {width: 100%; max-width: 100%;}
+    .hero-banner p {font-weight: 400;}
+    .hero-banner .container {padding: 0 1rem;}
+    
+    .how-it-works .step .step-img {width: 19%;}
+    .how-it-works .text-column .wrap:before {left: 9.5%;}
+    
+    .zigzag .image-wrap {margin: auto;}
+    .zigzag p {font-weight: 400;}
+    
+    .image-text .image-wrap {margin: auto;}
+    .image-text p {font-weight: 400;}
+  }
+</style>
+
+{%- for block in section.blocks -%}
+{%- if block.type == 'hero_banner' -%}
+<section id="block-{{block.id}}" class="hero-banner {% if block.settings.image != blank %}with-image{% endif %}">
+  <style>
+    #block-{{block.id}} {overflow: hidden; padding: {{block.settings.section_padding_desktop}}; background-color: {{block.settings.bg_color}};}
+    #block-{{block.id}} .title {color: {{block.settings.title_color}};}
+    #block-{{block.id}} .text {color: {{block.settings.text_color}};}
+    #block-{{block.id}} .wrap {max-width: {{block.settings.text_width}}em; margin: auto; padding: {{block.settings.text_padding_desktop}};}
+    #block-{{block.id}}.with-image .wrap {margin-left: auto; margin-right: 0;}
+    #block-{{block.id}}.with-image .row-reverse .wrap {margin-left: 0; }
+    @media all and (min-width: 901px){
+      #block-{{block.id}} .image-wrap {width: {{block.settings.image_width_}}%; }
+      #block-{{block.id}}:not(.with-image) .text-column {background-color: {{block.settings.text_bg_color}};}
+      #block-{{block.id}}.with-image .text-column {padding-left: 2em; padding-right: 0;}
+      #block-{{block.id}}.with-image .row-reverse .text-column {padding-right: 2em; padding-left: 0;}
+      #block-{{block.id}}.with-image .text-column .wrap:before {content: ''; background-color: {{block.settings.text_bg_color}}; position: absolute; bottom: 2.3em; right: -100vw; height: 100%; width: 200vw;}
+      #block-{{block.id}}.with-image .row-reverse .text-column .wrap:before {right: auto; left: -100vw;}
+      #block-{{block.id}} .title {font-size: {{block.settings.title_size}};}
+      #block-{{block.id}} .text {font-size: {{block.settings.text_size}};}
+    }
+    @media all and (max-width: 900px){
+      {%- assign paddingMobile = block.settings.section_padding_mobile | split: ' ' -%}
+      #block-{{block.id}} {padding: 0 {{paddingMobile[1]}} {{paddingMobile[2]}} {{paddingMobile[3]}};}
+      #block-{{block.id}} .wrap {padding: {{block.settings.text_padding_mobile}}; margin: auto !important;}
+      #block-{{block.id}} .image-wrap {position: relative; padding: 0 0.5em; padding-top: {{paddingMobile[0]}} ;}
+      #block-{{block.id}} .image-wrap:before {content: ''; background-color: {{block.settings.text_bg_color}}; position: absolute; top: 0; left: -1rem; height: 50%; width: calc(100% + 2rem);}
+    }
+  </style>
+  <div class="container">
+    <div class="grid-full content {{block.settings.image_position}}">
+      {%- if block.settings.image != blank -%}
+      <div class="grid__item image-wrap medium-down--one-whole">
+        <img class="img lazyload" src="{{"placeholder.png" | asset_url}}" data-sizes="auto" data-srcset="{% include 'lazy_src', image: block.settings.image %}" />
+      </div>
+      {%- endif -%}
+      <div class="grid__item text-column large--flex-1 medium--flex-1 medium-down--one-whole">
+        <div class="wrap text-{{block.settings.text_align}} medium-down--text-{{block.settings.text_align_mobile}}">
+          <div class="copy">
+            {%- if block.settings.title != "" -%}
+            <h1 class="title">{{block.settings.title}}</h1>
+            {%- endif -%}
+            {%- if block.settings.text != blank -%}
+            <div class="text">{{block.settings.text}}</div>
+            {%- endif -%}
+            {%- if block.settings.button != "" -%}
+            {%- if block.settings.typeform_link -%}
+             <a class="btn" href="https://branchfurniture.typeform.com/to/x1WTiT" data-mode="drawer_right" data-submit-close-delay="0" target="_blank">{{block.settings.button}}</a>
+            <script> (function() { var qs,js,q,s,d=document, gi=d.getElementById, ce=d.createElement, gt=d.getElementsByTagName, id="typef_orm_share", b="https://embed.typeform.com/"; if(!gi.call(d,id)){ js=ce.call(d,"script"); js.id=id; js.src=b+"embed.js"; q=gt.call(d,"script")[0]; q.parentNode.insertBefore(js,q) } })() </script>
+            {%- else -%}
+            <a href="{{block.settings.link}}" class="btn">{{block.settings.button}}</a>
+            {%- endif -%}
+           {%- endif -%}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{%- elsif block.type == 'how_it_works' -%}
+<section id="block-{{block.id}}" class="how-it-works">
+  <style>
+    #block-{{block.id}} {overflow: hidden; padding: {{block.settings.section_padding_desktop}}; background-color: {{block.settings.bg_color}}; color: {{block.settings.text_color}};}
+    #block-{{block.id}} .container {max-width: {{block.settings.section_max_width}};}
+    #block-{{block.id}} .text-column .wrap {max-width: 30em; position: relative;}
+    #block-{{block.id}} .step .img {background-color: {{block.settings.bg_color}}; padding: 0.5em 0;}
+    #block-{{block.id}} .step:last-child .step-img {background-color: {{block.settings.bg_color}};}
+    @media all and (min-width: 901px){
+      #block-{{block.id}} .image-wrap {width: {{block.settings.image_width_}}%;}
+      {%- if block.settings.image != blank -%}
+        #block-{{block.id}} .text-column {padding-left: 2em;}
+        #block-{{block.id}} .row-reverse .text-column {padding-right: 2em; padding-left: 0;}
+        #block-{{block.id}} .text-column .wrap {margin-left: auto;}
+        #block-{{block.id}} .row-reverse .text-column .wrap {margin-left: 0;}
+      {%- endif -%}
+    }
+    @media all and (max-width: 900px){
+      #block-{{block.id}} {padding: {{block.settings.section_padding_mobile}};}
+      #block-{{block.id}} .image-wrap {display: none;}
+      #block-{{block.id}} .text-column .wrap  {margin: auto !important;}
+    }
+  </style>
+  <div class="container">
+    {%- if block.settings.title != "" -%}
+    <h2 class="title">{{block.settings.title}}</h2>
+    {%- endif -%}
+    <div class="grid-full content {{block.settings.image_position}}">
+      {%- if block.settings.image != blank -%}
+      <div class="grid__item image-wrap medium-down--one-whole">
+        <img class="img lazyload" alt="" src="{{"placeholder.png" | asset_url}}" data-sizes="auto" data-srcset="{% include 'lazy_src', image: block.settings.image %}" />
+      </div>
+      {%- endif -%}
+      <div class="grid__item text-column large--flex-1 medium--flex-1 medium-down--one-whole">
+        <div class="wrap">
+          {%- for i in (1..3) -%}
+          	{%- assign image = 'image' | append: i -%}
+          	{%- assign title = 'title' | append: i -%}
+          	{%- assign text = 'text' | append: i -%}
+            {%- if block.settings[image] != blank or block.settings[title] != "" or block.settings[text] != blank -%}
+              <div class="flex step">
+                {%- if block.settings[image] != blank -%}
+                <div class="step-img">
+                  <img alt="" class="img lazyload" src="{{"placeholder.png" | asset_url}}" data-sizes="auto" data-srcset="{% include 'lazy_src', image: block.settings[image] %}" />
+                </div>
+                {%- endif -%}
+                {%- if block.settings[title] != "" or block.settings[text] != blank -%}
+                <div class="info flex-1">
+                  {%- if block.settings[title] != "" -%}
+                      <div class="step-title">{{block.settings[title]}}</div>
+                  {%- endif -%}
+                  {%- if block.settings[text] != blank -%}
+                      <div class="step-text">{{block.settings[text]}}</div>
+                  {%- endif -%}
+                </div>
+                {%- endif -%}
+              </div>
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{%- elsif block.type == 'zigzag' -%}
+<section id="block-{{block.id}}" class="zigzag">
+  <style>
+    #block-{{block.id}} {padding: {{block.settings.section_padding_desktop}}; background-color: {{block.settings.bg_color}};}
+    #block-{{block.id}} .section-1 {-webkit-box-align: end; -ms-flex-align: end; align-items: flex-end;}
+    #block-{{block.id}} .section-1 .text-column .wrap:before {content: ''; position: absolute; top: 0; right: 0; height: calc(100% + 10em); width: 100vw; }
+    #block-{{block.id}} .section-1 .wrap {max-width: 36em; margin-right: 2em; padding: 8em 5em 2em 0;}
+    #block-{{block.id}} .section-2 {-webkit-box-align: center; -ms-flex-align: center; align-items: center; -webkit-box-orient: horizontal;-webkit-box-direction: reverse;-ms-flex-direction: row-reverse;flex-direction: row-reverse;}
+    #block-{{block.id}} .section-2 .text-column .wrap:before {content: ''; position: absolute; bottom: 0; left: -7.1em; height: calc(100% + 18em); width: 100vw; }
+    #block-{{block.id}} .section-2 .wrap {max-width: 31.5em; margin-left: 2em; padding: 5em 0 5em 0; margin-left: auto;}
+    #block-{{block.id}} .section-3 {-webkit-box-align: start; -ms-flex-align: start; align-items: flex-start;}
+    #block-{{block.id}} .section-3 .text-column .wrap:before {content: ''; position: absolute; bottom: 0; right: 0; height: calc(100% + 15em); width: 100vw; }
+    #block-{{block.id}} .section-3 .wrap {max-width: 36em; margin-right: 2em; padding: 6em 6em 8em 0;}
+    @media all and (max-width: 1240px) and (min-width: 900px){
+      #block-{{block.id}} .section-1 .wrap {padding: 3em 2em 2em 0;}
+      #block-{{block.id}} .section-2 .wrap {padding: 3em 0 3em 0; margin-left: 0; padding-left: 4em;}
+      #block-{{block.id}} .section-3 .wrap {padding: 3em 3em 3em 0;}
+      #block-{{block.id}} .section-1 .text-column .wrap:before {height: calc(100% + 10em);}
+      #block-{{block.id}} .section-2 .text-column .wrap:before {height: calc(100% + 15em);}
+      #block-{{block.id}} .section-3 .text-column .wrap:before {height: calc(100% + 10em);}
+      #block-{{block.id}} .section-2 .text-column .wrap:before {left: 0;}
+    }
+    @media all and (min-width: 900px){
+      #block-{{block.id}} .title {font-size: {{block.settings.title_size}};}
+      #block-{{block.id}} .text {font-size: {{block.settings.text_size}};}
+      #block-{{block.id}} .section-1 .image-wrap {width: 52%;}
+      #block-{{block.id}} .section-2 .image-wrap {width: 55%;}
+      #block-{{block.id}} .section-3 .image-wrap {width: 52%;}
+    }
+    @media all and (max-width: 900px){
+      #block-{{block.id}} {padding: {{block.settings.section_padding_mobile}};}
+      #block-{{block.id}} .text-column .wrap:before {display: none !important;}
+      #block-{{block.id}} .section-3 .image-wrap {display: none !important;}
+    }
+  </style>
+  <div class="container">
+  	{%- for i in (1..3) -%}
+      {%- assign image = 'image' | append: i -%}
+      {%- assign title = 'title' | append: i -%}
+      {%- assign text = 'text' | append: i -%}
+      {%- assign bg_color = 'bg_color' | append: i -%}
+      {%- assign text_color = 'text_color' | append: i -%}
+   	  {%- if block.settings[image] != blank or block.settings[title] != "" or block.settings[text] != blank -%}
+      <style>
+        #block-{{block.id}} .section-{{i}} .text-column {color: {{block.settings[text_color]}};}
+        #block-{{block.id}} .section-{{i}} .text-column .wrap:before {background-color: {{block.settings[bg_color]}};}
+        @media all and (max-width: 900px){
+          #block-{{block.id}} .section-{{i}} .wrap {background-color: {{block.settings[bg_color]}};}
+        }
+      </style>
+      <div class="section-{{i}} grid-full content">
+        <div class="grid__item text-column large--flex-1 medium--flex-1 medium-down--one-whole">
+          <div class="wrap">
+            <div class="copy">
+              {%- if block.settings[title] != "" -%}
+              <h2 class="title">{{block.settings[title]}}</h2>
+              {%- endif -%}
+              {%- if block.settings[text] != blank -%}
+              <div class="text">{{block.settings[text]}}</div>
+              {%- endif -%}
+            </div>
+          </div>
+        </div>
+        <div class="grid__item image-wrap medium-down--one-whole">
+          {%- if block.settings[image] != blank -%}
+          <img alt="" class="img lazyload" src="{{"placeholder.png" | asset_url}}" data-sizes="auto" data-srcset="{% include 'lazy_src', image: block.settings[image] %}" />
+          {%- endif -%}
+        </div>
+      </div>
+      {%- endif -%}
+    {%- endfor -%}
+  </div>
+</section>
+{%- elsif block.type == 'image_text' -%}
+<section id="block-{{block.id}}" class="image-text {% if block.settings.image != blank %}with-image{% endif %}">
+  <style>
+    #block-{{block.id}} {padding: {{block.settings.section_padding_desktop}}; background-color: {{block.settings.bg_color}};}
+    #block-{{block.id}} .title {color: {{block.settings.title_color}};}
+    #block-{{block.id}} .text {color: {{block.settings.text_color}};}
+    #block-{{block.id}} .wrap {max-width: {{block.settings.text_width}}em; padding: {{block.settings.text_padding_desktop}};}
+    #block-{{block.id}}:not(.with-image) .text-column {background-color: {{block.settings.text_bg_color}};}
+    #block-{{block.id}}.with-image .text-column:before {content: ''; background-color: {{block.settings.text_bg_color}}; position: absolute; top: 0; right: 0; height: 100%; {% if block.settings.text_bg_extend %}width: calc({{100 | minus: block.settings.image_width_ }}% + 6em){% else %}width: {{100 | minus: block.settings.image_width_ }}%{% endif %}; }
+    #block-{{block.id}}.with-image .row-reverse .text-column:before {right: auto; left: 0;}
+    @media all and (min-width: 901px){
+      #block-{{block.id}} .image-wrap {width: {{block.settings.image_width_}}%; }
+      #block-{{block.id}}:not(.with-image) .text-column {background-color: {{block.settings.text_bg_color}};}
+      #block-{{block.id}}.with-image .text-column:before {content: ''; background-color: {{block.settings.text_bg_color}}; position: absolute; top: 0; right: 0; height: 100%; {% if block.settings.text_bg_extend %}width: calc({{100 | minus: block.settings.image_width_ }}% + 6em){% else %}width: {{100 | minus: block.settings.image_width_ }}%{% endif %};}
+      #block-{{block.id}}.with-image .row-reverse .text-column:before {right: auto; left: 0;}
+      #block-{{block.id}} .title {font-size: {{block.settings.title_size}};}
+      #block-{{block.id}} .text {font-size: {{block.settings.text_size}};}
+    }
+    @media all and (max-width: 900px){
+      #block-{{block.id}} {padding: {{block.settings.section_padding_mobile}};}
+      #block-{{block.id}} .wrap {padding: {{block.settings.text_padding_mobile}};}
+      #block-{{block.id}}.with-image .text-column:before {width: 100%; left: 0; top: 11em; {% if block.settings.button != "" %}bottom: 4.5em;{% else %}bottom: 0{% endif %}; height: auto;}
+    }
+    @media all and (max-width: 600px){
+      #block-{{block.id}} .img {padding-top: {{block.settings.image_height_mobile}};}
+    }
+  </style>
+  <div {% unless block.settings.full_width %}class="container"{% endunless %}>
+    <div class="grid-full content {{block.settings.image_position}}">
+      {%- if block.settings.image != blank -%}
+      <div class="grid__item image-wrap medium-down--one-whole">
+        <div class="img lazyload" data-bgset="{% include 'lazy_src', image: block.settings.image %}"></div>
+      </div>
+      {%- endif -%}
+      <div class="grid__item text-column large--flex-1 medium--flex-1 medium-down--one-whole">
+        <div class="wrap text-{{block.settings.text_align}} medium-down--text-{{block.settings.text_align_mobile}}">
+          {%- if block.settings.title != "" -%}
+          <h2 class="title">{{block.settings.title}}</h2>
+          {%- endif -%}
+          {%- if block.settings.text != blank -%}
+          <div class="text">{{block.settings.text}}</div>
+          {%- endif -%}
+          {%- if block.settings.button != "" -%}
+          <a href="{{block.settings.link}}" class="btn">{{block.settings.button}}</a>
+          {%- endif -%}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{%- endif -%}
+{%- endfor -%}
+
+{% schema %}
+  {
+    "name": "Plan Your Space",
+    "presets": [
+      {
+        "name": "Plan Your Space",
+        "category": "Page"
+      }
+    ],
+	"settings": [
+         
+    ],
+    "blocks": [
+	  {
+        "type": "hero_banner",
+        "name": "Hero Banner",
+        "settings": [
+          {
+            "type": "color",
+            "id": "bg_color",
+            "label": "Background Color",
+            "default": "rgba(0,0,0,0)"
+          },
+          {
+            "type": "text",
+            "id": "section_padding_desktop",
+            "label": "Section Padding (Desktop)",
+            "default": "0"
+          },
+          {
+            "type": "text",
+            "id": "section_padding_mobile",
+            "label": "Section Padding (Mobile)",
+            "default": "0"
+          },
+          {
+            "type": "select",
+            "id": "image_position",
+            "label": "Image Position",
+            "options": [
+              {"value": "normal", "label": "Left"},
+              {"value": "row-reverse", "label": "Right"}
+            ],
+            "default": "normal"
+          },
+          {
+            "type": "range",
+            "id": "image_width_",
+            "min": 0,
+            "max": 100,
+            "step": 1,
+            "unit": "%",
+            "label": "Image Width",
+            "default": 50
+          },
+          {
+            "type": "image_picker",
+            "id": "image",
+            "label": "Image"
+          },
+          {
+            "type": "header",
+            "content": "Text Settings"
+          },
+          {
+            "type": "color",
+            "id": "text_bg_color",
+            "label": "Text Background Color",
+            "default": "#F3EEEA"
+          },
+          {
+            "type": "select",
+            "id": "text_align",
+            "label": "Text Alignment (Desktop)",
+            "options": [
+              {"value": "left", "label": "Left"},
+              {"value": "center", "label": "Center"},
+              {"value": "right", "label": "Right"}
+            ],
+            "default": "left"
+          },
+          {
+            "type": "select",
+            "id": "text_align_mobile",
+            "label": "Text Alignment (Mobile)",
+            "options": [
+              {"value": "left", "label": "Left"},
+              {"value": "center", "label": "Center"},
+              {"value": "right", "label": "Right"}
+            ],
+            "default": "center"
+          },
+          {
+            "type": "range",
+            "id": "text_width",
+            "min": 0,
+            "max": 100,
+            "step": 1,
+            "unit": "em",
+            "label": "Text Width",
+            "default": 40
+          },
+          {
+            "type": "text",
+            "id": "text_padding_desktop",
+            "label": "Text Padding (Desktop)",
+            "default": "3em 0"
+          },
+          {
+            "type": "text",
+            "id": "text_padding_mobile",
+            "label": "Text Padding (Mobile)",
+            "default": "2em 0 0"
+          },
+          {
+            "type": "textarea",
+            "id": "title",
+            "label": "Title",
+          	"default": "Lorem ipsum dolor."
+          },
+          {
+            "type": "text",
+            "id": "title_size",
+            "label": "Title Font Size",
+            "default": "2.7em"
+          },
+          {
+            "type": "color",
+            "id": "title_color",
+            "label": "Title Color",
+            "default": "#314438"
+          },
+          {
+            "type": "richtext",
+            "id": "text",
+            "label": "Text",
+            "default": "<p>Lorem ipsum dolor sit amet, consectur adipiscing elit. Nunc eu eros augue. Cras tempus finibus mi, at aliquet orci vestibulum sit amet.</p>"
+          },
+          {
+            "type": "text",
+            "id": "text_size",
+            "label": "Text Font Size",
+            "default": "1.25em"
+          },
+          {
+            "type": "color",
+            "id": "text_color",
+            "label": "Text Color",
+            "default": "#314438"
+          },
+          {
+            "type": "text",
+            "id": "button",
+            "label": "Button",
+          	"default": "Button"
+          },
+          {
+            "type": "url",
+            "id": "link",
+            "label": "Link"
+          },
+          {
+            "type": "checkbox",
+            "id": "typeform_link",
+            "label": "Use the Typeform Link instead?",
+            "default":  true
+          }
+		]
+	  },
+	  {
+        "type": "how_it_works",
+        "name": "How it Works",
+        "settings": [
+          {
+            "type": "color",
+            "id": "bg_color",
+            "label": "Background Color",
+            "default": "#ffffff"
+          },
+          {
+            "type": "text",
+            "id": "section_padding_desktop",
+            "label": "Section Padding (Desktop)",
+            "default": "3em 0"
+          },
+          {
+            "type": "text",
+            "id": "section_padding_mobile",
+            "label": "Section Padding (Mobile)",
+            "default": "2em 0"
+          },
+          {
+            "type": "text",
+            "id": "section_max_width",
+            "label": "Section Max-width",
+            "default": "61.42em"
+          },
+          {
+            "type": "textarea",
+            "id": "title",
+            "label": "Title",
+            "default": "How it Works"
+          },
+          {
+            "type": "color",
+            "id": "text_color",
+            "label": "Text Color",
+            "default": "#314438"
+          },
+          {
+            "type": "select",
+            "id": "image_position",
+            "label": "Image Position",
+            "options": [
+              {"value": "normal", "label": "Left"},
+              {"value": "row-reverse", "label": "Right"}
+            ],
+            "default": "normal"
+          },
+          {
+            "type": "range",
+            "id": "image_width_",
+            "min": 0,
+            "max": 100,
+            "step": 1,
+            "unit": "%",
+            "label": "Image Width",
+            "default": 50
+          },
+          {
+            "type": "image_picker",
+            "id": "image",
+            "label": "Image"
+          },
+          {
+            "type": "header",
+            "content": "Step 1"
+          },
+          {
+            "type": "image_picker",
+            "id": "image1",
+            "label": "Image"
+          },
+          {
+            "type": "text",
+            "id": "title1",
+            "label": "Title",
+            "default": "Share your vision"
+          },
+          {
+            "type": "richtext",
+            "id": "text1",
+            "label": "Text",
+			"default": "<p>Share your floor plan and answer a few questions. How big is your team? What's your work style?</p>"
+          },
+          {
+            "type": "header",
+            "content": "Step 2"
+          },
+          {
+            "type": "image_picker",
+            "id": "image2",
+            "label": "Image"
+          },
+          {
+            "type": "text",
+            "id": "title2",
+            "label": "Title",
+            "default": "Design your space"
+          },
+          {
+            "type": "richtext",
+            "id": "text2",
+            "label": "Text",
+			"default": "<p>We'll send you a free space plan with ideas from a Bureau Expert. Keep the plan even if you don't buy from us.</p>"
+          },
+          {
+            "type": "header",
+            "content": "Step 3"
+          },
+          {
+            "type": "image_picker",
+            "id": "image3",
+            "label": "Image"
+          },
+          {
+            "type": "text",
+            "id": "title3",
+            "label": "Title",
+            "default": "Expand with Bureau"
+          },
+          {
+            "type": "richtext",
+            "id": "text3",
+            "label": "Text",
+			"default": "<p>When you buy furniture from Bureau, request free updates to your space plan online as your team grows.</p>"
+          }
+		]
+	  },
+	  {
+        "type": "zigzag",
+        "name": "Zig-zag Image/Text",
+        "settings": [
+          {
+            "type": "text",
+            "id": "section_padding_desktop",
+            "label": "Section Padding (Desktop)",
+            "default": "3em 0"
+          },
+          {
+            "type": "text",
+            "id": "section_padding_mobile",
+            "label": "Section Padding (Mobile)",
+            "default": "2em 0"
+          },
+          {
+            "type": "text",
+            "id": "title_size",
+            "label": "Title Size",
+            "default": "3.2em"
+          },
+          {
+            "type": "text",
+            "id": "text_size",
+            "label": "Text Size",
+            "default": "1.12em"
+          },
+          {
+            "type": "header",
+            "content": "Section #1"
+          },
+          {
+            "type": "color",
+            "id": "bg_color1",
+            "label": "Background Color",
+            "default": "#314438"
+          },
+          {
+            "type": "color",
+            "id": "text_color1",
+            "label": "Text Color",
+            "default": "#ffffff"
+          },
+          {
+            "type": "image_picker",
+            "id": "image1",
+            "label": "Image"
+          },
+          {
+            "type": "text",
+            "id": "title1",
+            "label": "Title",
+            "default": "Space Planning Made Simple"
+          },
+          {
+            "type": "richtext",
+            "id": "text1",
+            "label": "Text",
+			"default": "<p>All we need is a floor plan—your building manager or landlord should have this—and a sense of your values and needs. Fill out our quick survey, and we'll respond within three business days with a free rendering that matches your vision.</p>"
+          },
+          {
+            "type": "header",
+            "content": "Section #2"
+          },
+          {
+            "type": "color",
+            "id": "bg_color2",
+            "label": "Background Color",
+            "default": "#f9f9f9"
+          },
+          {
+            "type": "color",
+            "id": "text_color2",
+            "label": "Text Color",
+            "default": "#314438"
+          },
+          {
+            "type": "image_picker",
+            "id": "image2",
+            "label": "Image"
+          },
+          {
+            "type": "text",
+            "id": "title2",
+            "label": "Title",
+            "default": "Expert Guidance"
+          },
+          {
+            "type": "richtext",
+            "id": "text2",
+            "label": "Text",
+			"default": "<p>After we share your space plan, a Bureau Expert will follow up with ideas for how to make the most of your space. Bureau Experts are industry veterans with years of experience designing productive and happy office spaces.</p>"
+          },
+          {
+            "type": "header",
+            "content": "Section #3"
+          },
+          {
+            "type": "color",
+            "id": "bg_color3",
+            "label": "Background Color",
+            "default": "#F3EEEA"
+          },
+          {
+            "type": "color",
+            "id": "text_color3",
+            "label": "Text Color",
+            "default": "#314438"
+          },
+          {
+            "type": "image_picker",
+            "id": "image3",
+            "label": "Image"
+          },
+          {
+            "type": "text",
+            "id": "title3",
+            "label": "Title",
+            "default": "Grow With Bureau"
+          },
+          {
+            "type": "richtext",
+            "id": "text3",
+            "label": "Text",
+			"default": "<p>When you buy Bureau furniture, request and receive an updated space plan online, any time, as your company grows and needs change.</p>"
+          }
+		]
+	  },
+      {
+        "type": "image_text",
+        "name": "Image Text",
+        "settings": [
+          {
+            "type": "color",
+            "id": "bg_color",
+            "label": "Background Color",
+            "default": "#ffffff"
+          },
+          {
+            "type": "checkbox",
+            "id": "full_width",
+            "label": "Full Width?",
+            "default": true
+          },
+          {
+            "type": "text",
+            "id": "section_padding_desktop",
+            "label": "Section Padding (Desktop)",
+            "default": "0"
+          },
+          {
+            "type": "text",
+            "id": "section_padding_mobile",
+            "label": "Section Padding (Mobile)",
+            "default": "0"
+          },
+          {
+            "type": "select",
+            "id": "image_position",
+            "label": "Image Position",
+            "options": [
+              {"value": "normal", "label": "Left"},
+              {"value": "row-reverse", "label": "Right"}
+            ],
+            "default": "normal"
+          },
+          {
+            "type": "range",
+            "id": "image_width_",
+            "min": 0,
+            "max": 100,
+            "step": 1,
+            "unit": "%",
+            "label": "Image Width",
+            "default": 50
+          },
+          {
+            "type": "image_picker",
+            "id": "image",
+            "label": "Image"
+          },
+          {
+            "type": "text",
+            "id": "image_height_mobile",
+            "label": "Image Height (Mobile)",
+			"default": "60%"
+          },
+          {
+            "type": "header",
+            "content": "Text Settings"
+          },
+          {
+            "type": "color",
+            "id": "text_bg_color",
+            "label": "Text Background Color",
+            "default": "#F3EEEA"
+          },
+          {
+            "type": "checkbox",
+            "id": "text_bg_extend",
+            "label": "Extend the background 10% behind the image?",
+            "default": true
+          },
+          {
+            "type": "select",
+            "id": "text_align",
+            "label": "Text Alignment (Desktop)",
+            "options": [
+              {"value": "left", "label": "Left"},
+              {"value": "center", "label": "Center"},
+              {"value": "right", "label": "Right"}
+            ],
+            "default": "left"
+          },
+          {
+            "type": "select",
+            "id": "text_align_mobile",
+            "label": "Text Alignment (Mobile)",
+            "options": [
+              {"value": "left", "label": "Left"},
+              {"value": "center", "label": "Center"},
+              {"value": "right", "label": "Right"}
+            ],
+            "default": "center"
+          },
+          {
+            "type": "range",
+            "id": "text_width",
+            "min": 0,
+            "max": 100,
+            "step": 1,
+            "unit": "em",
+            "label": "Text Width",
+            "default": 40
+          },
+          {
+            "type": "text",
+            "id": "text_padding_desktop",
+            "label": "Text Padding (Desktop)",
+            "default": "3em 0"
+          },
+          {
+            "type": "text",
+            "id": "text_padding_mobile",
+            "label": "Text Padding (Mobile)",
+            "default": "3em 20px"
+          },
+          {
+            "type": "textarea",
+            "id": "title",
+            "label": "Title",
+          	"default": "Lorem ipsum dolor."
+          },
+          {
+            "type": "text",
+            "id": "title_size",
+            "label": "Title Font Size",
+            "default": "2.7em"
+          },
+          {
+            "type": "color",
+            "id": "title_color",
+            "label": "Title Color",
+            "default": "#314438"
+          },
+          {
+            "type": "richtext",
+            "id": "text",
+            "label": "Text",
+            "default": "<p>Answer a few questions to help us imagine your dream office, and we'll send you a free space plan and ideas from a Branch Expert.</p>"
+          },
+          {
+            "type": "text",
+            "id": "text_size",
+            "label": "Text Font Size",
+            "default": "1.25em"
+          },
+          {
+            "type": "color",
+            "id": "text_color",
+            "label": "Text Color",
+            "default": "#314438"
+          },
+          {
+            "type": "text",
+            "id": "button",
+            "label": "Button",
+          	"default": "Button"
+          },
+          {
+            "type": "url",
+            "id": "link",
+            "label": "Link"
+          }
+		]
+	  }
+    ]
+  }
+{% endschema %}

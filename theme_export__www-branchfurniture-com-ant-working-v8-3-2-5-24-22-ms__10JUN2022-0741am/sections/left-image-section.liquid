@@ -1,0 +1,55 @@
+<div class="ready_reality_wrapper">
+  <div class="cust_container">
+    <div class="main_ready_reality_wrap">
+       <div class="row">
+         <div class="col-sm-6">
+           <div class="section_ready_reality">
+             <h2>{{ section.settings.title }}</h2>
+             <a href="{{ section.settings.button_url }}">{{ section.settings.button_text }}</a>
+           </div>
+         </div>
+         <div class="col-sm-6">
+           <div class="section_ready_thumb cust_img">
+             <img src="{{ section.settings.image | img_url: 'master'  }}" />
+           </div>
+         </div>
+      </div>
+    </div> 
+  </div>
+</div>
+
+
+{% schema %}
+{
+  "name": "Ready Reality Section",
+  "class": "index-section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading"
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button Text"
+    },
+    {
+      "type": "url",
+      "id": "button_url",
+      "label": "Button Link"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Ready Reality Section",
+      "category": "text"
+    }
+  ]
+}
+{% endschema %}

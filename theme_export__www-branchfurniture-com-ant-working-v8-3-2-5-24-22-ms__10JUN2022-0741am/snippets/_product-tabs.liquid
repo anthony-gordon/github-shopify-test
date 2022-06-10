@@ -1,0 +1,61 @@
+<style>
+  #download-full-branch-catalog-link {font-family: Quicksand;font-style: normal;font-weight: bold;font-size: 14px;line-height: 18px;text-align: center;letter-spacing: 0.03em;text-transform: uppercase;text-decoration: none;border-bottom: none;}
+  #download-full-branch-catalog-link:hover {transition:all .3s;color:#8dc0d2}
+</style>
+<script>
+    $(function(){
+      
+        {% assign tab_class = 'product-tabs-container-' | append: product.id %}
+
+        var tabsContainer = $('.{{tab_class}}');
+        var tabs = tabsContainer.find('.tabs');
+        var tabsContent = tabsContainer.find('.tabs-content');
+        var desc = tabsContainer.find('.description');
+
+        desc.find('h3').each(function(i){
+            var scope = $(this);
+            var newContent = $('<div class="content animation" data-tab="'+Simplistic.handleize(scope.text())+'">'+scope.nextUntil('h3').html()+'</div>');
+            var newTab = $('<a href="#" class="tab">'+scope.text()+'</a>').attr('data-tab-content',Simplistic.handleize(scope.text()))
+            if(i == 0){
+                newTab.addClass('active');
+                newContent.addClass('active');
+            } 
+
+            if(scope.text().toLowerCase().trim() === 'specs') {
+              	{% if chatWithSales %}
+              	var specHtml = '<div><strong>Want the nitty gritty?</strong> Download the spec sheet to see detailed dimensions, materials and more.<br/><br/><span class="btn specs-trigger">Download Spec Sheet</span><br/><br/></div><div style="text-align:center;"><a id="download-full-branch-catalog-link" href="{{'Branch-Catalog.pdf' | file_url}}" target="_blank">Download Full Branch Catalog</a></div>'
+				newContent = $('<div class="content animation" data-tab="'+Simplistic.handleize(scope.text())+'">'+ specHtml +'</div>')
+
+                tabs.append(newTab);
+            	tabsContent.append(newContent);
+                {% endif %}
+            }
+          	else {
+            	tabs.append(newTab);
+            	tabsContent.append(newContent);
+            }
+        });
+
+        tabs.find('.tab').on('click', function(e){
+            e.preventDefault();
+            var scope = $(this);
+            tabsContent.find('.content').removeClass('active');
+            tabs.find('.tab').removeClass('active');
+
+            $(this).addClass('active');
+            tabsContent.find('[data-tab="'+scope.data('tab-content')+'"]').addClass('active');
+
+          	if (scope.text().toLowerCase().trim() === 'specs') {
+          		$('#hide-from-specs-tab').hide();
+            } else {
+            	$('#hide-from-specs-tab').show();
+            }
+        })
+
+    })
+</script>
+<div class="product-tabs {{tab_class}}">
+    <div class="tabs flex"></div>
+    <div class="tabs-content"></div>
+    <div class="description" style="display:none">{{currentProduct.description}}</div>
+</div>

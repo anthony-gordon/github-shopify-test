@@ -1,0 +1,72 @@
+<div class="custom-c-is-section">
+  <div class="custom-c-is-container">
+    <div class="custom-c-is-flex-container">
+      {% for block in section.blocks %}
+      {% if block.settings.img %}
+      <div class="custom-c-is-flex-item">
+        <img src="{{ block.settings.img | img_url: 'master' }}" alt="" class="custom-c-is-img {% if block.settings.checkboxc %}show_mobile {% endif %}" loading="lazy"/>
+      </div>
+      {% endif %}
+      {% endfor %}
+    </div>
+  </div>
+</div>
+<style>
+  @media(max-width:1024px){
+    .show_mobile{
+      display:none;
+    }
+  }
+</style>
+{% schema %}
+{
+"name": "Images Strip",
+"blocks": [
+{
+"type": "select",
+"name": "Image",
+"settings": [
+{
+"id": "img",
+"type": "image_picker",
+"label": "Image"
+},
+{
+"id": "checkboxc",
+"type": "checkbox",
+"label": "Hide on Mobile"
+}
+]
+}
+],
+"presets": [
+{
+"name": "Images Strip",
+"category": "Custom",
+"blocks": [
+{ 
+"type": "select"
+},
+{
+"type": "select"
+},
+{
+"type": "select"
+},
+{
+"type": "select"
+},
+{
+"type": "select"
+}
+]
+}
+]
+}
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

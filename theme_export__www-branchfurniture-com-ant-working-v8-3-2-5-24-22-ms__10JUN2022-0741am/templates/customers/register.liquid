@@ -1,0 +1,50 @@
+<div class="login-page account">
+  <div class="container">
+    <div id="customer-register">
+      <h1>Create an Account</h1>
+      {%- form 'create_customer' -%}
+        <div class="error-msg"></div>
+        {{ form.errors | default_errors }}
+        <input type="text" placeholder="First Name" aria-label="First Name" value="{{ form.first_name }}" name="customer[first_name]" id="customer-first-name" class="name required" aria-required="true" autocomplete="given-name" />
+        <input type="text" placeholder="Last Name" aria-label="Last Name" value="{{ form.last_name }}" name="customer[last_name]" id="customer-last-name" class="last-name required" aria-required="true" autocomplete="family-name" />
+        <input type="text" placeholder="Phone Number" aria-label="Phone Number" name="customer[phone]" id="customer-phone" class="phone" autocomplete="tel" />
+        <input type="email" placeholder="Email Address" aria-label="Email Address" value="{{ form.email }}" name="customer[email]" id="customer-email" class="email required" aria-required="true" autocomplete="email" />
+        <input type="password" placeholder="Password" aria-label="Password" name="customer[password]" id="password" class="password required" aria-required="true" />
+        <button class="btn" type="submit">Create Account</button>
+      {%- endform -%}
+    </div>
+  </div>
+</div>
+<script>
+  $(function(){    
+    $('.login-page form').each(function(){
+      var form = $(this);
+      form.submit(function(e){
+        var error = false;
+
+        form.find('.error-msg').hide();
+        form.find('.error').removeClass('error');
+
+        form.find('.required').each(function(){
+          if($(this).val()=="") {
+            error = true;
+            $(this).addClass('error');
+          }
+        });
+        if(error){
+          form.find('.error-msg').show().text('Please complete all the required fields.');
+        }else{
+          if(!Simplistic.validateEmail(form.find('.email').val())) {
+            error = true;
+            form.find('.email').addClass('error');
+            form.find('.error-msg').show().text('Please provide a valid email address.');
+          }
+        }
+        if(error) {
+          return false;
+        }
+      });
+      
+    });    
+  });
+</script>

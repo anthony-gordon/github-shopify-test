@@ -1,0 +1,89 @@
+<div class="c-l-section">
+  <div class="c-l-container">
+    {% if section.settings.heading != blank %}
+    <p class="c-l-heading">{{ section.settings.heading }}</p>
+    {% endif %}
+    <div class="c-l-flex-container">
+      {% for block in section.blocks %}
+      {% if block.settings.img %}
+      <div class="c-l-flex-item {% if block.settings.hide %}c-l-flex-item-hide{% endif %}">
+        <img src="{{ block.settings.img | img_url: 'master' }}" alt="" width="136" height="34" class="c-l-img" loading="lazy"/>
+      </div>
+      {% endif %}
+      {% endfor %}
+      {% if section.settings.more and section.settings.more_text != blank %}
+      <div class="c-l-flex-item">
+        <p>{{ section.settings.more_text }}</p>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Logo",
+  "settings": [
+    {
+      "id": "heading",
+      "type": "textarea",
+      "label": "Heading",
+      "default": "Helping 300+ offices and thousands of home offices"
+    },
+{
+      "id": "more",
+      "type": "checkbox",
+      "label": "Enable & More Text",
+      "default": true
+    },
+{
+      "id": "more_text",
+      "type": "text",
+      "label": "More Text",
+      "default": "& More"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "select",
+      "name": "Image",
+      "settings": [
+        {
+          "id": "img",
+          "type": "image_picker",
+       	  "label": "Image"
+        },
+		{
+          "id": "hide",
+          "type": "checkbox",
+       	  "label": "Hide Image on Mobile",
+		  "default": false
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Logos",
+      "category": "Custom",
+      "blocks": [
+        { 
+          "type": "select"
+        },
+        {
+          "type": "select"
+        },
+        {
+          "type": "select"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

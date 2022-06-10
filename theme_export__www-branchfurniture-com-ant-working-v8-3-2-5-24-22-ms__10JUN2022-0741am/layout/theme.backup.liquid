@@ -1,0 +1,477 @@
+<!doctype html>
+<!--[if lt IE 7 ]> <html lang="en" class="no-js ie6"> <![endif]-->
+<!--[if IE 7 ]>    <html lang="en" class="no-js ie7"> <![endif]-->
+<!--[if IE 8 ]>    <html lang="en" class="no-js ie8"> <![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!--> <html lang="en" class="no-js"> <!--<![endif]-->
+<head>
+
+   <!-- Anti-flicker snippet for Optimize -->
+   <style>.async-hide { opacity: 0 !important} </style>
+   <script>(function(a,s,y,n,c,h,i,d,e){s.className+=' '+y;h.start=1*new Date;
+   h.end=i=function(){s.className=s.className.replace(RegExp(' ?'+y),'')};
+   (a[n]=a[n]||[]).hide=h;setTimeout(function(){i();h.end=null},c);h.timeout=c;
+   })(window,document.documentElement,'async-hide','dataLayer',4000,
+   {'GTM-MXXNLHW':true});</script>
+   <!-- End anti-flicker snippet -->
+
+  <!-- hreflang for CAN site -->
+  <link rel="alternate" href="https://www.branchfurniture.com" hreflang="en" />
+  <link rel="alternate" href="https://www.branchfurniture.com" hreflang="en-us" />
+  <link rel="alternate" href="https://www.branchfurniture.ca" hreflang="en-ca" />
+
+
+  <!-- GeoIP app speed booster -->
+  {{ 'https://kite.spicegems.org/0/js/scripttags/bureau-office/static/country-redirect.js' | script_tag }}
+
+  <!-- Google Tag Manager -->
+  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-MXXNLHW');</script>
+  <!-- End Google Tag Manager -->
+
+  <!-- Clyde initializer -->
+  <script>
+
+   var f={};function isEnableUrl(e){var t=!0;return"https://api.joinclyde.com/scripts/shopify-storefront.min.js?shop=bureau-office.myshopify.com"==e&&(t=!1),t}f.insertBefore=Element.prototype.insertBefore,Element.prototype.insertBefore=function(){return"SCRIPT"==arguments[0].tagName?isEnableUrl(arguments[0].src)?f.insertBefore.apply(this,arguments):document.createTextNode(""):"IFRAME"==arguments[0].tagName?isEnableUrl(arguments[0].src)?f.insertBefore.apply(this,arguments):document.createTextNode(""):"FORM"==arguments[0].tagName?isEnableUrl(arguments[0].action)?f.insertBefore.apply(this,arguments):document.createTextNode(""):"A"==arguments[0].tagName?isEnableUrl(arguments[0].href)?f.insertBefore.apply(this,arguments):document.createTextNode(""):f.insertBefore.apply(this,arguments)};
+
+  </script>
+  <!-- End Clyde initializer -->
+
+  <meta charset="UTF-8">
+  <!--[if IE]><meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'><![endif]-->
+  {%- if template == 'index' -%}
+  	<title>{{ page_title }}</title>
+  {%- elsif template == '404' -%}
+  	<title>Page Not Found | Branch Office Furniture</title>
+  {%- else -%}
+  	<title>{{ page_title }}</title>
+  {%- endif -%}
+  <meta name="description" content="{{ page_description | default: page_title }}" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="canonical" href="{{ canonical_url }}" />
+  <link rel="shortcut icon" type="image/png" href="{{ 'favicon.png' | asset_url }}">
+
+  {%- include 'fb_open_graph' -%}
+  {%- include 'fonts' -%}
+
+  {{ 'style.scss.css' | asset_url | stylesheet_tag }}
+
+  {{ 'customize.css' | asset_url | stylesheet_tag }}
+  {{ 'custom.css' | asset_url | stylesheet_tag }}
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
+
+
+  <script>var jq=[];var $;$=function(f){jq.push(f)};</script>
+  <script src="{{ 'lazysizes.min.js' | asset_url }}" async="async"></script>
+  <script src="{{ 'simplistic.js' | asset_url }}" defer="defer"></script>
+  <script src="{{ 'ProductJs.js' | asset_url }}" defer="defer"></script>
+
+  <script src="{{ 'ProductJs-new.js' | asset_url }}" defer="defer"></script>
+
+  <script src="{{ 'vendor.js' | asset_url }}" defer="defer"></script>
+  <script src="{{ 'api.jquery.js' | shopify_asset_url }}" defer="defer"></script>
+
+  {{ content_for_header }}
+
+  {%- if template contains 'customers' or template contains 'orders' -%}
+  	{{ 'customer-account.scss.css' | asset_url | stylesheet_tag }}
+    {{ "shopify_common.js" | shopify_asset_url | script_tag }}
+    {{ "customer_area.js"  | shopify_asset_url | script_tag }}
+  {%- endif -%}
+
+  {% include 'shogun-head' %}
+
+
+
+  <!-- google merchant verification -->
+  <meta name="google-site-verification" content="RreNO_b0d7AbnUPwxgVyRk6qcqzetubQIrxajzvrQGI" />
+  <!-- end of google merchant verification -->
+
+  <script src="https://js.joinclyde.com/widget.js"></script>
+
+  <!-- Affirm -->
+<script>
+_affirm_config = {
+   public_api_key:  "TRD7NHDJS5YD3M0D",
+   script:          "https://cdn1.affirm.com/js/v2/affirm.js"
+};
+(function(l,g,m,e,a,f,b){var d,c=l[m]||{},h=document.createElement(f),n=document.getElementsByTagName(f)[0],k=function(a,b,c){return function(){a[b]._.push([c,arguments])}};c[e]=k(c,e,"set");d=c[e];c[a]={};c[a]._=[];d._=[];c[a][b]=k(c,a,b);a=0;for(b="set add save post open empty reset on off trigger ready setProduct".split(" ");a<b.length;a++)d[b[a]]=k(c,e,b[a]);a=0;for(b=["get","token","url","items"];a<b.length;a++)d[b[a]]=function(){};h.async=!0;h.src=g[f];n.parentNode.insertBefore(h,n);delete g[f];d(g);l[m]=c})(window,_affirm_config,"affirm","checkout","ui","script","ready");
+// Use your live public API Key and https://cdn1.affirm.com/js/v2/affirm.js script to point to Affirm production environment.
+</script>
+<!-- End Affirm -->
+
+<!-- Deprecated AdWords Sitetag -->
+<!-- <script async src="https://www.googletagmanager.com/gtag/js?id=AW-771034636"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'AW-771034636');
+</script> -->
+
+
+  {% render 'shogun-head' %}
+
+  {% include 'friendbuy' %}
+</head>
+
+<body class="template{{ template | split: '.' | first | camelize }}{% if customer %} customer-logged-in{% endif %}">
+
+
+  <!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MXXNLHW"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+  <a href="#main-content" class="skip-to-main-content">Skip to Main Content</a>
+  <div id="page">
+    <header role="banner">{%- section 'header' -%}</header>
+    <main class="content-wrapper" id="main-content" role="main">
+      	{{ content_for_layout }}
+
+    </main>
+    <footer role="contentinfo">{%- section 'footer' -%}
+
+
+
+
+
+    </footer>
+
+    {%- include 'mega_menus' -%}
+
+    {%- if settings.allow_side_cart -%}
+      {% if template contains 'cart' %}
+
+      {% else %}
+      	{%- include 'side_cart' -%}
+      {% endif %}
+    {%- endif -%}
+
+    {%- if settings.enable_subscription_popup -%}
+      {%- include 'subscription_popup' -%}
+    {%- endif -%}
+
+    <div id="loading-overlay"><div class="loader"></div></div>
+  </div>
+  {%- if settings.grid_product_image_behavior == "thumbs_swatches" -%}
+    {%- if template == 'product' and settings.show_related_products -%}
+    	{%- include 'thumbs_swatches_js' -%}
+    {%- elsif template == "index" or template == 'search' or template == 'collection' -%}
+    	{%- include 'thumbs_swatches_js' -%}
+    {%- endif -%}
+  {%- endif -%}
+  {%- if template contains 'product' or template contains 'collection' or template == "index" -%}
+  	{%- include 'photoswipe' -%}
+  {%- endif -%}
+
+  {%- if template contains "product" or page.handle contains "reviews" or template contains 'collection' -%}{% comment %}SV-3.29.21{% endcomment %}
+  <script async type="text/javascript" id="stamped-script-widget" data-api-key="pubkey-dI7yStdVZ98rvmQYEj4195aAulX731" src="https://cdn1.stamped.io/files/widget.min.js"></script>
+  {%- endif -%}
+
+  {% if template contains 'product' %}
+<script
+  src="https://code.jquery.com/jquery-2.2.4.min.js"
+  integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
+  crossorigin="anonymous"></script>
+
+
+
+    <script type="text/javascript">
+
+
+
+  $(document).ready(function() {
+//    if ($(window).width() < 550 ) {
+    $('#hideshow').click(function(){
+         $('.add-to-cart-form').css('display','none');
+         $('.product-info').addClass('no-pad');
+         $('.product-info').addClass('bgborder');
+         $('.contents-outer').css('position','relative');
+         $('#contents').css('display','block');
+         $('#contents').css('position','relative');
+    });
+    $('#hideshow2').click(function() {
+         $('.add-to-cart-form').css('display','block');
+         $('.product-info').removeClass('no-pad');
+         $('.product-info').removeClass('bgborder');
+         $('.contents-outer').css('position','absolute');
+         $('#contents').css('display','none');
+         $('#contents').css('position','absolute');
+    });
+// }else {
+
+
+//
+//    $('#hideshow').click(function(){
+//         $('#contents').toggle();
+//    });
+//    $('#hideshow2').click(function() {
+//         $('#contents').toggle();
+//    });
+// }
+
+
+
+});
+  </script>
+  {% endif %}
+  {% if template contains 'cart' %}
+
+  {% else %}
+  <script>
+
+      function afterAdd() {
+          $("form.add-to-cart-form").submit();
+      }
+      function showClydeModal(needSubmitForm){
+        Clyde.showModal(null, function() {
+
+          var closeModalContract = Clyde.getSelectedContract();
+          if (closeModalContract) {
+
+            var closeModalData = {
+              items: [{
+                id: closeModalContract ? closeModalContract.shopifyVariantId : '',
+                quantity: $('input[name="quantity"]').val(),
+              }]
+            };
+            $.ajax({
+              type: "POST",
+              url: "/cart/add.js",
+              data: closeModalData,
+              success: function(r) {
+                afterAdd();
+              },
+              error: function(e) {
+                afterAdd();
+              }
+            });
+          } else {
+				if(needSubmitForm)
+                  afterAdd();
+          }
+        });
+      }
+      function loadClydeContract(variantId){
+        $('.product-clyde').hide();
+        $.ajax({
+              url: 'https://api.joinclyde.com/products/'+variantId+'/contracts',
+              headers: { authorization: 'ck_live_Nhd6Ubcd9jWbn5BQ'},
+              success : function(data){
+                console.log(data);
+                if(data.data[0] !== 'undefined'){
+                  	$('.first-contract-price').text(data.data[0].attributes.recommendedPrice);
+                  	$('.product-clyde').slideDown();
+                }else{
+                  $('.product-clyde').parents('.display-afirm-with-clyde').addClass('no-clyde');
+                }
+
+              },
+            error: function(xhr){
+              $('.product-clyde').parents('.display-afirm-with-clyde').addClass('no-clyde');
+            }
+          });
+      }
+
+    function loadClydeContractQuickview(variantId){
+      $('.product-clyde-quick-view').hide();
+        $.ajax({
+              url: 'https://api.joinclyde.com/products/'+variantId+'/contracts',
+              headers: { authorization: 'ck_live_Nhd6Ubcd9jWbn5BQ'},
+              success : function(data){
+                console.log(data);
+                if(data.data[0] !== 'undefined'){
+                  	$('.first-contract-price-quick-view').text(data.data[0].attributes.recommendedPrice);
+                  	$('.product-clyde-quick-view').slideDown();
+                }
+
+              }
+          });
+    }
+
+
+      Clyde.init({
+      	key: 'ck_live_Nhd6Ubcd9jWbn5BQ',
+                type: 'simple',
+                pageKey: 'productPage',
+                 skipGeoIp: true
+    	}, function(){
+
+        Clyde.setActiveProduct({{ product.selected_or_first_available_variant.id }});
+        loadClydeContract({{ product.selected_or_first_available_variant.id }});
+
+        var clydeProductForm = $("form[action='/cart/add']");
+
+      	$('#add-to-cart-button').on('click', function(e){
+        // Clyde edit 10/12/2020: If the modal setting is turned off, exit this code and get normal page behavior when clicking add to cart.
+        if (Clyde.getSettings().modal === false) {
+          return true;
+        }
+        // If for some reason we couldn't find/set the active variant, or the active variant has no contracts, return true for the normal page behavior.
+        if (!Clyde.getActiveProduct() || Clyde.getActiveProduct().contracts.length === 0) {
+          return true;
+        }
+        // Coverall solution to prevent this site's other ATC behavior while we perform the contract adds or modal actions.
+        e.preventDefault();
+        e.stopPropagation();
+        e.stopImmediatePropagation();
+
+
+          showClydeModal(true);
+
+      });
+        $('#pdp-simple').on('click', function(e){
+          	Clyde.setActiveProduct($('input[name="id[]"]').val());
+        	loadClydeContract($('input[name="id[]"]').val());
+            showClydeModal(false);
+        });
+
+
+
+
+
+    });
+
+
+
+        $(function() {
+      $(".dropbtn").click(function() {
+
+        $('.dropdown-content').toggle();
+        $('.currency-wrapper .currency-positioned').toggleClass('open')
+      });
+      $(document).on("click", function (e) {
+        if ($(e.target).is(".dropbtn") === false && $(e.target).is(".dropdown-content") === false) {
+            $('.dropdown-content').hide();
+            $('.currency-wrapper .currency-positioned').removeClass('open')
+        }
+      });
+    });
+
+    function updateCurrency(dropdownSuffix) {
+      var domainSuffix = document.domain.split('.')[2];
+      if (dropdownSuffix != domainSuffix) {
+        var newUrl = window.location.href.replace('.' + domainSuffix, '.' + dropdownSuffix)
+         window.location.replace(newUrl)
+      }
+    }
+
+  </script>
+   {% endif %}
+
+
+<!--Gorgias Chat Widget Start-->
+  
+  <script id="gorgias-chat-widget-install">!function(_){_.GORGIAS_CHAT_APP_ID="5288",_.GORGIAS_CHAT_BASE_URL="us-east1-898b.production.gorgias.chat",_.GORGIAS_API_BASE_URL="config.gorgias.chat";var e=new XMLHttpRequest;e.open("GET","https://config.gorgias.chat/applications/5288",!0),e.onload=function(t){if(4===e.readyState)if(200===e.status){var n=JSON.parse(e.responseText);if(!n.application||!n.bundleVersion)throw new Error("Missing fields in the response body - https://config.gorgias.chat/applications/5288");if(_.GORGIAS_CHAT_APP=n.application,_.GORGIAS_CHAT_BUNDLE_VERSION=n.bundleVersion,n&&n.texts&&(_.GORGIAS_CHAT_TEXTS=n.texts),n&&n.sspTexts&&(_.GORGIAS_CHAT_SELF_SERVICE_PORTAL_TEXTS=n.sspTexts),!document.getElementById("gorgias-chat-container")){var o=document.createElement("div");o.id="gorgias-chat-container",document.body.appendChild(o);var r=document.createElement("script");r.setAttribute("defer",!0),r.src="https://client-builds.production.gorgias.chat/{bundleVersion}/static/js/main.js".replace("{bundleVersion}",n.bundleVersion),document.body.appendChild(r)}}else console.error("Failed request GET - https://config.gorgias.chat/applications/5288")},e.onerror=function(_){console.error(_)},e.send()}(window||{});</script>
+  
+<!--Gorgias Chat Widget End-->
+  
+<script>
+  window.addEventListener('load', function(){
+    jQuery('#add-to-cart-button').click(function(){
+ gtag('event', 'conversion', {'send_to': 'AW-771034636/7q_hCJv84dYBEIyc1O8C'});
+    });
+  });
+
+//   $(function(){
+//     var mm2 = $(".custom-main-menu2").html();
+//     setTimeout(function(){
+//       $(".custom-header-drop2").html(mm2);
+//     }, 500);
+// //     $(".custom-header-drop2 .main-menu .item.mega-menu-trigger a").on("click", function(){
+// //       alert("asadas");
+// //     });
+//     $(document).on('mouseenter mouseleave', '.custom-header-drop2 .item', function () {
+//       $(this).children(".submenu").slideToggle(200);
+//     });
+
+//   });
+
+  $(function(){
+    $(".main-menu .item").each(function(){
+      if($(this).hasClass("mega-menu-trigger")){
+        var a = $(this).children("a");
+        a.html(a.text() + ' <i class="fa fa-caret-down custom-header-icon-drop"></i>');
+      }
+    });
+//     $(".main-menu .item").hover(function(){
+//       $(this).children("a").children("i").toggleClass("custom-header-icon-drop-toggle");
+//     }, function(){
+//     $(this).children("a").children("i").toggleClass("custom-header-icon-drop-toggle");
+//     });
+
+    $(document).on('mouseenter mouseleave', '.main-menu .item', function () {
+      $(this).children("a").children("i").toggleClass("custom-header-icon-drop-toggle");
+      $(this).parents(".header").toggleClass("custom-header-border-opacity");
+      $(this).find(".submenu").toggleClass("custom-header-border-opacity");
+    });
+
+
+    $(".c-v-main-overlay").hover(function(){
+      $(".c-v-play").addClass("c-v-toggle");
+    }, function(){
+    $(".c-v-play").removeClass("c-v-toggle");
+    });
+
+    var countt = 0;
+    $(".c-fc-flex-item").each(function(){
+      countt++;
+    });
+    if(countt % 2 == 1){
+      $(".c-fc-flex-item").eq(countt - 1).addClass("c-fc-w-toggle");
+    }
+
+  });
+</script>
+  
+  <!--LinkedIn manager-->
+  <script type="text/javascript">
+_linkedin_partner_id = "2579897";
+window._linkedin_data_partner_ids = window._linkedin_data_partner_ids || [];
+window._linkedin_data_partner_ids.push(_linkedin_partner_id);
+</script><script type="text/javascript">
+(function(){var s = document.getElementsByTagName("script")[0];
+var b = document.createElement("script");
+b.type = "text/javascript";b.async = true;
+b.src = "https://snap.licdn.com/li.lms-analytics/insight.min.js";
+s.parentNode.insertBefore(b, s);})();
+</script>
+<noscript>
+<img height="1" width="1" style="display:none;" alt="" src="https://px.ads.linkedin.com/collect/?pid=2579897&fmt=gif" />
+</noscript>
+    <!--end of LinkedIn manager-->
+
+
+
+{{ '//cdn.shopify.com/s/files/1/0194/1736/6592/t/1/assets/booster-page-speed-optimizer.js?23' | script_tag }}
+  {% include 'sumo' %}
+
+<!--Loginhood CA Privacy Footer link-->
+
+<script>
+  function setCaPrivacyNoticeLink() {
+  var footerLinks = document.querySelectorAll('.links.last .sublinks');
+  var finalListColumn = footerLinks[0];
+  if (finalListColumn) {
+    var newFooterLink = document.createElement('a');
+    newFooterLink.href = 'javascript: __cmpLoginhood("displayConsentPopup")';
+    newFooterLink.classList.add('item');
+    newFooterLink.innerText = 'CA Privacy';
+    finalListColumn.appendChild(newFooterLink);
+  }
+}
+ setCaPrivacyNoticeLink();
+</script>
+  
+<!--AccessiBe Script -->
+
+<script>(function(){ var s = document.createElement('script'), e = ! document.body ? document.querySelector('head') : document.body; s.src = 'https://acsbapp.com/apps/app/dist/js/app.js'; s.async = true; s.onload = function(){ acsbJS.init({ statementLink : '', footerHtml : '', hideMobile : true, hideTrigger : false, language : 'en', position : 'left', leadColor : '#314438', triggerColor : '#314438', triggerRadius : '50%', triggerPositionX : 'left', triggerPositionY : 'bottom', triggerIcon : 'help', triggerSize : 'small', triggerOffsetX : 20, triggerOffsetY : 20, mobile : { triggerSize : 'small', triggerPositionX : 'right', triggerPositionY : 'center', triggerOffsetX : 10, triggerOffsetY : 0, triggerRadius : '50%' } }); }; e.appendChild(s);}());</script>
+
+
+</body>
+</html>

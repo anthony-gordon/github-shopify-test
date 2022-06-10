@@ -1,0 +1,35 @@
+<div class="mega-menu-mobile-script">
+    <script>
+        $(function () {
+            {% for block in section.blocks %}
+                {% if block.settings.menu_item_name != '' %}
+                    $(`div.menu-mobile-{{ block.settings.menu_item_name | downcase | replace: ' ', '-' }}`).attr('style', `background-image: url('{{ block.settings.image | img_url: 'master'  }};')`)
+                {% endif %}
+            {% endfor %}
+        })
+    </script>
+</div>
+
+{% schema %}
+{
+    "name": "Mega Menu Mobile",
+    "blocks": [
+        {
+            "type": "item_image",
+            "name": "Item Image",
+            "settings": [
+                {
+                    "type": "image_picker",
+                    "id": "image",
+                    "label": "Image"
+                },
+                {
+                    "type": "text",
+                    "id": "menu_item_name",
+                    "label": "Link to menu item"
+                }
+            ]
+        }
+    ]
+}
+{% endschema %}

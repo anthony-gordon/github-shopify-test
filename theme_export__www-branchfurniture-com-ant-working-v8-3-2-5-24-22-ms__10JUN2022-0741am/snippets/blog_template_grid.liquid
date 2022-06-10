@@ -1,0 +1,10 @@
+{%- paginate blog.articles by 13 -%}
+<div class="articles-wrapper template-grid">
+  <div class="grid">
+    {%- for article in blog.articles -%}
+    {%- include 'blog-item' -%}
+    {%- endfor -%}
+  </div>
+</div>
+{%- include 'pagination' -%}
+{%- endpaginate -%}  

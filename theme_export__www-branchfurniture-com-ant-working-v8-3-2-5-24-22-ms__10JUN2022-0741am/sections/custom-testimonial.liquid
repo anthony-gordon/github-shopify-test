@@ -1,0 +1,168 @@
+<div class="c-t-section">
+  <div class="c-t-container">
+    <div class="c-t-flex-container">
+      <div class="c-t-flex-item c-t-flex-item-1">
+        {% if section.settings.heading != blank %}
+        <h1 class="c-t-heading">{{ section.settings.heading }}</h1>
+        {% endif %}
+        <div class="c-t-slider">
+          {% for block in section.blocks %}
+          {% if block.type == 'slide' %}
+          <div>
+            <div class="c-t-quote-icon">{% include 'custom-quote' %}</div>
+            <p class="c-t-slider-text">{{ block.settings.quote }}</p>
+          </div>
+          {% endif %}
+          {% endfor %}
+        </div>
+        <div class="c-t-slider-nav">
+          {% for block in section.blocks %}
+          {% if block.type == 'slide' %}
+          <div>
+            <div class="c-t-slider-nav-img-container" {% if forloop.index == 3 %}style="text-align: center;"{% endif %}>
+              <div class="c-t-slider-nav-img-container-content">
+              <img src="{{ block.settings.img_nav | img_url: 'master' }}" alt="" class="c-t-slider-nav-img" loading="lazy"/>
+              </div>
+            </div>
+          </div>
+          {% endif %}
+          {% endfor %}
+        </div>
+      </div>
+      <div class="c-t-rule"></div>
+      <div class="c-t-flex-item">
+        <div class="c-t-flex-container-2">
+          {% for block in section.blocks %}
+          {% if block.type == 'card' %}
+          <div class="c-t-flex-item-2 {% if block.settings.h_mobile %}c-t-flex-hide-mobile{% endif %}">
+            <div class="c-t-flex-item-2-content">
+              {% if block.settings.img %}
+              <div class="c-t-img-container">
+                <img src="{{ block.settings.img | img_url: 'master' }}" class="c-t-img" loading="lazy"/>
+              </div>
+              <div class="c-t-img-container-below">
+                {% endif %}
+                {% if block.settings.name != blank %}
+                <p class="c-t-name">{{ block.settings.name }}</p>
+                {% endif %}
+                {% if block.settings.job != blank %}
+                <p class="c-t-job-title">{{ block.settings.job }}</p>
+                {% endif %}
+                {% if block.settings.text != blank %}
+                <p class="c-t-text">{{ block.settings.text }}</p>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+          {% endif %}
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  #shopify-section-{{ section.id }} .slick-slider .slick-slide {
+    margin: 0;
+}
+</style>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+<script>
+  $('.c-t-slider').slick({
+    slidesToShow: 1,
+    arrows: false,
+    dots: false,
+    infinite: true
+  });
+  $('.c-t-slider-nav').slick({
+    slidesToShow: 3,
+    asNavFor: '.c-t-slider',
+    dots: false,
+    arrows: false,
+    focusOnSelect: true,
+    infinite: true
+  });
+</script>
+
+
+{% schema %}
+  {
+    "name": "Testimonial",
+"settings": [
+          {
+            "type": "textarea",
+            "id": "heading",
+            "label": "Heading",
+            "default": "Loved by teams, remote workers & press."
+          }
+],
+    "blocks": [
+      {
+        "type": "slide",
+        "name": "Testimonial Slide",
+        "settings": [
+          {
+            "type": "textarea",
+            "id": "quote",
+            "label": "Quote",
+            "default": "“Branch is now selling directly to individuals, as well as working with Google, Shopify and other companies to outfit home offices for employees who may never work in an office five days a week again”"
+          },
+          {
+            "type": "image_picker",
+            "id": "img_nav",
+            "label": "Nav Icon"
+          }
+        ]
+      },
+      {
+        "type": "card",
+        "name": "Testimonial Card",
+        "settings": [
+{
+            "type": "checkbox",
+            "id": "h_mobile",
+            "label": "Hide on Mobile",
+			"default": false
+          },
+          {
+            "type": "image_picker",
+            "id": "img",
+            "label": "Image"
+          },
+          {
+            "type": "text",
+            "id": "name",
+            "label": "Name",
+            "default": "Jonathan Wasserstrum"
+          },
+          {
+            "type": "text",
+            "id": "job",
+            "label": "Job Title",
+            "default": "CEO of Squarefoot"
+          },
+          {
+            "type": "textarea",
+            "id": "text",
+            "label": "Text",
+            "default": "“Branch sets a new standard in value for office furnishing. We use Branch for our office and recommend them to clients that want quality without cost and hassle.”"
+          }
+        ]
+      }
+    ],
+  "presets": [
+    {
+      "name": "Testimonial",
+      "category": "Custom"
+    }
+  ]
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

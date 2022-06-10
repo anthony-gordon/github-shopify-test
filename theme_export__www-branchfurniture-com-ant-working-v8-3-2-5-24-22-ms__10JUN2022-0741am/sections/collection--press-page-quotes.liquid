@@ -1,0 +1,196 @@
+{% for block in section.blocks %}
+  {% if block.settings.collection == collection.handle or block.settings.all_collections == true %}
+	{% assign block_collection = block %}
+    {% break %}
+  {% endif %}
+{% endfor %}
+
+{% capture quote_icon %}
+<svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path d="M6.8745 25.9815C5.3295 24.3405 4.5 22.5 4.5 19.5165C4.5 14.2665 8.1855 9.561 13.545 7.2345L14.8845 9.3015C9.882 12.0075 8.904 15.519 8.514 17.733C9.3195 17.316 10.374 17.1705 11.4075 17.2665C14.1135 17.517 16.2465 19.7385 16.2465 22.5C16.2465 23.8924 15.6934 25.2277 14.7088 26.2123C13.7242 27.1969 12.3889 27.75 10.9965 27.75C9.387 27.75 7.848 27.015 6.8745 25.9815ZM21.8745 25.9815C20.3295 24.3405 19.5 22.5 19.5 19.5165C19.5 14.2665 23.1855 9.561 28.545 7.2345L29.8845 9.3015C24.882 12.0075 23.904 15.519 23.514 17.733C24.3195 17.316 25.374 17.1705 26.4075 17.2665C29.1135 17.517 31.2465 19.7385 31.2465 22.5C31.2465 23.8924 30.6934 25.2277 29.7088 26.2123C28.7242 27.1969 27.3889 27.75 25.9965 27.75C24.387 27.75 22.848 27.015 21.8745 25.9815Z" fill="#314438"/>
+</svg>
+{% endcapture %}
+
+{% if block_collection.settings.enabled %}
+<div class="press-quotes">
+  <div class="quotes">
+    {% for i in (1..5) %}
+    <div class="quote-wrap">
+      <span class="quote-icon">{{ quote_icon }}</span>
+      
+      {% assign quote_id = 'quote_' | append: forloop.index %}
+      {% assign quote = block_collection.settings[quote_id] %}
+      
+      {% assign quote_link_id = 'quote_link_' | append: forloop.index %}
+      {% assign quote_link = block_collection.settings[quote_link_id] %}      
+      
+      {% assign logo_id = 'quote_logo_' | append: forloop.index %}
+      {% assign logo = block_collection.settings[logo_id] %}
+      
+      {% if quote != blank %}
+      <div class="quote-content">
+        <p>{{ quote_icon }}{{ quote }}{{ quote_icon }}</p>
+      </div>
+      
+      <div class="read-article-link">
+        <a target="_blank" href="{{ quote_link }}">Read Article</a>
+      </div>
+      {% endif %}
+    </div>
+    {% endfor %}
+  </div>
+  
+  <div class="press-logos">
+    {% assign logo_count = 0 %}
+    {% for i in (1..5) %}
+    {% assign quote_id = 'quote_' | append: forloop.index %}
+    {% assign quote = block_collection.settings[quote_id] %}
+    
+    {% assign logo_id = 'quote_logo_' | append: forloop.index %}
+    {% assign logo = block_collection.settings[logo_id] %}
+    
+    {% if logo != blank %}   
+    <div class="logo-wrap" data-index="{{ logo_count }}">
+      <img alt="{{ logo.alt }}" src="{{ logo | img_url: 'x1024' }}" loading="lazy" />
+    </div>
+    {% assign logo_count = logo_count | plus: 1 %}
+    {% endif %}
+    {% endfor %}
+  </div>
+</div>
+{% endif %}
+
+{% schema %}
+  {
+    "name": "Press Quotes & Links",
+    "blocks": [
+	  {
+		"type": "press-quotes",
+		"name": "Press Quotes",
+        "settings": [
+          {
+            "type": "collection",
+            "id": "collection",
+            "label": "Assign Collection"
+          },
+          {
+            "type": "checkbox",
+            "id": "all_collections",
+            "label": "Show on all collections?"
+          },
+          {
+            "type": "checkbox",
+            "id": "enabled",
+            "label": "Enabled?"
+          },
+          {
+            "type": "header",
+            "content": "Quote #1"
+          },
+          {
+            "type": "text",
+            "id": "quote_1",
+            "label": "Quote",
+            "default": "Minimal design meets maximum function in this desk from Branch Furniture, at half the price you’d expect."
+          },
+          {
+            "type": "url",
+            "id": "quote_link_1",
+            "label": "Quote Link"
+          },
+          {
+            "type": "image_picker",
+            "id": "quote_logo_1",
+            "label": "Quote Logo"
+          },
+          {
+            "type": "header",
+            "content": "Quote #2"
+          },
+          {
+            "type": "text",
+            "id": "quote_2",
+            "label": "Quote",
+            "default": "Minimal design meets maximum function in this desk from Branch Furniture, at half the price you’d expect."
+          },
+          {
+            "type": "url",
+            "id": "quote_link_2",
+            "label": "Quote Link"
+          },
+          {
+            "type": "image_picker",
+            "id": "quote_logo_2",
+            "label": "Quote Logo"
+          },
+          {
+            "type": "header",
+            "content": "Quote #3"
+          },
+          {
+            "type": "text",
+            "id": "quote_3",
+            "label": "Quote",
+            "default": "Minimal design meets maximum function in this desk from Branch Furniture, at half the price you’d expect."
+          },
+          {
+            "type": "url",
+            "id": "quote_link_3",
+            "label": "Quote Link"
+          },
+          {
+            "type": "image_picker",
+            "id": "quote_logo_3",
+            "label": "Quote Logo"
+          },
+          {
+            "type": "header",
+            "content": "Quote #4"
+          },
+          {
+            "type": "text",
+            "id": "quote_4",
+            "label": "Quote",
+            "default": "Minimal design meets maximum function in this desk from Branch Furniture, at half the price you’d expect."
+          },
+          {
+            "type": "url",
+            "id": "quote_link_4",
+            "label": "Quote Link"
+          },
+          {
+            "type": "image_picker",
+            "id": "quote_logo_4",
+            "label": "Quote Logo"
+          },
+          {
+            "type": "header",
+            "content": "Quote #5"
+          },
+          {
+            "type": "text",
+            "id": "quote_5",
+            "label": "Quote",
+            "default": "Minimal design meets maximum function in this desk from Branch Furniture, at half the price you’d expect."
+          },
+          {
+            "type": "url",
+            "id": "quote_link_5",
+            "label": "Quote Link"
+          },
+          {
+            "type": "image_picker",
+            "id": "quote_logo_5",
+            "label": "Quote Logo"
+          }
+        ]
+	  }
+	]
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

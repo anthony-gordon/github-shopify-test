@@ -1,0 +1,34 @@
+{% comment %}SV-3.29.21 - removed &laquo; &raquo; arrows{% endcomment %}
+
+{%- if paginate.pages > 1 -%}
+<div class="pagination">
+  <div class="flex align-items-center justify-content-center">
+    {%- if paginate.previous -%}
+      <a class="prev" href="{{paginate.previous.url}}" aria-label="Previous page">{% unless template contains 'new' %}&laquo;{% endunless %} Prev</a>
+    {%- else -%}
+      <a class="prev disabled" aria-hidden="true" tabindex="-1">{% unless template contains 'new' %}&laquo;{% endunless %} Prev</a>
+    {%- endif -%}
+    
+    {%- for part in paginate.parts -%}
+      {%- if part.is_link -%}
+    	<a href="{{part.url}}" aria-label="Page {{ part.title }}">{{ part.title }}</a>
+      {%- else -%}
+        {%- if part.title == '&hellip;' -%}
+        <a class="ellipsis disabled" aria-hidden="true" tabindex="-1">{{ part.title }}</a>
+        {%- else -%}
+        <a class="active" {% if part.url != blank %} href="{{part.url}}" aria-label="Page {{ part.title }}" {% else %} aria-hidden="true" tabindex="-1"{% endif %}>{{ part.title }}</a>
+        {%- endif -%}
+      {%- endif -%}
+    {%- endfor -%}     
+
+    {%- if paginate.next -%}
+      <a class="next" href="{{paginate.next.url}}" aria-label="Next page">Next {% unless template contains 'new' %}&raquo;{% endunless %}</a>
+    {%- else -%}
+      <a class="next disabled" aria-hidden="true" tabindex="-1">Next {% unless template contains 'new' %}&raquo;{% endunless %}</a>
+    {%- endif -%}    
+  </div>
+  {%- comment -%}
+  <div class="pagination-num-showing text-center">Showing: {{ paginate.current_offset | plus: 1 }}-{%- if paginate.next -%}{{ paginate.current_offset | plus: paginate.page_size }}{%- else -%}{{ paginate.items }}{%- endif -%} of {{ paginate.items }}</div>
+  {%- endcomment -%}
+</div>
+{%- endif -%}

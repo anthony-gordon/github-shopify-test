@@ -1,0 +1,134 @@
+{% unless template contains 'cart' %}
+  <script>
+
+      function afterAdd() {
+          $("form.add-to-cart-form").submit();
+      }
+      function showClydeModal(needSubmitForm){
+        Clyde.showModal(null, function() {
+
+          var closeModalContract = Clyde.getSelectedContract();
+          if (closeModalContract) {
+
+            var closeModalData = {
+              items: [{
+                id: closeModalContract ? closeModalContract.shopifyVariantId : '',
+                quantity: $('input[name="quantity"]').val(),
+              }]
+            };
+            $.ajax({
+              type: "POST",
+              url: "/cart/add.js",
+              data: closeModalData,
+              success: function(r) {
+                afterAdd();
+              },
+              error: function(e) {
+                afterAdd();
+              }
+            });
+          } else {
+				if(needSubmitForm)
+                  afterAdd();
+          }
+        });
+      }
+      function loadClydeContract(variantId){
+        $('.product-clyde').hide();
+        $.ajax({
+              url: 'https://api.joinclyde.com/products/'+variantId+'/contracts',
+              headers: { authorization: 'ck_live_Nhd6Ubcd9jWbn5BQ'},
+              success : function(data){
+                console.log(data);
+                if(data.data[0] !== 'undefined'){
+                  	$('.first-contract-price').text(data.data[0].attributes.recommendedPrice);
+                  	$('.product-clyde').slideDown();
+                }else{
+                  $('.product-clyde').parents('.display-afirm-with-clyde').addClass('no-clyde');
+                }
+
+              },
+            error: function(xhr){
+              $('.product-clyde').parents('.display-afirm-with-clyde').addClass('no-clyde');
+            }
+          });
+      }
+
+    function loadClydeContractQuickview(variantId){
+      $('.product-clyde-quick-view').hide();
+        $.ajax({
+              url: 'https://api.joinclyde.com/products/'+variantId+'/contracts',
+              headers: { authorization: 'ck_live_Nhd6Ubcd9jWbn5BQ'},
+              success : function(data){
+                console.log(data);
+                if(data.data[0] !== 'undefined'){
+                  	$('.first-contract-price-quick-view').text(data.data[0].attributes.recommendedPrice);
+                  	$('.product-clyde-quick-view').slideDown();
+                }
+
+              }
+          });
+    }
+
+
+      Clyde.init({
+      	key: 'ck_live_Nhd6Ubcd9jWbn5BQ',
+                type: 'simple',
+                pageKey: 'productPage',
+                 skipGeoIp: true
+    	}, function(){
+
+        Clyde.setActiveProduct({{ product.selected_or_first_available_variant.id }});
+        loadClydeContract({{ product.selected_or_first_available_variant.id }});
+
+        var clydeProductForm = $("form[action='/cart/add']");
+
+      	$('#add-to-cart-button').on('click', function(e){
+        // Clyde edit 10/12/2020: If the modal setting is turned off, exit this code and get normal page behavior when clicking add to cart.
+        if (Clyde.getSettings().modal === false) {
+          return true;
+        }
+        // If for some reason we couldn't find/set the active variant, or the active variant has no contracts, return true for the normal page behavior.
+        if (!Clyde.getActiveProduct() || Clyde.getActiveProduct().contracts.length === 0) {
+          return true;
+        }
+        // Coverall solution to prevent this site's other ATC behavior while we perform the contract adds or modal actions.
+        e.preventDefault();
+        e.stopPropagation();
+        e.stopImmediatePropagation();
+
+
+          showClydeModal(true);
+
+      });
+        $('#pdp-simple').on('click', function(e){
+          	Clyde.setActiveProduct($('input[name="id[]"]').val());
+        	loadClydeContract($('input[name="id[]"]').val());
+            showClydeModal(false);
+        });
+    });
+
+    $(function() {
+      $(".dropbtn").click(function() {
+
+        $('.dropdown-content').toggle();
+        $('.currency-wrapper .currency-positioned').toggleClass('open')
+      });
+      $(document).on("click", function (e) {
+        if ($(e.target).is(".dropbtn") === false && $(e.target).is(".dropdown-content") === false) {
+            $('.dropdown-content').hide();
+            $('.currency-wrapper .currency-positioned').removeClass('open')
+        }
+      });
+    });
+
+    function updateCurrency(dropdownSuffix) {
+      var domainSuffix = document.domain.split('.')[2];
+      if (dropdownSuffix != domainSuffix) {
+        var newUrl = window.location.href.replace('.' + domainSuffix, '.' + dropdownSuffix)
+         window.location.replace(newUrl)
+      }
+    }
+
+  </script>
+{% endunless %}

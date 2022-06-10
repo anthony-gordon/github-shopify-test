@@ -1,0 +1,109 @@
+.product-wrap .plus-shipping-message-wrapper {
+  margin: 1em 0;
+  text-align:center;
+}
+.product-wrap .plus-shipping-message-wrapper a {
+  text-decoration: none;
+   border-bottom: 1px solid;
+}
+.product-wrap .plus-shipping-message-wrapper span {
+  position:relative;
+  font-size:0.929em;
+}
+.product-wrap .plus-shipping-message-wrapper span.plus-available:before {
+  content:'';
+  display:inline-block;
+  border-radius:100%;
+  width:8px;
+  height:8px;
+  margin-right:0.5em;
+}
+.product-wrap .plus-shipping-message-wrapper .info {
+  border: 1px solid #314438;
+  cursor: pointer;
+  position: absolute;
+  padding-top: 0.1em;
+  text-align: center;
+  left: 104%;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+  transform: translateY(-50%);
+  color: #314438;
+  font-weight: 700;
+  width: 1.5em;
+  height: 1.5em;
+  border-radius: 50%;
+  font-size: 0.7em;
+  line-height: 120%;
+  font-family: Agmena, serif;
+  -webkit-transition: all 0.2s linear;
+  -moz-transition: all 0.2s linear;
+  -o-transition: all 0.2s linear;
+  -ms-transition: all 0.2s linear;
+  transition: all 0.2s linear;
+}
+.product-wrap .plus-shipping-message-wrapper .info .tooltip {
+  width: 20em;
+  white-space: normal;
+  font-weight: 500;
+  font-family: Quicksand, sans-serif;
+  display: none;
+  text-align: center;
+  line-height: 150%;
+  background: #8cc1d2;
+  color: #fff;
+  right: -6.5em;
+  bottom: 80%;
+  padding: 0.8em;
+  font-size: 12px;
+  font-weight: 500;
+  display: block;
+  position: absolute;
+  -webkit-transform: translateY(10px);
+  transform: translateY(10px);
+  margin-bottom: 10px;
+  filter: alpha(opacity=0);
+  -khtml-opacity: 0;
+  -moz-opacity: 0;
+  opacity: 0;
+  visibility: hidden;
+  -webkit-transition: all .25s ease-out;
+  -moz-transition: all .25s ease-out;
+  -ms-transition: all .25s ease-out;
+  -o-transition: all .25s ease-out;
+  transition: all .25s ease-out;
+  z-index: 10000;
+}
+.product-wrap .plus-shipping-message-wrapper .info .tooltip:after {
+  content: " ";
+  border: 10px solid transparent;
+  border-top: 10px solid #8cc1d2;
+  border-bottom: 0;
+  bottom: -8px;
+  height: 0;
+  right: 6.5em;
+  -webkit-transform: translateX(0.3em);
+  transform: translateX(0.3em);
+  position: absolute;
+  width: 0;
+}
+.product-wrap .info:hover .tooltip, .product-wrap .info.active .tooltip {
+  filter:alpha(opacity=100);
+   -khtml-opacity:1;
+   -moz-opacity:1;
+   opacity:1;
+   visibility:visible;
+   bottom: 100%;
+   -webkit-transform: translateY(0);
+   transform: translateY(0);
+}
+
+.plus-hide {
+  display: none !important;
+}
+.plus-show {
+  display: block !important;
+}
+.quantity-box.disabled {
+  display: none;
+}  

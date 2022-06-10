@@ -1,0 +1,54 @@
+<div class="c-hwt-section" style="background: {{ section.settings.bg_color }};">
+  <div class="c-hwt-container">
+    {% if section.settings.heading != blank %}
+    <h1 class="c-hwt-heading">{{ section.settings.heading }}</h1>
+    {% endif %}
+    {% if section.settings.linktext != blank %}
+    <a href="{{ section.settings.link }}" class="c-hwt-a">{{ section.settings.linktext }}</a>
+    {% endif %}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Richtext",
+  "settings": [
+	{
+      "id": "bg_color",
+      "type": "color",
+      "label": "Bg Color",
+      "default": "#F3F0ED"
+    },
+    {
+      "id": "heading",
+      "type": "text",
+      "label": "Heading",
+      "default": "Start building your dream Office."
+    },
+	{
+      "id": "linktext",
+      "type": "text",
+      "label": "Button Text",
+      "default": "Shop Now"
+    },
+	{
+      "id": "link",
+      "type": "url",
+      "label": "Button Link",
+      "default": "/"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Richtext",
+      "category": "Custom"
+    }
+  ]
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

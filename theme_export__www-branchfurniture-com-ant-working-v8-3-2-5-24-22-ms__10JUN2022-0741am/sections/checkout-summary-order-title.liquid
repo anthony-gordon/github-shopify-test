@@ -1,0 +1,38 @@
+{% assign show_desktop = section.settings.desktop_enable %}
+{% assign show_mobile = section.settings.mobile_enable %}
+
+<div class="order-summary-title{% if show_desktop == false %} hide-desktop{% endif %}{% if show_mobile == false %} hide-mobile{% endif %}">
+  <h1>{{ section.settings.title }}</h1>
+</div>
+
+{% schema %}
+  {
+    "name": "Order Summary Title",
+    "settings": [
+	  {
+		"type": "text",
+		"label": "Section Title",
+		"id": "title",
+		"default": "Order Summary"
+	  },
+	  {
+		"type": "checkbox",
+		"label": "Enable Order Summary (Desktop)",
+		"id": "desktop_enable",
+		"default": true
+	  },
+	  {
+		"type": "checkbox",
+		"label": "Enable Order Summary (Mobile)",
+		"id": "mobile_enable",
+		"default": true
+	  }
+	]
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

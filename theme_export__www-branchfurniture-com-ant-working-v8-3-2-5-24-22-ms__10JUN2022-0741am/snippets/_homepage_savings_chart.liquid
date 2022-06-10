@@ -1,0 +1,231 @@
+<style type="text/css">
+  #savings-chart {
+    width: auto;
+    display: block;
+    margin: 25px auto;
+  }
+
+  #savings-chart #y-labels {
+    width: 30%;
+    height: 400px;
+    margin: 0px;
+    margin-right: 12px;
+    display: inline-block;
+    overflow-wrap: initial;
+    text-align: left;
+    vertical-align: initial;
+    color: #989c99;
+  }
+
+  #savings-chart #y-labels li {
+    text-align: right;
+    padding: 0;
+    height: 25%;
+    list-style: none;
+    position: relative;
+    font-size: 16px;
+  }
+
+  #savings-chart #y-labels li:not(:last-child) {
+    margin-bottom: 10px;
+  }
+
+  #savings-chart #bars {
+    width: 65%;
+    padding: 0;
+    margin: 0;
+    display: inline-block;
+  }
+
+  #savings-chart #bars li {
+    display: table-cell;
+    width: 125px;
+    height: 400px;
+    margin: 0px 10px;
+    text-align: center;
+    position: relative;
+  }
+
+  #savings-chart #bars li .bar {
+    display: block;
+    width: 100px;
+    background: #AEB6B0;
+    position: absolute;
+    bottom: 0;
+    border-radius: 1px;
+    overflow: initial !important;
+  }
+
+  .bar-outline {
+    width: 94px;
+    margin: 3px;
+    height: calc(100% - 6px);
+    outline: 2px dashed #c3cec7;
+  }
+
+  #savings-chart #bars li .bar:hover {
+    cursor: pointer;
+  }
+
+  #savings-chart #bars li .bar.branch {
+    background: #314438;
+    margin-left: 0px;
+  }
+
+  #savings-chart #bars li .bar.branch:before {
+    color: #989c99;
+    content: 'Save up \A to ' attr(data-percentage) '%';
+	white-space: pre-wrap;
+    position: relative;
+    bottom: 50px;
+    font-size: 16px;
+  }
+
+  #savings-chart #bars li span.x-label {
+    width: 100px;
+    position: absolute;
+    bottom: -4em;
+    left: 0;
+    margin-bottom: 10px;
+    font-size: 18px;
+    font-weight: 600;
+    text-align: center;
+    color: #25352B;
+  }
+
+  @media screen and (max-width: 968px){
+    #savings-chart #y-labels {
+      width: 25%;
+    }
+
+    #savings-chart #y-labels li {
+      font-size: 14px;
+    }
+
+    .bar-outline {
+      width: 74px;
+    }
+
+    #savings-chart #bars li {
+      width:100px;
+    }
+
+    #savings-chart #bars li .bar {
+      width:80px;
+    }
+
+    .savings-chart-logo {
+      width: 73px;
+    }
+
+    #savings-chart #bars li span.x-label {
+      width: 80px;
+      font-size: 15px;
+      bottom: -5em;
+    }
+    #savings-chart #bars li .bar.branch:before {
+      font-size: 14px;
+    }
+
+  }
+
+  @media screen and (max-width: 400px){
+    #savings-chart #y-labels li {
+      font-size: 12px;
+    }
+
+    #savings-chart #bars li {
+      width: 80px;
+    }
+
+    #savings-chart #bars li .bar {
+      width: 65px;
+    }
+
+    .bar-outline {
+      width: 59px;
+    }
+
+    #savings-chart #bars li span.x-label {
+      font-size: 13px;
+      width: 65px;
+    }
+
+    .savings-chart-logo {
+      width: 65px;
+    }
+    
+    #savings-chart #bars li .bar.branch:before {
+	  font-size: 12px;
+    }
+  }
+
+</style>
+
+<div id="savings-chart">
+  <ul id="y-labels">
+    <li><span>Delivery, Assembly & Disposal</span></li>
+    <li><span>Dealer Markup</span></li>
+    <li><span>Manufacturer Markup</span></li>
+    <li><span>Materials & Manufacturer</span></li>
+  </ul>
+
+  <ul id="bars">
+    <li>
+      <div data-percentage="100" class="bar"></div>
+      <span class="x-label">Furniture Dealer</span>
+    </li>
+    <li>
+      <div data-percentage="50" class="bar branch"></div>
+      <div class="bar-outline"></div>
+      <span class="x-label">
+        <img class="savings-chart-logo" src="{{ 'logo.png' | asset_url }}" width="100" loading="lazy"/>
+      </span>
+    </li>
+  </ul>
+</div>
+
+<script type="text/javascript">
+
+  function drawSavingsChart(){
+    $("#bars li .bar").each( function( key, bar ) {
+      var percentage = $(this).data('percentage');
+
+      $(this).animate({
+        'height' : percentage + '%'
+      }, 1000);
+    });
+  }
+</script>
+
+<!-- Animate chart when scrolled into view -->
+<script type="text/javascript">
+
+  var element = document.getElementById('savings-chart');
+  var elementHeight = element.clientHeight;
+
+  document.addEventListener('scroll', animate);
+
+  // check if element is in view
+  function inView() {
+    var windowHeight = window.innerHeight;
+    var scrollY = window.scrollY || window.pageYOffset; // number of pixels scrolled
+    var scrollPosition = scrollY + windowHeight; // scroll position relative to window height
+    var elementPosition = element.getBoundingClientRect().top + scrollY + elementHeight;
+
+    if (scrollPosition > elementPosition) {
+      return true;
+    }
+
+    return false;
+  }
+
+  // animate element when it is in view
+  function animate() {
+    // is element in view?
+    if (inView()) {
+      drawSavingsChart();
+    }
+  }
+
+</script>

@@ -1,0 +1,153 @@
+<style>
+  .chat-with-sales-popup {text-align: center; max-width: 36em;}
+  .chat-with-sales-popup h2 {line-height: 31px;}
+  .chat-with-sales-popup input, .chat-with-sales-popup textarea {padding: .7em 1em};
+  .chat-with-sales-popup form {margin-top: 2em;}
+  .chat-with-sales-popup .btn {margin-top: 2em;}
+  .chat-with-sales-popup .text-left {text-align: left;}
+  .chat-with-sales-popup label {font-family: Quicksand,sans-serif;font-weight:400;font-style:normal;letter-spacing:.02em;cursor:default;padding-top:0;}
+  .chat-with-sales-popup textarea {background: #fff;min-height:64px;}
+  .chat-with-sales-popup .radio-label {font-weight: 500;margin-right: 20px;}
+  .chat-with-sales-popup .radio-label.error {color: #ff5656;}
+  .chat-with-sales-popup .required-star {color: #fd2728;}
+  .chat-with-sales-popup p {color: #314438;}
+  @media only screen and (min-width: 600px) {
+  	.chat-with-sales-popup .cwsp-two-column-wrapper {display: flex;}
+  	.chat-with-sales-popup .cwsp-two-column-wrapper .cwsp-column-left {flex:0 0 48%;margin-right:4%;}
+  }
+  @media all and (max-width: 600px){
+    .chat-with-sales-popup .radio-label {margin-right: 5px;}
+    .chat-with-sales-popup input, .chat-with-sales-popup textarea {padding: .4em 1em};
+  }
+</style>
+<div style="display: none">
+  <div class="chat-with-sales-popup">
+    <a class="close-icon" href="#" onclick="modal.close();return false;">{% include 'icons', icon: 'close' %}</a>
+    <div class="wrap">
+      <div class="form-wrap">
+        <h2 id="subscription-popup-title">Let's work together</h2>
+        <p>Get a quote, request a free space plan, check lead times for your area, or just learn more about our products!</p>
+        <div class="error-msg"></div>
+        <form class="form animated" method="post" action="/contact">
+          <div class="text-left">
+            <input type="hidden" value="customer" name="form_type">
+            <input type="hidden" name="contact[tags]" value="prospect,newsletter"/>
+            <div class="cwsp-two-column-wrapper">
+            	<div class="cwsp-column-left">
+              		<label>Your name<span class="required-star">*</span></label>
+            		<input type="text" placeholder="" name="contact[name]" class="required" aria-label="Enter your Name" aria-required="true" />
+            	</div>
+              	<div>
+              		<label>Your company's name<span class="required-star">*</span></label>
+            		<input type="text" placeholder="" name="contact[company]" class="required" aria-label="Enter your Company" aria-required="true" />
+              	</div>
+            </div>
+            <label>Your email<span class="required-star">*</span></label>
+            <input type="text" placeholder="" name="contact[email]" class="required" aria-label="Enter your Email" aria-required="true" />
+            <label>Your phone number</label>
+            <input type="text" placeholder="" name="contact[phone]" aria-label="Enter your Phone" aria-required="true" />
+            <label>Your office size (# of employees)<span class="required-star">*</span></label>
+            <br/>
+            <input type="radio" name="contact[office]" value="1-10" /> <span class="radio-label">1-10</span>
+            <input type="radio" name="contact[office]" value="11-50" /> <span class="radio-label">11-50</span>
+            <input type="radio" name="contact[office]" value="51-100" /> <span class="radio-label">51-100</span>
+            <input type="radio" name="contact[office]" value="100+" /> <span class="radio-label">100+</span>
+            <label style="margin-top: 10px;">Your project (any details on space or office needs you want to share)</label>
+            <textarea name="contact[message]" rows="2"></textarea>
+          </div>
+          <button class="btn" type="submit">Submit</button>
+          <p style="margin-top:25px;margin-bottom:0px;">Or send us a quick note to <a href="mailto:sales@branchfurniture.com">sales@branchfurniture.com</a></p>
+        </form>
+      </div>
+      <div class="success-msg">
+        <h2>Thank you for your interest!</h2>
+        <p class="success-p">A Branch Expert will get in touch sooner than you can say space plan. Want to learn more about the {{currentProduct.title}} in the meantime? Download our spec sheet below:</p>
+        <a href="{{specSheet | file_url}}" class="btn" target="_blank">Download Spec Sheet</a>
+      </div>
+    </div>
+  </div>
+</div>
+<script>  
+  $(function(){
+    $(document).on('click', '.chat-with-sales-button', function(){
+      Simplistic.openModal($('.chat-with-sales-popup'), 'regular');
+      return false;
+    });
+    $('.chat-with-sales-popup form').submit(function(e){
+      e.preventDefault();
+      e.stopImmediatePropagation();
+      var form = $(this);
+      var error = false;
+      
+      form.parent().find('.error-msg').hide();
+      form.find('.error').removeClass('error');
+
+      form.find('.required').each(function(){
+        if($(this).val()=="") {
+          error = true;
+          $(this).addClass('error');
+        }
+      });
+      if (!$('input[name="contact[office]"]:checked').val()) {
+      	error = true;
+        $('.radio-label').addClass('error')
+      } else {
+      	$('.radio-label').removeClass('error')
+      }
+      if(error){
+          form.parent().find('.error-msg').show().text('Please complete all the required fields.');
+      }else{
+        if(!Simplistic.validateEmail(form.find('input[name="contact[email]"]').val())) {
+          error = true;
+          form.find('input[name="contact[email]"]').addClass('error');
+          form.parent().find('.error-msg').show().text('Please provide a valid email address.');
+        }
+      }
+      var name = (form.find('input[name="contact[name]"]').val() || '').split(' ');
+      var firstName = name[0] || '';
+      var lastName = name[1] || '';
+      var variantId = $('.add-to-cart-form [name^=id]').val();
+      var variantNameMap = {};
+      {% for variant in currentProduct.variants %}
+      variantNameMap[{{variant.id}}] = '{{variant.title}}';
+      {% endfor %}
+      var variantName = variantNameMap[variantId];
+
+      if(!error) {
+        var processAjax = function(arr, callback){
+          var pending = arr.length;
+          $.each(arr, function(){
+            this.always(function(){
+              pending--;
+              if(pending==0) {
+                callback();
+              }
+            });
+          });
+        };
+        var ajaxHubspot = $.ajax({
+          'url': 'https://api.hsforms.com/submissions/v3/integration/submit/5361087/13675c0e-ee7b-40b0-94cc-9c106c91b238',
+          'type': 'POST',
+          contentType: 'application/json',
+          data: JSON.stringify({
+            fields: [
+              {name: 'referring_url', value: window.location.href},
+              {name: 'referring_product_variant', value: variantName},
+              {name: 'email', value: form.find('input[name="contact[email]"]').val()},
+              {name: 'firstname', value: firstName},
+              {name: 'lastname', value: lastName},
+              {name: 'company', value: form.find('input[name="contact[company]"]').val()},
+              {name: 'phone', value: form.find('input[name="contact[phone]"]').val()},
+              {name: 'office_headcount', value: form.find('input[name="contact[office]"]:checked').val()},
+              {name: 'message', value: form.find('textarea[name="contact[message]"]').val()}
+            ]
+          })
+        });
+        processAjax([ajaxHubspot], function(){
+          form.parent().hide();
+          form.parent().parent().find('.success-msg').show();
+        });
+      }
+    });
+  });
+</script>

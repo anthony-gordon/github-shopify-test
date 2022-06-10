@@ -1,0 +1,151 @@
+<style>
+  .request-specs-sheet-popup {text-align: center; max-width: 30em;}
+  .request-specs-sheet-popup form {margin-top: 2em;}
+  .request-specs-sheet-popup .btn {margin-top: 2em;}
+</style>
+<div style="display: none">
+  <div class="request-specs-sheet-popup">
+    <a class="close-icon" href="#" onclick="modal.close();return false;">{% include 'icons', icon: 'close' %}</a>
+    <div class="wrap">
+      <div class="form-wrap">
+        <h2 id="subscription-popup-title">Get our Spec Sheet</h2>
+        <p>Our comprehensive spec sheet covers product features, dimensions, shipping information, and more.</p>
+        <div class="error-msg"></div>
+        {%- if settings.use_klaviyo_form -%}
+        <form class="clearfix" target="_blank" novalidate="novalidate">
+          <input type="hidden" name="g" value="R325dC">
+          <input type="hidden" name="$fields" value="source">
+          <input type="hidden" name="source" id="klaviyo-source" value="Request Spec Sheet">
+          <input type="text" placeholder="Name" name="name" class="required name" aria-label="Enter your Name" aria-required="true" autocomplete="given-name" />
+          <input type="email" placeholder="Email address" id="email-input" name="email" class="required email" aria-label="Enter your email address to subscribe to our mailing list" aria-required="true" autocomplete="email" />
+          <div>Who are you shopping for?</div>
+          <input type="radio" name="who_are_you_shopping_for_" value="Myself" checked>
+          <label class="shopping-for-label">Myself</label>
+          <input type="radio" name="who_are_you_shopping_for_" value="My business or client">
+          <label class"shopping-for-label">My business or client</label>
+          <button class="btn" type="submit">Download Specs</button>
+        </form>
+        {%- else -%}
+        <form class="form animated" method="post" action="/contact">
+          <input type="hidden" value="customer" name="form_type">
+          <input type="hidden" name="contact[tags]" value="prospect,newsletter"/>
+          <input type="text" placeholder="Full Name" name="contact[name]" class="required name" aria-label="Enter your Name" aria-required="true" autocomplete="given-name" />
+          <input type="email" class="email required" placeholder="Email address" name="contact[email]" aria-label="Enter your Email Address" aria-required="true" autocomplete="email" />
+          <button class="btn" type="submit">Download Specs</button>
+        </form>
+        {%- endif -%}
+      </div>
+      <div class="success-msg">
+        <h2>Thank you for your interest!</h2>
+        <a href="{{specSheet | file_url}}" class="btn" target="_blank">Download Spec Sheet</a>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  $(function(){
+    $(document).on('click', '.specs-trigger', function(){
+      Simplistic.openModal($('.request-specs-sheet-popup'), 'regular');
+      
+      {%- if settings.use_klaviyo_form -%}
+      document.getElementById("klaviyo-source").value = window.location.href;
+      $('input[type=radio][name=who_are_you_shopping_for_]').change(function() {
+          if (this.value == 'Myself') {
+            document.getElementById("klaviyo-source").value = window.location.href;
+          }
+          else {
+            document.getElementById("klaviyo-source").value = "Request Spec Sheet";
+          }
+      });
+      {%- endif -%}
+      
+      return false;
+    });
+    $('.request-specs-sheet-popup form').submit(function(e){
+      e.preventDefault();
+      e.stopImmediatePropagation();
+      var form = $(this);
+      var error = false;
+      
+      form.parent().find('.error-msg').hide();
+      form.find('.error').removeClass('error');
+
+      form.find('.required').each(function(){
+        if($(this).val()=="") {
+          error = true;
+          $(this).addClass('error');
+        }
+      });
+      if(error){
+          form.parent().find('.error-msg').show().text('Please complete all the required fields.');
+      }else{
+        if(!Simplistic.validateEmail(form.find('.email').val())) {
+          error = true;
+          form.find('.email').addClass('error');
+          form.parent().find('.error-msg').show().text('Please provide a valid email address.');
+        }
+      }
+      if(!error) {
+        var processAjax = function(arr, callback){
+          var pending = arr.length;
+          $.each(arr, function(){
+            this.always(function(){
+              pending--;
+              if(pending==0) {
+                callback();
+              }
+            });
+          });
+        };
+        {%- if settings.use_klaviyo_form -%}
+        if (form.find('input[name="who_are_you_shopping_for_"]:checked').val() == 'Myself') {
+          var ajaxKlaviyo = $.ajax({
+            data: form.serialize(),
+            url: "https://manage.kmail-lists.com/ajax/subscriptions/subscribe",
+            type: 'POST'
+          });
+          processAjax([ajaxKlaviyo], function(){
+            form.parent().hide();
+            form.parent().parent().find('.success-msg').show();
+          });
+        } else {
+          var ajaxHubspot = $.ajax({
+            'url': 'https://api.hsforms.com/submissions/v3/integration/submit/5361087/e05cbd7a-9cf8-4173-b3cf-c219e5f614dd',
+            'type': 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify({
+              fields: [
+                {name: 'email', value: form.find('.email').val()},
+                {name: 'firstname', value: form.find('.name').val()},
+                {name: 'who_are_you_shopping_for_', value: form.find('input[name="who_are_you_shopping_for_"]:checked').val()}
+              ]
+            })
+          });
+          processAjax([ajaxHubspot], function(){
+            form.parent().hide();
+            form.parent().parent().find('.success-msg').show();
+          });
+        }
+        {%- endif -%}
+        {%- unless settings.use_klaviyo_form -%}
+        var ajaxHubspot = $.ajax({
+          'url': 'https://api.hsforms.com/submissions/v3/integration/submit/5361087/e05cbd7a-9cf8-4173-b3cf-c219e5f614dd',
+          'type': 'POST',
+          contentType: 'application/json',
+          data: JSON.stringify({
+            fields: [
+              {name: 'email', value: form.find('.email').val()},
+              {name: 'firstname', value: form.find('.name').val()},
+              {name: 'who_are_you_shopping_for_', value: form.find('input[name="who_are_you_shopping_for_"]:checked').val()}
+            ]
+          })
+        });
+        processAjax([ajaxHubspot], function(){
+          form.parent().hide();
+          form.parent().parent().find('.success-msg').show();
+        });
+        {%- endunless -%}
+      }
+    });
+  });
+</script>

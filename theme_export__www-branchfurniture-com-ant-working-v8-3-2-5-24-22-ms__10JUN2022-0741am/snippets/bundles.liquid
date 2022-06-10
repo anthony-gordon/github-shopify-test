@@ -1,0 +1,109 @@
+{% if currentProduct.tags contains 'bundle' %}
+	<script>
+      $(function(){
+
+        {% assign maxAllowedVariantOptions = 10 %} // Number of variants options allowed
+
+        // This method only update the variant values but not the ID
+
+        let productVariants = {{ currentProduct.variants | json }}
+
+        {% for variant in currentProduct.variants %} // Get bundles from each variant
+          {% assign index = forloop.index %}
+          {% if variant.metafields.variant.bundle_products != blank %}
+            productVariants[{{ index }} - 1].bundleProducts = {{ variant.metafields.variant.bundle_products | json }}
+          {% else%}
+            productVariants[{{ index }} - 1].bundleProducts = {{ currentProduct.metafields.global.bundle_products | json }}
+          {% endif %}
+        {% endfor %}
+            
+        const shippingByVariantId = {};
+        {% for variant in currentProduct.variants %} // Get bundles from each variant
+          {% if variant.metafields.variant.bundle_products != blank %}
+        	{% for i in (0..5) %}
+              {% assign variant_handle = variant.metafields.variant.bundle_products[i].productHandle %}
+        	  {%- if variant_handle != blank -%}
+        		{%- assign variant_product = all_products[variant_handle] -%}
+                {%- for variant in variant_product.variants -%}
+                  {%- assign shipping = variant.metafields.variant.shipping -%}
+                  {%- if shipping != blank -%}
+                    shippingByVariantId[{{variant.id}}] = '{{shipping}}';
+                  {%- endif -%}
+                {%- endfor -%}
+        	  {%- endif -%}
+            {%- endfor -%}
+          {% else%}
+            {% assign variant_handle = currentProduct.metafields.global.bundle_products[0].productHandle %}
+          	{% assign variant_product = all_products[variant_handle] %}
+        	{% if variant_product.metafields.variant.bundle_products != blank %}
+              {% for i in (0..5) %}
+                {% assign variant_handle = variant.metafields.variant.bundle_products[i].productHandle %}
+                {%- if variant_handle != blank -%}
+                  {%- assign variant_product = all_products[variant_handle] -%}
+                  {%- for variant in variant_product.variants -%}
+                    {%- assign shipping = variant.metafields.variant.shipping -%}
+                    {%- if shipping != blank -%}
+                      shippingByVariantId[{{variant.id}}] = '{{shipping}}';
+                    {%- endif -%}
+                  {%- endfor -%}
+                {%- endif -%}
+              {%- endfor -%}
+        	{% endif %}
+          {% endif %}
+        {% endfor %}
+
+        let currentVariant = JSON.parse(JSON.stringify(productVariants[0])) // Clone first variant without binding
+
+        let matchBundle = function () { // Check actual values of variant and get the correct bundle
+          let coincidenceRate = 0
+          let maxCoincidenceRate = 0
+
+          for (let variant of productVariants) {
+            for (let i = 0; i < {{ maxAllowedVariantOptions }}; i++) {
+              if (currentVariant[`option${i}`]) {
+                let actualVariantOption = currentVariant[`option${i}`]
+                let variantOption = variant[`option${i}`]
+
+                if (actualVariantOption == variantOption) {
+                  coincidenceRate++
+                }
+              }
+            }
+
+            if (coincidenceRate > maxCoincidenceRate) {
+              maxCoincidenceRate = coincidenceRate
+              currentVariant.bundleProducts = variant.bundleProducts
+            }
+
+            coincidenceRate = 0
+          }
+
+          updateBundleProducts(currentVariant.bundleProducts)
+        }
+
+        {% for i in (0..maxAllowedVariantOptions) %}
+          $(`input[name~='option-{{ i }}']`).change(function () {
+            realIndex = {{ i }} + 1 // Because the inputs loop starts at 0 for some reason
+            currentVariant[`option${realIndex}`] = $(this).val() // Update the value of the actual variant
+
+            matchBundle()
+          })
+        {% endfor %}
+
+        let updateBundleProducts = function (bundleProducts) {
+          $('#product-item-{{ currentProduct.id }} input.bundle-products, #grid-item-{{ currentProduct.id }} input.bundle-products, #cart-ymal-{{ currentProduct.id }} input.bundle-products').val(JSON.stringify(bundleProducts));
+          $('#product-item-{{ currentProduct.id }} input.bundle-products-shipping, #grid-item-{{ currentProduct.id }} input.bundle-products-shipping, #cart-ymal-{{ currentProduct.id }} input.bundle-products-shipping').val(JSON.stringify(shippingByVariantId));
+        };
+
+        updateBundleProducts(currentVariant.bundleProducts);
+
+        {%- if sidecart -%}
+          $(document).on('updated', '#side-cart', function () {
+            updateBundleProducts(currentVariant.bundleProducts);
+          });
+        {%- endif -%}
+      })
+	</script>
+  <input type="hidden" class="bundle-products" />
+  <input type="hidden" class="bundle-products-shipping" />
+{% endif %}

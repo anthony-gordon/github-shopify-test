@@ -1,0 +1,292 @@
+<style>
+  .hlxn-fi-section {
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    background-color:#f3eeea;
+    text-align:center;
+    height:calc(100vh - 180px);
+    padding:0;
+  }
+  .hlxn-img-container {
+    width:100%;
+    height:100%;
+    justify-self:flex-end;
+    padding:0;
+    margin:0;
+    display:flex;
+    justify-content:flex-end;
+    position:relative
+  }
+  .hlxn-fi-content-text {
+    position:absolute;
+    top: 25% !important;
+    left: 50%;
+    transform: translateX(-50%);
+    max-width: 580px;
+    width: 100%;
+    z-index:1;
+    padding: 0 10px;
+  }
+  .hlxn-fi-img {
+    position:absolute;
+    bottom:0;
+    left: 50%;
+    transform: translateX(-50%);
+    width:100%;
+  }
+  .hlxn-fi-title {
+    letter-spacing:-.03em;
+    font-weight:400;
+    font-size:45px;
+    margin-bottom:5px;
+    padding:0 25px;
+    text-transform: capitalize;
+  }
+  .hlxn-fi-title i {
+    font-style:normal;
+    text-decoration:underline;
+    text-decoration-color:#8CC1D2
+  }
+  .hlxn-fi-heading {
+    font-size:20px;
+    color:#314438;
+    font-weight:400;
+    font-family:Quicksand,sans-serif;
+    position:relative;
+    z-index:5
+  }
+  .hlxn-fi-heading-mobile {
+    font-size:14px;
+    line-height: 20px;
+    color:#314438;
+    font-weight:400;
+    font-family:Quicksand,sans-serif;
+    position:relative;
+    z-index:5;
+    font-weight: 800;
+    padding: 0 5px;
+  }
+  .hlxn-fi-link {
+    max-width:310px;
+    height:51px;
+    background:#314438;
+    color:#fff;
+    font-weight:700;
+    font-size:14px;
+    letter-spacing:.03em;
+    text-transform:uppercase;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    margin:0 auto;
+    margin-bottom:15px;
+    padding:12px 25px;
+    border:2px solid #314438;
+    position:relative;
+    z-index:5
+  }
+  .hlxn-fi-link:hover {
+    background:0 0;
+    color:#314438
+  }
+  .hlxn-fi-subheading {
+    position:relative;
+    z-index:5
+  }
+  .hlxn-fi-subheading p {
+    font-size:14px;
+    color:#314438;
+    letter-spacing:.06em;
+    text-transform:uppercase;
+    font-weight:400
+  }
+  .hlxn-fi-subheading p a:hover {
+    color:#8dc0d2
+  }
+  @media screen and (min-width: 900px){
+    .hlxn-fi-content-text {
+      top: 25% !important;
+    }
+  }
+</style>
+
+<style>
+  .hlxn-fi-section {
+    height: 645px;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    {% if section.settings.img %}background-image: url({{ section.settings.img | img_url: 'master' }}){% endif %}
+  }
+  @media screen and (max-width: 600px){
+    .hlxn-fi-section {
+      height: 570px;
+      {% if section.settings.img_mobile %}background-image: url({{ section.settings.img_mobile | img_url: 'master' }}){% endif %}
+    }
+  }
+  .hlxn-fi-title {
+    font-size: 40px;
+    line-height: 46px;
+    text-transform: none;
+    margin-bottom: 40px;
+    padding: 0;
+  }
+  @media screen and (max-width: 900px){
+    .hlxn-fi-title {
+      font-size: 36px;
+      line-height: 41px;
+    }
+  }
+  @media screen and (max-width: 600px){
+    .hlxn-fi-title {
+      color: #ffffff;
+      font-size: 42px;
+      line-height: 1.2;
+      margin-bottom: 25px;
+    }
+  }
+  .hlxn-fi-heading {
+    font-size: 16px;
+    line-height: 22px;
+    margin-bottom: 40px;
+  }
+  @media screen and (max-width: 600px){
+    .hlxn-fi-heading {
+      display: none;
+    }
+  }
+  .hlxn-fi-heading-mobile {
+    display: none;
+  }
+  @media screen and (max-width: 600px){
+    .hlxn-fi-heading-mobile {
+      display: block;
+      color: #ffffff;
+      margin-bottom: 230px;
+      font-size: 14px;
+      line-height: 18px;
+    }
+  }
+  .hlxn-fi-content-text {
+    background: radial-gradient(90.85% 100% at 50% 0%, rgba(243, 240, 237, 0.8) 18.62%, #F3F0ED 58.42%, rgba(243, 240, 237, 0.85) 100%);
+    padding: 40px 70px;
+  }
+  @media screen and (max-width: 600px){
+    .hlxn-fi-content-text {
+      max-width: 270px;
+      padding: 0;
+      background: transparent;
+      top: 70px !important;
+      height: calc(100% - 140px);
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      align-items: stretch;
+      justify-content: stretch;
+    }
+    .c-fi-link {
+      width: 100%;
+      margin: auto;
+      margin-bottom: 0;
+    }
+    .hlxn-fi-section .c-fi-link{
+      border-color: white;
+      background: white;
+      color: #314438;
+    }
+  }
+</style>
+<div class="hlxn-fi-section">    
+      <div class="hlxn-fi-content-text">
+        {% if section.settings.title != blank %}
+        <h1 class="hlxn-fi-title">{{ section.settings.title }}</h1>
+        {% endif %}
+        {% if section.settings.heading != blank %}
+        <p class="hlxn-fi-heading">{{ section.settings.heading }}</p>
+        {% endif %}
+        {% if section.settings.heading_mobile != blank %}
+        <p class="hlxn-fi-heading-mobile">{{ section.settings.heading_mobile }}</p>
+        {% endif %}
+        {% if section.settings.link_text != blank %}
+        <a href="{{ section.settings.link }}" class="c-fi-link hlxn-c-fi-link">{{ section.settings.link_text }}</a>
+        {% endif %}
+        {% if section.settings.subheading != blank %}
+        <div class="hlxn-fi-subheading">{{ section.settings.subheading }}</div>
+        {% endif %}
+      </div>
+</div>
+
+{% schema %}
+  {
+    "name": "Feature Image",
+    "settings": [
+    {
+      "type": "header",
+      "content": "Image"
+    },
+{
+      "id": "bg_color",
+      "type": "color",
+      "label": "Bg Color",
+      "default": "#e8e7e3"
+    },
+    {
+      "id": "img",
+      "type": "image_picker",
+      "label": "Hero Image"
+    },
+    {
+      "id": "img_mobile",
+      "type": "image_picker",
+      "label": "Hero Image Mobile"
+    },
+    {
+      "type": "header",
+      "content": "Text"
+    },
+    {
+      "id": "title",
+      "type": "textarea",
+      "label": "Title",
+      "default": "Exceptional Office<br>Furniture, <i>Half The Price.</i>"
+    },
+    {
+      "id": "heading",
+      "type": "textarea",
+      "label": "Heading Desktop",
+      "default": "Build a beautiful office without breaking the bank."
+    },
+    {
+      "id": "heading_mobile",
+      "type": "textarea",
+      "label": "Heading Mobile"
+    },
+    {
+      "id": "link_text",
+      "type": "text",
+      "label": "Button Text",
+      "default": "Shop now"
+    },
+    {
+      "id": "link",
+      "type": "url",
+      "label": "Button Link",
+      "default": "/"
+    },
+    {
+      "id": "subheading",
+      "type": "richtext",
+      "label": "Subheading",
+      "default": "<p>Are you a team? Build your office</p>"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Feature Image",
+      "category": "Custom"
+    }
+  ]
+  }
+{% endschema %} 

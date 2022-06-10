@@ -1,0 +1,138 @@
+{%- assign currentProduct = product -%}
+
+{%- assign defaultProcessingTimeDifference = settings.plus_product_page_shipping_message_default_processing_time -%}
+{%- assign currentDate = 'now' | date: '%Y-%m-%d' | json -%}
+
+{%- capture 'date_processing_data' -%}
+  {%- for variant in product.variants -%}
+	{%- if variant.metafields.variant.date_available -%}
+		{%- assign dateAvailable = variant.metafields.variant.date_available | date: '%Y-%m-%d' | json -%}
+	{%- else -%}
+		{%- assign dateAvailable = currentDate -%}
+	{%- endif -%}
+    {{- variant.id | append: '-processing_time' | json -}}: {{- variant.metafields.variant.processing_time | default: defaultProcessingTimeDifference  -}},
+    {{- variant.id | append: '-date_available' | json -}}: {{- dateAvailable -}},
+    {{- variant.id | append: '-tags' | json -}}: `[{{- product.tags | join: ', ' | default: 'default'  -}}]`,
+    {{- variant.id | append: '-override_message' | json -}}: `{{- variant.metafields.variant.shipping | default: "none"  -}}`
+    {%- unless forloop.last -%},{%- endunless -%} 
+  {% endfor %}
+{%- endcapture -%}
+
+<style>
+  .product-wrap .plus-shipping-message-wrapper span.plus-available:before {
+    background: {{ settings.content_third_color }};
+  }
+</style>
+
+{{ 'plus-shipping-message.css' | asset_url | stylesheet_tag }}
+
+<input id="plus-variant-shipping-processing-message" type="hidden" name="properties[_plus_shipping_processing_message]">
+
+<div class="plus-shipping-message-wrapper">
+  <div class="plus-shipping-message"></div>
+</div>
+
+<script>
+	window.Plus = window.Plus || {};
+	window.Plus.product = window.Plus.product || {};
+	window.Plus.product.dateProcessingData = { {{ date_processing_data }} };
+	window.Plus.product.settings = {
+    plusB2BProductTag: `{{ settings.plus_product_page_shipping_message_b2b_product_tag }}`,
+    plusB2BDefaultShippingRange: {{ settings.plus_product_page_shipping_message_default_b2b_shipping_range }},
+    plusDTCDefaultShippingRange: {{ settings.plus_product_page_shipping_message_default_dtc_shipping_range }},
+    plusDTCDateAvailableMessage: `{{ 'plus.product.shipping_and_processing.plus_dtc_date_available_message' | t }}`,
+    plusB2BDateAvailableMessage: `{{ 'plus.product.shipping_and_processing.plus_b2b_date_available_message' | t }}`,
+    plusDTCProcessingTimeMessage: `{{ 'plus.product.shipping_and_processing.plus_dtc_processing_time_message' | t }}`,
+    plusB2BProcessingTimeMessage: `{{ 'plus.product.shipping_and_processing.plus_b2b_processing_time_message' | t }}`,
+    plusDefaultOOSMessage: `{{ 'plus.product.shipping_and_processing.plus_default_out_of_stock_message' | t }}`,
+  };
+
+	window.Plus.product.generateDateProcessingObject = function(currentVariantID){
+    let dateProcessingObject = {"date": [], "processing_time": [], "b2b_product": false, "shipping_message_override": false};
+      
+    for (const [key, value] of Object.entries(window.Plus.product.dateProcessingData)) {
+      if (key.includes(currentVariantID) && key.includes('date') ) {
+        dateProcessingObject.date.push(`${value}`);
+      }
+      if (key.includes(currentVariantID) && key.includes('processing')) {
+        dateProcessingObject.processing_time.push(`${value}`);
+    	}
+      if (key.includes(currentVariantID) && key.includes('tags') && value.toLowerCase().includes(window.Plus.product.settings.plusB2BProductTag)) {
+        dateProcessingObject.b2b_product = true;
+    	}
+      if (key.includes(currentVariantID) && key.includes('override_message') && !value.toLowerCase().includes("none")) {
+        dateProcessingObject.shipping_message_override = `${value}`;
+    	}
+    }
+    return dateProcessingObject;
+	}
+      
+  window.Plus.product.generateShippingMessage = function(dateProcessingObject, variantAvailabilityDate, variantInventory){
+  let shippingProcessingMessage = '';
+  if (dateProcessingObject.shipping_message_override){
+    shippingProcessingMessage = dateProcessingObject.shipping_message_override;
+  } else {
+    let processingTimeDifference =  parseInt(dateProcessingObject.processing_time),
+      b2b_product = dateProcessingObject.b2b_product,
+      date = dateProcessingObject.date,
+      dateDifference = Math.round(parseInt((new Date(date) - new Date()) / (1000 * 3600 * 24))),
+      daysUntilAvailable = dateDifference > processingTimeDifference ? dateDifference : processingTimeDifference,
+      weeksUntilAvailable = Math.round(daysUntilAvailable / 7);
+
+      if(dateDifference > processingTimeDifference){
+        let nextMonday = new Date(date);
+        const monthNames = ["January", "February", "March", "April", "May", "June",
+          "July", "August", "September", "October", "November", "December"
+        ];
+
+        nextMonday.setDate(nextMonday.getDate() + ((7 - nextMonday.getDay()) % 7 + 1) % 7);
+        const nth = function(d) {
+          if (d > 3 && d < 21) return `${d}th`;
+          switch (d % 10) {
+            case 1:  return `${d}st`;
+            case 2:  return `${d}nd`;
+            case 3:  return `${d}rd`;
+            default: return `${d}th`;
+          }
+        }
+      
+        let dateAvailableDescription = `the week of ${monthNames[nextMonday.getMonth()]} ${nth(nextMonday.getDate())}`;
+        
+        if (b2b_product){
+          message = window.Plus.product.settings.plusB2BDateAvailableMessage;
+          shippingProcessingMessage = message.replace(`#date_available_description#`, dateAvailableDescription);
+        } else {
+          message = window.Plus.product.settings.plusDTCDateAvailableMessage;
+          shippingProcessingMessage = message.replace(`#date_available_description#`, dateAvailableDescription);
+        }
+      } else {
+        if (b2b_product){
+          let range = window.Plus.product.settings.plusB2BDefaultShippingRange;
+          let processingTimeDescription = `in ${weeksUntilAvailable > 1 && weeksUntilAvailable > range ? weeksUntilAvailable - range : 1}-${weeksUntilAvailable > 1 ? weeksUntilAvailable + range : 1 + (range * 2)} weeks`
+          message = window.Plus.product.settings.plusB2BProcessingTimeMessage;
+          shippingProcessingMessage = message.replace(`#processing_time_description#`, processingTimeDescription);
+        } else {
+          let range = window.Plus.product.settings.plusDTCDefaultShippingRange;
+          let processingTimeDescription = `in ${daysUntilAvailable > 1 && daysUntilAvailable > range  ? daysUntilAvailable - range : 1}-${daysUntilAvailable > 1 ? daysUntilAvailable + range : 1 + (range * 2)} business days`
+          message = window.Plus.product.settings.plusDTCProcessingTimeMessage;
+          shippingProcessingMessage = message.replace(`#processing_time_description#`, processingTimeDescription);
+        }
+      }  
+    }
+    return shippingProcessingMessage;
+  }
+      
+  window.Plus.product.fillAvailableElement = function(dateProcessingObject, variantInventory){
+    let variantAvailabilityDate = new Date(dateProcessingObject.date),
+    shippingMessage = window.Plus.product.generateShippingMessage(dateProcessingObject, variantAvailabilityDate, variantInventory),
+      link = `${variantInventory ? '<a href="#" class="chat-trigger info hover-tooltip" tabindex="0">i<div class="tooltip">{{settings.product_availability_tooltip}}</div></a>' : '<a href="/pages/contact">Contact us</a> to inquire'}`,
+      plusShippingMessage = document.querySelector('.plus-shipping-message'),
+      plusDefaultOOSMessage = window.Plus.product.settings.plusDefaultOOSMessage,
+      plusShippingProcessingInput = document.querySelector('#plus-variant-shipping-processing-message'),
+      html = `<span class="plus-shipping-message-message ${variantInventory ? 'plus-available' : 'plus-unavailable'}"><strong>${variantInventory ? "Available" : plusDefaultOOSMessage}</strong> | ${variantInventory ? shippingMessage : ''} ${link}</span>`;
+
+    plusShippingMessage.innerHTML = html;
+    plusShippingProcessingInput.value = shippingMessage;
+  }
+  	  		  	
+</script>

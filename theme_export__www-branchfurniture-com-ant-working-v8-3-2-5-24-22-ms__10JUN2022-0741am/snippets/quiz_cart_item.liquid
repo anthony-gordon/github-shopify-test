@@ -1,0 +1,48 @@
+<div class="item {{ item.product.handle }}">
+  <div class="wrap">
+    <a href="#" class="edit-item" data-url="{{ item.product.url }}?view=quick-view-new" data-qty="{{ item.quantity }}" data-variant="{{item.variant.id}}" data-item-key="{{ item.key }}">
+      <div class="flex justify-content-between title-qtty-price">
+        <div class="title-qtty flex-1">
+          <div class="title">
+            {%- assign titlePart = item.product.title | split: ' - ' -%}
+            {{ titlePart[0] }}
+          </div>
+          <div class="quantity">x <span>{{ item.quantity }}</span></div>
+        </div>
+        <div class="price">
+          {{ item.line_price | money | remove: ".00" | remove: " " }}
+        </div>
+      </div>
+      <div class="variants-edit-wrap flex flex-wrap justify-content-between align-items-end">
+        <div class="large--flex-1 medium--flex-1 small--one-whole">
+          {%- unless item.variant.title contains 'Default' -%}
+          <div class="variants">
+            {%- for option in item.options_with_values -%}
+              {%- if option.name contains 'Color' or option.name contains 'color' -%}
+                <div class="flex align-items-center">
+                  <strong>{{ option.name }}:</strong> <div class="swatch color-{{option.value | handleize}}"><div class="tooltip" aria-hidden="true">{{ option.value }}</div></div>{%- unless forloop.last -%}<br/>{%- endunless -%}
+                </div>
+              {%- else -%}
+            	<div>
+                  <strong>{{ option.name }}:</strong> {{ option.value }}{%- unless forloop.last -%}<br/>{%- endunless -%}
+                </div>
+              {%- endif -%}
+            {%- endfor -%}
+          </div>
+          {%- endunless -%}
+          {%- for p in item.properties -%}
+          <div class="properties">
+            <strong>{{ p.first }}:</strong>
+            {%- if p.last contains '/uploads/' -%}
+            <a href="{{ p.last }}">{{ p.last | split: '/' | last }}</a>
+            {%- else -%}
+            {{ p.last }}
+            {%- endif -%}
+          </div>
+          {%- endfor -%}
+        </div>
+      </div>
+    </a>
+    <a class="remove remove-from-cart" href="/cart/change?line={{ forloop.index }}&quantity=0" data-variant="{{item.variant.id}}" data-item-key="{{ item.key }}">Remove</a>
+  </div>
+</div>

@@ -1,0 +1,32 @@
+{%- if currentProduct.images.size > 1 and settings.grid_product_image_behavior == "alternate_image" -%}
+  {%- assign showSecondImage = true -%}
+
+  {%- assign hoverImageTag = "plp_hover" -%}
+  {%- assign hoverImage = blank -%}
+  {%- assign hoverImageFound = false -%}
+  {%- for image in currentProduct.images -%}
+    {%- unless hoverImageFound -%}
+      {%- if image.alt contains hoverImageTag and hoverImageFound != true -%}
+          {%- assign hoverImage = image -%}
+          {%- assign hoverImageFound = true -%}
+      {%- else -%}
+          {%- assign hoverImage = currentProduct.images.last -%}
+      {%- endif -%}
+    {%- endunless -%}
+  {%- endfor -%}   
+
+{%- else -%}
+  {%- assign showSecondImage = false -%}
+{%- endif -%}	
+<div class="image {% if showSecondImage %}show-second-image{% endif %}">
+  <div class="img animation lazyload" data-bgset="{% include 'lazy_src', image: currentProduct.images.first %}"></div>
+  {%- if showSecondImage -%}
+  	<div class="img second-img animation lazyload lazypreload" data-bgset="{% include 'lazy_src', image: hoverImage %}"></div>
+  {%- endif -%}
+  {%- if currentProduct.available and currentProduct.price_min < currentProduct.compare_at_price_min -%}
+  	<div class="sale">Save<br />{{ currentProduct.compare_at_price_min | minus: currentProduct.price_min | times: 100.0 | divided_by: currentProduct.compare_at_price_min | round }}%</div>
+  {%- endif -%}
+  {%- unless currentProduct.available -%}
+  	<div class="sold-out">sold<br />out</div>
+  {%- endunless -%}
+</div>

@@ -1,0 +1,36 @@
+{%- assign hide_default_title = false -%}
+{%- if currentProduct.variants.size == 1 and currentProduct.variants.first.title contains 'Default' -%}
+	{%- assign hide_default_title = true -%}
+{%- endif -%}
+<div class="options animation {% if hide_default_title %}hide{% else %}flex flex-wrap{% endif %}"> 
+  {%- if settings.variants_layout == 'swatches' -%}
+    {%- for option in currentProduct.options -%}
+      {% if isSticky %}
+        {%- include 'swatch_new' with option, sufix:'sticky' -%}
+      {% else%}
+        {%- include 'swatch_new' with option -%}
+      {% endif %}
+    {%- endfor -%}
+  {%- endif -%}
+  {% unless isSticky %}  
+    {%- if currentProduct.options.size == 1 and settings.variants_layout == 'dropdown' -%}
+      <label class="single">{{ currentProduct.options }}</label>
+    {%- endif -%}
+    <select class="select-variant" id="product-select-{{ currentProduct.id }}">
+      {%- for variant in currentProduct.variants -%}
+        <option value="{{ variant.id }}">{{ variant.title | escape }}</option>
+      {%- endfor -%}
+    </select>
+    <input type="hidden" name="id[]" id="product-{{ currentProduct.id }}-variant" value="" />
+  {% endunless %}
+</div>
+
+{% unless isSticky %}
+  {%- if currentProduct.metafields.addons.handles -%}
+    {%- include '_product_addons_new', sectionProducts: true, sectionVariants: false -%}
+  {%- endif -%}
+
+  {%- if currentProduct.metafields.addons.handles -%}
+    {%- include '_product_addons_new', sectionProducts: false, sectionVariants: true -%}
+  {%- endif -%}
+{% endunless%}

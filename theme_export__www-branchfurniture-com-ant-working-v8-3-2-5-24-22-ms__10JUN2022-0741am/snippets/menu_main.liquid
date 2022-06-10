@@ -1,0 +1,69 @@
+<div class="custom-header-items-1">
+{%- for link in linklists[section.settings.main__menu].links -%}
+{% assign link__ = link.title | downcase %}
+{% if link__ == 'explore' or link__ == 'help' or link__ contains '-button-' %}
+{% else %}
+  <div class="item {% if link.active %}active{% endif %}{% if link.links != blank %} has-dropdown{% endif %}"{% if link.links != blank %} aria-haspopup="true"{% endif %} data-parent="{{link.handle}}">
+    <a {% if link.title == 'Sale'%}style="color:#aa6f58;"{% endif%} class="custom-first-link-bold" href="{{ link.url }}" {% if link.url == '#' %}onclick="return false;"{% endif %}>
+      {{ link.title | escape }}
+      {% comment %}{% include 'icons', icon: 'arrow-down' %}{% endcomment %}
+      {% comment %}{%- if link.links != blank -%}<i class="fa fa-caret-down custom-header-icon-drop"></i>{% endif %}{% endcomment %}
+    </a>
+    {%- if link.links != blank -%}
+    <div class="submenu">
+      {%- for level2_link in link.links -%}
+      <div class="item {% if level2_link.active %}active{% endif %} {% if level2_link.links != blank %} has-dropdown{% endif %}"{% if level2_link.links != blank %} aria-haspopup="true"{% endif %}>
+        <a href="{{ level2_link.url }}">{{ level2_link.title | escape }}{% comment %}{% include 'icons', icon: 'arrow-right' %}{% endcomment %}</a>
+        {%- if level2_link.links != blank -%}
+        <div class="submenu">
+          {%- for level3_link in level2_link.links -%}
+          <div class="item {% if level3_link.active %}active{% endif %}">
+            <a href="{{ level3_link.url }}">{{ level3_link.title | escape }}</a>
+          </div>
+          {%- endfor -%}
+        </div>
+        {%- endif -%}
+      </div>
+      {%- endfor -%}
+    </div>
+    {%- endif -%}
+  </div>
+{% endif %}
+{%- endfor -%}
+</div>
+<div class="custom-header-items-2">
+  {%- for link in linklists[section.settings.main__menu].links -%}
+{% assign link__ = link.title | downcase %}
+{% if link__ == 'explore' or link__ == 'help' or link__ contains '-button-' %}
+  {% if link__ contains '-button-' %}
+    <a href="{{ link.url }}" class="btn">{{ link.title | replace: '-button-', '' }}</a>
+  {% else %}
+    <div class="item {% if link.active %}active{% endif %}{% if link.links != blank %} has-dropdown{% endif %}"{% if link.links != blank %} aria-haspopup="true"{% endif %} data-parent="{{link.handle}}">
+      <a class="custom-first-link-bold" href="{{ link.url }}" {% if link.url == '#' %}onclick="return false;"{% endif %}>
+        {{ link.title | escape }}
+        {% comment %}{% include 'icons', icon: 'arrow-down' %}{% endcomment %}
+        {% comment %}{%- if link.links != blank -%}<i class="fa fa-caret-down custom-header-icon-drop"></i>{% endif %}{% endcomment %}
+      </a>
+      {%- if link.links != blank -%}
+      <div class="submenu">
+        {%- for level2_link in link.links -%}
+        <div class="item {% if level2_link.active %}active{% endif %} {% if level2_link.links != blank %} has-dropdown{% endif %}"{% if level2_link.links != blank %} aria-haspopup="true"{% endif %}>
+          <a href="{{ level2_link.url }}">{{ level2_link.title | escape }}{% comment %}{% include 'icons', icon: 'arrow-right' %}{% endcomment %}</a>
+          {%- if level2_link.links != blank -%}
+          <div class="submenu">
+            {%- for level3_link in level2_link.links -%}
+            <div class="item {% if level3_link.active %}active{% endif %}">
+              <a href="{{ level3_link.url }}">{{ level3_link.title | escape }}</a>
+            </div>
+            {%- endfor -%}
+          </div>
+          {%- endif -%}
+        </div>
+        {%- endfor -%}
+      </div>
+      {%- endif -%}
+    </div>
+  {% endif %}
+{% endif %}
+{%- endfor -%}
+</div>

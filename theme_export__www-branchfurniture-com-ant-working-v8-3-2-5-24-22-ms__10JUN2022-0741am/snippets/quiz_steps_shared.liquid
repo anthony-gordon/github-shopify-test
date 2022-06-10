@@ -1,0 +1,91 @@
+<!-- Interstitial 1 (Intro) -->
+<style>
+  .quiz-interstitial .heading { font-size: 1.8em;}
+</style>
+
+<section id="quiz-interstitial-intro" class="quiz-interstitial">
+  <div class="step-content-wrap">
+	{%- if section.settings.shared_interstitial_intro_image1 -%}
+		<img class="lazyload" alt="" width=75 src="{{"placeholder.png" | asset_url}}" data-srcset="{% include 'lazy_src', image: section.settings.shared_interstitial_intro_image1 %}" />
+	{%- endif -%}
+    <div class="heading">
+      <h6>Ready to improve your workday?</h6>
+      <div class="text">We'll help you design an office that supports your health and productivity.</div>
+    </div>
+  </div>
+</section>
+
+<!-- Interstitial (Chair) -->
+<section id="quiz-interstitial-chair-end" class="quiz-interstitial">
+  <div class="step-content-wrap">
+	{%- if section.settings.shared_interstitial_chair_image1 -%}
+		<img class="lazyload" alt="" width=75 src="{{"placeholder.png" | asset_url}}" data-srcset="{% include 'lazy_src', image: section.settings.shared_interstitial_chair_image1 %}" />
+	{%- endif -%}
+    <div class="heading">
+      <h6 style="font-weight:600; color: #314438;">We've got your back</h6>
+      <div class="text">The right chair improves your posture and supports your health.</div>
+    </div>
+  </div>
+</section>
+
+<!-- Interstitial (Desk) -->
+<section id="quiz-interstitial-desk-end" class="quiz-interstitial">
+  <div class="step-content-wrap">
+	{%- if section.settings.shared_interstitial_desk_image1 -%}
+		<img class="lazyload" alt="" width=75 src="{{"placeholder.png" | asset_url}}" data-srcset="{% include 'lazy_src', image: section.settings.shared_interstitial_desk_image1 %}" />
+	{%- endif -%}
+    <div class="heading">
+      <h6 style="font-weight:600; color: #314438;">Say goodbye to the kitchen table</h6>
+      <div class="text">Your desk is a foundation for focused, healthy work. </div>
+    </div>
+  </div>
+</section>
+
+<!-- Interstitial (Storage) -->
+<section id="quiz-interstitial-storage-end" class="quiz-interstitial">
+  <div class="step-content-wrap">
+	{%- if section.settings.shared_interstitial_storage_image1 -%}
+		<img class="lazyload" alt="" width=75 src="{{"placeholder.png" | asset_url}}" data-srcset="{% include 'lazy_src', image: section.settings.shared_interstitial_storage_image1 %}" />
+	{%- endif -%}
+    <div class="heading">
+      <h6 style="font-weight:600; color: #314438;">Not just for files</h6>
+      <div class="text">Storage keeps your workspace organized and clutter-free.</div>
+    </div>
+  </div>
+</section>
+
+<!-- Office -->
+<section id="quiz-shared-office" data-quiz="shared" class="step active">
+  <div class="step-content-wrap">
+    <div class="heading">
+      <h2>Design My Office</h2>
+      <div class="text">Are you furnishing your <br> home office or a corporate office?</div>
+    </div>
+    
+    <div class="options flex flex-wrap justify-content-center" role="radiogroup">
+      <div class="item ease-animation" role="radio" aria-checked="false" tabindex="0" data-step-related="quiz-home" data-hubspot="Home Office">
+        <div class="wrap medium-down--flex align-items-center">
+          <img alt="" class="checked-icon" src="{{"quiz-checked.png" | asset_url}}" />
+          {%- if section.settings.quiz_shared_image1 -%}
+          <img class="lazyload" alt="" src="{{"placeholder.png" | asset_url}}" data-srcset="{% include 'lazy_src', image: section.settings.quiz_shared_image1 %}" />
+          {%- endif -%}
+          <div class="title">Home Office</div>
+        </div>
+      </div>
+      <div class="item ease-animation" role="radio" aria-checked="false" tabindex="0" data-step-related="quiz-corporate" data-hubspot="Corporate Office">
+        <div class="wrap medium-down--flex align-items-center">
+          <img alt="" class="checked-icon" src="{{"quiz-checked.png" | asset_url}}" />
+          {%- if section.settings.quiz_shared_image2 -%}
+          <img class="lazyload" alt="" src="{{"placeholder.png" | asset_url}}" data-srcset="{% include 'lazy_src', image: section.settings.quiz_shared_image2 %}" />
+          {%- endif -%}
+          <a href="{{page.quiz}}">
+            <div class="title">Corporate Office</div>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+

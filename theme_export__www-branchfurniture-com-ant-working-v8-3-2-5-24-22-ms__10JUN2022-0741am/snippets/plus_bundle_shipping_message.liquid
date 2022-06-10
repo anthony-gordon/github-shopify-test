@@ -1,0 +1,356 @@
+{%- assign currentProduct = product -%}
+
+{%- assign defaultProcessingTimeDifference = settings.plus_product_page_shipping_message_default_processing_time -%}
+{%- assign currentDate = 'now' | date: '%Y-%m-%d' | json -%}
+{% assign allBundleConstituentsHaveProductHandleSpecified = true %}
+
+{%- capture 'date_processing_data' -%}
+{%- for variant in product.variants -%}
+  {%- for bundle_product in variant.metafields.variant.bundle_products -%}
+    {%- for specialVariant in all_products[bundle_product.productHandle].variants -%}
+      {%- if specialVariant.id == bundle_product.variantId -%}
+        {%- assign variantIndex = forloop.index0 -%}
+        {%- break -%}
+      {%- endif -%}
+    {%- endfor -%}
+    {%- assign constituentVariant = all_products[bundle_product.productHandle].variants[variantIndex] -%}
+	{%- if constituentVariant.metafields.variant.date_available -%}
+		{%- assign dateAvailable = constituentVariant.metafields.variant.date_available | date: '%Y-%m-%d' | json -%}
+	{%- else -%}
+		{%- assign dateAvailable = currentDate -%}
+	{%- endif -%}
+      {{variant.id | append: '-' | append: forloop.index0 | append: '-date' | json}}: {{ dateAvailable }},
+      {{variant.id | append: '-' | append: forloop.index0 | append: '-processing' | json}}: `{{ constituentVariant.metafields.variant.processing_time | default: defaultProcessingTimeDifference }}`,
+      {{- variant.id | append: '-tags' | json -}}: `[{{- all_products[bundle_product.productHandle].tags | join: ', ' | default: 'default'  -}}]`,
+      {{- variant.id | append: '-override_message' | json -}}: `{{- variant.metafields.variant.shipping | default: "none"  -}}`
+    {%- unless forloop.last -%},{%- endunless -%}
+  {%- endfor -%}
+  {%- unless forloop.last -%},{% endunless -%}
+{%- endfor -%}
+{%- endcapture -%}
+
+{%- capture 'constituent_products' -%}
+{%- for variant in product.variants -%}
+  {%- for bundle_product in variant.metafields.variant.bundle_products -%}
+  {% if bundle_product.productHandle == blank %}
+    {% assign allBundleConstituentsHaveProductHandleSpecified = false %}
+    {%- break -%}
+  {% endif %}
+  {% assign bundleProductVariants = all_products[bundle_product.productHandle].variants %}
+  {%- for specialVariant in bundleProductVariants -%}
+    {%- if specialVariant.id == bundle_product.variantId -%}
+      {%- assign variantIndex = forloop.index0 -%}
+      {%- break -%}
+    {%- endif -%}
+  {%- endfor -%}
+  {%- if bundleProductVariants[variantIndex].inventory_policy == "continue" -%}
+	{% assign inventoryQuantity = 9999999999999 %}
+  {%- else -%}
+  	{% assign inventoryQuantity = bundleProductVariants[variantIndex].inventory_quantity %}
+  {%- endif -%}
+  {{- variant.id | append: '-' | append: forloop.index0 | append: bundleProductVariants[variantIndex].id | json -}}: {{- inventoryQuantity | append: '#' | append: bundleProductVariants[variantIndex].id | json -}}         
+    {%- unless forloop.last -%},{%- endunless -%}
+  {%- endfor -%}
+  {%- unless forloop.last -%},{%- endunless -%}
+{%- endfor %}
+{%- endcapture -%}
+
+{%- capture 'bundleInfo' -%}
+{%- for variant in product.variants -%}
+{{- variant.id | json -}}: {{- variant.metafields.variant.bundle_products | json -}}
+{%- unless forloop.last -%},{%- endunless -%} 
+{% endfor %}
+{%- endcapture -%}
+
+{%- if allBundleConstituentsHaveProductHandleSpecified -%}
+
+<style>
+  .product-wrap .plus-shipping-message-wrapper span.plus-available:before {
+    background: {{ settings.content_third_color }};
+  }
+</style>
+
+{{ 'plus-shipping-message.css' | asset_url | stylesheet_tag }}
+
+<div class="plus-shipping-message-wrapper">
+  <div class="plus-shipping-message"></div>
+</div>
+
+<input id="plus-variant-shipping-processing-message" type="hidden" name="properties[_plus_shipping_processing_message]">
+
+<script>
+	window.Plus = window.Plus || {};
+	window.Plus.bundleProduct = window.Plus.bundleProduct || {};
+	window.Plus.bundleProduct.dateProcessingData = { {{ date_processing_data }} };
+  	window.Plus.bundleProduct.eachVariantsConstituentProducts = { {{ constituent_products }} };
+  	window.Plus.bundleProduct.compositionOfEachVariant = { {{ bundleInfo }} };
+  	window.Plus.bundleProduct.bundleAvailable = true;
+	window.Plus.bundleProduct.settings = {
+    plusB2BProductTag: `{{ settings.plus_product_page_shipping_message_b2b_product_tag }}`,
+    plusB2BDefaultShippingRange: {{ settings.plus_product_page_shipping_message_default_b2b_shipping_range }},
+    plusDTCDefaultShippingRange: {{ settings.plus_product_page_shipping_message_default_dtc_shipping_range }},
+    plusDTCDateAvailableMessage: `{{ 'plus.product.shipping_and_processing.plus_dtc_date_available_message' | t }}`,
+    plusB2BDateAvailableMessage: `{{ 'plus.product.shipping_and_processing.plus_b2b_date_available_message' | t }}`,
+    plusDTCProcessingTimeMessage: `{{ 'plus.product.shipping_and_processing.plus_dtc_processing_time_message' | t }}`,
+    plusB2BProcessingTimeMessage: `{{ 'plus.product.shipping_and_processing.plus_b2b_processing_time_message' | t }}`,
+    plusDefaultOOSMessage: `{{ 'plus.product.shipping_and_processing.plus_default_out_of_stock_message' | t }}`
+  };
+
+	window.Plus.bundleProduct.generateDateProcessingObject = function(currentVariantID){
+    let dateProcessingObject = {"date": [], "processing_time": [], "b2b_product": false, "shipping_message_override": false};
+      
+    for (const [key, value] of Object.entries(window.Plus.bundleProduct.dateProcessingData)) {
+      if (key.includes(currentVariantID) && key.includes('date') ) {
+        dateProcessingObject.date.push(`${value}`);
+      }
+      if (key.includes(currentVariantID) && key.includes('processing')) {
+        dateProcessingObject.processing_time.push(`${value}`);
+    	}
+      if (key.includes(currentVariantID) && key.includes('tags') && value.toLowerCase().includes(window.Plus.bundleProduct.settings.plusB2BProductTag)) {
+        dateProcessingObject.b2b_product = true;
+    	}
+      if (key.includes(currentVariantID) && key.includes('override_message') && !value.toLowerCase().includes("none")) {
+        dateProcessingObject.shipping_message_override = `${value}`;
+    	}
+    }
+    dateProcessingObject.date.sort().reverse();
+    dateProcessingObject.processing_time.sort().reverse();
+    return dateProcessingObject;
+	}
+      
+  window.Plus.bundleProduct.generateShippingMessage = function(dateProcessingObject, variantAvailabilityDate, variantInventory){
+    let shippingProcessingMessage = '';
+    if (dateProcessingObject.shipping_message_override){
+    shippingProcessingMessage = dateProcessingObject.shipping_message_override;
+  } else {    
+    let processingTimeDifference =  parseInt(dateProcessingObject.processing_time[0]),
+      b2b_product = dateProcessingObject.b2b_product,
+      date = dateProcessingObject.date[0],
+      dateDifference = Math.round(parseInt((new Date(date) - new Date()) / (1000 * 3600 * 24))),
+      daysUntilAvailable = dateDifference > processingTimeDifference ? dateDifference : processingTimeDifference,
+      weeksUntilAvailable = Math.round(daysUntilAvailable / 7);
+
+      
+      if(dateDifference > processingTimeDifference){
+        let nextMonday = new Date(date);
+        const monthNames = ["January", "February", "March", "April", "May", "June",
+          "July", "August", "September", "October", "November", "December"
+        ];
+
+        nextMonday.setDate(nextMonday.getDate() + ((7 - nextMonday.getDay()) % 7 + 1) % 7);
+        const nth = function(d) {
+          if (d > 3 && d < 21) return `${d}th`;
+          switch (d % 10) {
+            case 1:  return `${d}st`;
+            case 2:  return `${d}nd`;
+            case 3:  return `${d}rd`;
+            default: return `${d}th`;
+          }
+        }
+      
+        let dateAvailableDescription = `the week of ${monthNames[nextMonday.getMonth()]} ${nth(nextMonday.getDate())}`;
+        
+        if (b2b_product){
+          message = window.Plus.bundleProduct.settings.plusB2BDateAvailableMessage;
+          shippingProcessingMessage = message.replace(`#date_available_description#`, dateAvailableDescription);
+        } else {
+          message = window.Plus.bundleProduct.settings.plusDTCDateAvailableMessage;
+          shippingProcessingMessage = message.replace(`#date_available_description#`, dateAvailableDescription);
+        }
+      } else {
+        if (b2b_product){
+          let range = window.Plus.bundleProduct.settings.plusB2BDefaultShippingRange;        
+          let processingTimeDescription = `in ${weeksUntilAvailable > 1 && weeksUntilAvailable > range ? weeksUntilAvailable - range : 1}-${weeksUntilAvailable > 1 ? weeksUntilAvailable + range : 1 + (range * 2)} weeks`
+          message = window.Plus.bundleProduct.settings.plusB2BProcessingTimeMessage;
+          shippingProcessingMessage = message.replace(`#processing_time_description#`, processingTimeDescription);
+        } else {
+      let range = window.Plus.bundleProduct.settings.plusDTCDefaultShippingRange;
+          let processingTimeDescription = `in ${daysUntilAvailable > 1 && daysUntilAvailable > range ? daysUntilAvailable - range : 1}-${daysUntilAvailable > 1 ? daysUntilAvailable + range : 1 + (range * 2)} business days`
+          message = window.Plus.bundleProduct.settings.plusDTCProcessingTimeMessage;
+          shippingProcessingMessage = message.replace(`#processing_time_description#`, processingTimeDescription);
+        }
+      }
+    }  
+    return shippingProcessingMessage;
+  }
+      
+  window.Plus.bundleProduct.fillAvailableElement = function(dateProcessingObject, variantInventory){
+    let variantAvailabilityDate = new Date(dateProcessingObject.date),
+    shippingMessage = window.Plus.bundleProduct.generateShippingMessage(dateProcessingObject, variantAvailabilityDate, variantInventory),
+      link = `${variantInventory ? '<a href="#" class="chat-trigger info hover-tooltip" tabindex="0">i<div class="tooltip">{{settings.product_availability_tooltip}}</div></a>' : '<a href="/pages/contact">Contact us</a> to inquire'}`,
+      plusShippingMessage = document.querySelector('.plus-shipping-message'),
+      plusDefaultOOSMessage = window.Plus.bundleProduct.settings.plusDefaultOOSMessage,
+      plusShippingProcessingInput = document.querySelector('#plus-variant-shipping-processing-message'),
+      html = `<span class="plus-shipping-message-message ${variantInventory ? 'plus-available' : 'plus-unavailable'}"><strong>${variantInventory ? "Available" : plusDefaultOOSMessage}</strong> | ${variantInventory ? shippingMessage : ''} ${link}</span>`;
+          
+    plusShippingMessage.innerHTML = html;
+    plusShippingProcessingInput.value = shippingMessage;
+  }
+
+  window.Plus.bundleProduct.formatBundleComposition = function(){
+    let bundleComposition = {};
+
+    for (const [key, value] of Object.entries(window.Plus.bundleProduct.eachVariantsConstituentProducts)) {
+      let bundleVariantId = key.split('-')[0],
+        bundleConstituentVariantQuantity = value.split('#')[0],
+        bundleConstituentVariantId = value.split('#')[1];
+
+      if (bundleComposition[`${bundleVariantId}`]){
+        let bundleConstituent = {};
+
+        bundleConstituent[`${bundleConstituentVariantId}`] = bundleConstituentVariantQuantity;
+        bundleComposition[`${bundleVariantId}`].push(bundleConstituent);
+      } else {
+        let bundleConstituent = {};
+
+        bundleConstituent[`${bundleConstituentVariantId}`] = bundleConstituentVariantQuantity;
+        bundleComposition[`${bundleVariantId}`] = [bundleConstituent];
+      }
+    }
+    return bundleComposition;
+  }
+
+  window.Plus.bundleProduct.formatStockStatusOfEachBundleVariantsConstituents = function(){
+    let stockStatusOfEachBundleVariantsConstituents = {};
+    for (const [key, value] of Object.entries(window.Plus.bundleProduct.compositionOfEachVariant)) {
+      let info = {};
+
+      info["constituentProductsStock"] = [];
+      const bundleComposition = window.Plus.bundleProduct.formatBundleComposition();
+      window.Plus.bundleProduct.compositionOfEachVariant[key].forEach((productVariantDetail) => {
+        let details = {};
+
+        details[`${productVariantDetail['variantId']}-amount-needed`] = `${productVariantDetail.quantity}`;
+        let amount = 0;
+
+        bundleComposition[key].forEach((constituentVariantStockDetail) => {
+          for (const [key, value] of Object.entries(constituentVariantStockDetail)) {
+            if(key == productVariantDetail['variantId']) {
+              amount = value;
+            }
+          }
+        });
+        details[`${productVariantDetail['variantId']}-amount-available`] = `${amount}`;
+        details[`enoughInStock`] = productVariantDetail.quantity <= amount ? true : false;
+        info["constituentProductsStock"].push(details);
+      })
+      stockStatusOfEachBundleVariantsConstituents[`${key}`] = info;
+    }
+    return stockStatusOfEachBundleVariantsConstituents;
+  }
+
+  window.Plus.bundleProduct.formatStockStatusOfEachBundleVariant = function(){
+    let stockStatusOfEachBundleVariantsConstituents = window.Plus.bundleProduct.formatStockStatusOfEachBundleVariantsConstituents(),
+      stockStatusOfEachBundleVariant = {};
+
+    for (const [key, value] of Object.entries(stockStatusOfEachBundleVariantsConstituents)) {
+      let enoughStock = true;
+
+      value['constituentProductsStock'].forEach((constituentProductStockInfo) => {
+        if (constituentProductStockInfo['enoughInStock'] == false){
+          enoughStock = false;
+        }
+      })
+      stockStatusOfEachBundleVariant[`${key}`] = enoughStock;
+    }
+    return stockStatusOfEachBundleVariant;
+  }
+
+  window.Plus.bundleProduct.hideShowAddToCartButton = function(stockStatusOfCurrentlySelectedVariant){
+        const quantityBox = document.querySelector('.qty-btn-wrap .quantity-box'),
+          contentAvailable = document.querySelector('.qty-btn-wrap .content-available'),
+          contentSoldOut = document.querySelector('.qty-btn-wrap .content-soldout');
+
+        contentAvailable.classList.remove("plus-hide");
+        contentSoldOut.classList.remove("plus-hide");
+        contentAvailable.classList.remove("plus-show");
+        contentSoldOut.classList.remove("plus-show");
+        if(quantityBox){
+            quantityBox.classList.remove('disabled');
+        }
+        if (stockStatusOfCurrentlySelectedVariant){
+          contentAvailable.classList.add('plus-show');
+          contentSoldOut.classList.add('plus-hide');
+        } else {
+          if(quantityBox){  
+          	quantityBox.classList.add('disabled');
+          }
+          contentSoldOut.classList.add('plus-show');
+          contentAvailable.classList.add('plus-hide');
+        }
+      };
+
+      window.Plus.bundleProduct.detectAndUpdateSelectedVariant = function(){
+        let productVariants = {{ currentProduct.variants | json }};
+
+        {% assign maxAllowedVariantOptions = 10 %}
+
+        {% for variant in currentProduct.variants %} 
+          {% assign index = forloop.index %}
+          {% if variant.metafields.variant.bundle_products != blank %}
+            productVariants[{{ index }} - 1].bundleProducts = {{ variant.metafields.variant.bundle_products | json }}
+          {% else %}
+            productVariants[{{ index }} - 1].bundleProducts = {{ currentProduct.metafields.global.bundle_products | json }}
+          {% endif %}
+        {% endfor %}
+
+        let currentVariant = JSON.parse(JSON.stringify(productVariants[0])),
+        currentlySelectedBundleVariant = JSON.parse(JSON.stringify(productVariants[0])),
+        matchBundle = function () {
+          let coincidenceRate = 0,
+          maxCoincidenceRate = 0;
+
+          for (let variant of productVariants) {
+            for (let i = 0; i < {{ maxAllowedVariantOptions }}; i++) {
+              if (currentVariant[`option${i}`]) {
+                let actualVariantOption = currentVariant[`option${i}`];
+                  variantOption = variant[`option${i}`];
+
+                if (actualVariantOption == variantOption) {
+                  coincidenceRate++;
+                }
+              }
+            }
+            if (coincidenceRate > maxCoincidenceRate) {
+              maxCoincidenceRate = coincidenceRate;
+              currentVariant.bundleProducts = variant.bundleProducts;
+              currentlySelectedBundleVariant = variant;
+            }
+            coincidenceRate = 0;
+          }
+          window.Plus.bundleProduct.updateBundleProducts(currentVariant.bundleProducts);
+          let bundleAvailable = true;
+          
+
+
+          let stockStatusOfCurrentlySelectedVariant = window.Plus.bundleProduct.formatStockStatusOfEachBundleVariant()[currentlySelectedBundleVariant.id];
+            window.Plus.bundleProduct.hideShowAddToCartButton(stockStatusOfCurrentlySelectedVariant);
+            window.Plus.bundleProduct.fillAvailableElement(window.Plus.bundleProduct.generateDateProcessingObject(currentlySelectedBundleVariant.id), stockStatusOfCurrentlySelectedVariant);
+         }
+
+        {% for i in (0..maxAllowedVariantOptions) %}
+          $(`input[name~='option-{{ i }}']`).change(function () {
+            realIndex = {{ i }} + 1;
+            currentVariant[`option${realIndex}`] = $(this).val();
+            matchBundle()
+          })
+        {% endfor %}
+
+        window.Plus.bundleProduct.updateBundleProducts = function(bundleProducts) {
+          $('#product-item-{{ currentProduct.id }} input.bundle-products, #grid-item-{{ currentProduct.id }} input.bundle-products, #cart-ymal-{{ currentProduct.id }} input.bundle-products').val(JSON.stringify(bundleProducts));
+        };
+
+        window.Plus.bundleProduct.updateBundleProducts(currentVariant.bundleProducts);
+      };
+
+  window.addEventListener('load', function(){
+        let stockStatusOfCurrentlySelectedVariant = window.Plus.bundleProduct.formatStockStatusOfEachBundleVariant()[`{{currentProduct.selected_or_first_available_variant.id}}`];
+        
+        window.Plus.bundleProduct.hideShowAddToCartButton(stockStatusOfCurrentlySelectedVariant);
+        window.Plus.bundleProduct.fillAvailableElement(window.Plus.bundleProduct.generateDateProcessingObject({{currentProduct.selected_or_first_available_variant.id}}), stockStatusOfCurrentlySelectedVariant);
+        window.Plus.bundleProduct.detectAndUpdateSelectedVariant();
+      });
+  	  		  	
+</script>
+
+{%- endif -%}

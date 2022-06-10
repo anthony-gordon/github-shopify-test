@@ -1,0 +1,26 @@
+<div class="my-account-menu one-fifth medium-down--one-whole">
+  <div class="medium-down--flex">
+    <h2 class="medium-down--hide">My Account</h2>
+    <div class="goto flex-1">
+      <button class="trigger hide medium-down--show medium-down--flex align-items-center">
+        {%- if template == "customers/account" -%}My Account
+        {%- elsif template == "customers/addresses" -%}Adress Book
+        {%- elsif template contains "order" -%}My orders{%- endif -%}
+        {% include 'icons', icon: 'arrow-down' %}</button>
+      <div class="links">
+        <a href="/account" {% if template == "customers/account" %}class="active"{% endif %}>My Account</a>
+        <a href="/account/addresses" {% if template == "customers/addresses" %}class="active"{% endif %}>Address Book</a>
+        <a href="/pages/my-orders" class="scroll {% if template contains 'order' %}active{% endif %}">My Orders</a>
+      </div>
+    </div>
+    <div class="logout"><a href="/account/logout"><div class="btn">Logout</div></a></div>
+  </div>
+</div>
+<script>
+  $(function(){
+    $('.my-account-menu .goto .trigger').click(function(){
+      $(this).siblings('.links').slideToggle();
+      $(this).toggleClass('open');
+    });
+  });
+</script>

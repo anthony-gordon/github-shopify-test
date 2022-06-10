@@ -1,0 +1,95 @@
+<style>
+    section.resource-section .grid__item {
+        margin-bottom: 20px;
+    }
+    
+    .resource-title {
+        font-weight: 600;
+        font-size: 1.3em;
+        line-height: 1;
+        margin-bottom: .4em;
+/*         padding-left: 25px;
+        padding-right: 25px; */
+    }
+    .resource-wrapper{
+        border: 1px solid #DCDEDD;
+        padding: 20px;
+        height: 100%;
+        transition: all .3s ease;
+    }
+    .resource-wrapper:hover{
+        background: #F3EEEA
+    }
+    .resource-wrapper .resource-title{
+        text-transform: uppercase;
+    }
+    .resource-section{
+      margin-bottom: 80px;
+        padding-left: 25px;
+        padding-right: 25px; 
+    }
+    .resource-section h2{
+      margin-bottom: 56px;
+    }
+  </style>
+
+
+  <section class="resource-section" >
+    <div class="container-smaller container-extra-small small--no-padding">
+      <div class="head one-whole medium-down--one-whole">
+        <h2 >{{section.settings.title}}</h2>
+      </div>
+      <div class="content one-whole medium-down--one-whole">
+          <div class="wrap grid">
+                {%- for block in section.blocks -%}
+                <div class="grid__item large--three-twelfths medium--one-half  small--one-whole">
+                    <div class="resource-wrapper ">
+                        <p class="resource-title"> {{block.settings.title}}</p>	
+                        <div class="resource-text rte"> {{ block.settings.text }} </div>
+                    </div>
+                </div>
+              {%- endfor -%}
+          </div>
+      </div>
+    </div>
+  </section>
+
+
+  {% schema %}
+    {
+      "name": "Resources Custom",
+      "presets": [
+        {
+          "name": "Resources Custom",
+          "category": "Custom"
+        }
+      ],
+      "settings": [
+            {
+              "type": "text",
+              "id": "title",
+              "label": "Title",
+              "default": "Resources"
+            }
+        ],
+        "blocks":[
+            {
+                "type": "resource",
+               "name": "Resource",
+              "settings": [
+                {
+                  "type": "text",
+                    "id": "title",
+                    "label": "Title",
+                    "default": "Case Studies"
+                },
+                {
+                  "type": "richtext",
+                    "id": "text",
+                    "label": "Text"
+                }
+              ]
+            }
+        ]
+    }
+  {% endschema %}

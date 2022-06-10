@@ -1,0 +1,57 @@
+<div class="{{ section.settings.class_ }} submenu mega-menu position-{{settings.mega_menu_position}} width-{{settings.mega_menu_width}}">
+  <div class="hlxn-grid-shop-by">
+    <div class="hlxn-sbimage">
+      <img src="{{ section.settings.shopby_image | img_url: 'master' }}" alt="{{ section.settings.shopby_image.alt }}" width="377" height="200" loading="lazy" />
+      <h4>{{ section.settings.shopby_image_headline }}</h4>
+      <p>{{ section.settings.shopby_image_caption }}</p>
+    </div>
+    <div class="hlxn-menus">
+      <div>
+        <h4>{{ section.settings.shopby_menu1_headline }}</h4>
+        <ul>
+          {% for link in linklists[section.settings.shopby_menu_1].links %}
+          <li>
+            <a href="{{link.url}}">
+              <div>{{link.title}}</div>
+            </a>
+          </li>
+          {% endfor %}
+        </ul>		
+      </div>
+      <div>
+        <h4>{{ section.settings.shopby_menu2_headline }}</h4>
+        <ul>
+          {% for link in linklists[section.settings.shopby_menu_2].links %}
+          <li>
+            <a href="{{link.url}}">
+              <div>{{link.title}}</div>
+            </a>
+          </li>
+          {% endfor %}
+        </ul>		
+      </div>
+      <div>
+        <h4>{{ section.settings.shopby_menu3_headline }}</h4>
+        <ul>
+          {% for link in linklists[section.settings.shopby_menu_3].links %}
+          <li>
+            <a href="{{link.url}}">
+              <div>{{link.title}}</div>
+            </a>
+          </li>
+          {% endfor %}
+        </ul>		
+      </div>
+    </div>
+    <div class="hlxn-links">
+      <div>
+        <p><a href="{{ section.settings.shopby_link_1 }}">{{ section.settings.shopby_link1_text }}</a></p>
+        <p>{{ section.settings.shopby_link1_caption }}</p>
+      </div>
+      <div>
+        <p><a href="{{ section.settings.shopby_link_2 }}">{{ section.settings.shopby_link2_text }}</a></p>
+        <p>{{ section.settings.shopby_link2_caption }}</p>      
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,122 @@
+{% assign variant_count = currentProduct.variants | size %}
+<style>
+:root {  
+  --branch_green: #314438;
+  --branch_beige: #f3eeea;
+  --branch_white: rgba(255, 255, 255, 0.7);
+  --branch_clear: rgba(0, 0, 0, 0);
+}
+  
+epigraph-ar {
+  display: none;
+  max-width: 183px;
+  max-height: 44px;
+  position: absolute;
+  right: 13px;
+  bottom: calc(13px + 1rem);
+  width: 183px;
+  height: 44px;
+  border-radius: 5px;
+  background: transparent;
+  --ar-button-background-color: var(--branch_white);
+  --qr-modal-close-button-stroke-color: var(--branch_green);
+  --qr-modal-title-color: var(--branch_green);
+  --qr-modal-requirement-color: var(--branch_green);
+  --qr-modal-done-button-text-color: var(--branch_beige);
+  --qr-modal-done-button-border-color: var(--branch_green);
+  --qr-modal-done-button-hover-text-color: var(--branch_green);
+  --qr-modal-done-button-background-color: var(--branch_green);
+  --qr-modal-done-button-hover-background-color: var(--branch_clear);
+}
+
+{% if variant_count > 1 %}
+:not(.slideVisible) + .slideVisible epigraph-ar.__desktop__ {
+ display: block;
+}
+{% else %}
+.slideVisible:first-child epigraph-ar.__desktop__{
+ display: block;
+}
+{% endif %}
+    
+epigraph-ar.__desktop__::part(qr-modal) {
+  -webkit-transition: all .4s ease-out;
+  -moz-transition: all .4s ease-out;
+  -o-transition: all .4s ease-out;
+  -ms-transition: all .4s ease-out;
+  transition: all .4s ease-out;
+}
+    
+epigraph-ar.__desktop__::part(qr-modal-close-default) {  
+  -webkit-transition: all .4s ease-out;
+  -moz-transition: all .4s ease-out;
+  -o-transition: all .4s ease-out;
+  -ms-transition: all .4s ease-out;
+  transition: all .4s ease-out;
+}
+
+epigraph-ar.__desktop__::part(qr-modal-done-default) {
+  line-height: 100%;
+  border: 2px solid var(--qr-modal-done-button-border-color);
+  -webkit-border-radius: 0em;
+  -moz-border-radius: 0;
+  border-radius: 0;
+  font-size: .95em;
+  text-transform: uppercase;
+  letter-spacing: .05em;
+  font-weight: 700;
+  -webkit-transition: all .4s ease-out;
+  -moz-transition: all .4s ease-out;
+  -o-transition: all .4s ease-out;
+  -ms-transition: all .4s ease-out;
+  transition: all .4s ease-out;
+}
+
+epigraph-ar::part(default-ar-button) {
+  max-width: 183px;
+  max-height: 44px;
+  background-color: inherit;
+}
+
+@media only screen and (max-width: 900px) {
+  {% if currentProduct.variants | size >= 1 %}
+  :not(.slideVisible) + .slideVisible epigraph-ar.__desktop__ {
+      display: none;
+  }
+  {% else %}
+  .slideVisible:first-child epigraph-ar.__desktop__{
+      display: none;
+  }
+  {% endif %}
+  
+  epigraph-ar.__mobile__ {
+    display: block;
+    max-width: 7.1464rem;
+    min-width: 7.1464rem !important;
+    bottom: calc(0.6429rem + 1.6429rem);
+    right: 0.5714rem;
+  }
+  
+  epigraph-ar {
+   overflow: hidden;
+  };
+  
+  epigraph-ar.__mobile__::part(model-viewer) {   
+   background: initial;
+  }
+  
+  epigraph-ar.__mobile__ img {
+    position: absolute;
+   transform: translate(28%, 100%);
+    background-color: inherit;
+  }
+}
+
+@media only screen and (pointer: coarse) {
+  epigraph-ar.__mobile__ img {
+ --touch-x-offset: calc(28% - 22px);
+    --touch-y-offset: calc(100% - 22px);
+ transform: translate(var(--touch-x-offset), var(--touch-y-offset));
+  };
+}
+</style>

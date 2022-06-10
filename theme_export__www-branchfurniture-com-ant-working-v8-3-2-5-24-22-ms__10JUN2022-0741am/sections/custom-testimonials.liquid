@@ -1,0 +1,149 @@
+<style>
+    .testimonial-text{
+        padding: 20px 40px;
+        font-size: 16px;
+        min-height: 100px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 16px;
+    }
+    .testimonial-wrapper{
+        position: relative;
+    }
+    .testimonial-wrapper > svg{
+        position: absolute;
+        top: 4px;
+        left: 3px;
+        right: auto;
+        transform: translate(-50%,-50%);
+        max-width: 20px;
+        /* display: none; */
+    }
+    .image-wrapper,
+    .image-wrapper img{
+        width: 100%;
+        height: 100%;
+    }
+    .image-wrapper img{
+        object-fit: cover;
+    }
+    .reviewer-details__image img {
+        border-radius: 100px;
+    }
+    .testimonial-section {
+        padding: 50px 0; 
+    }
+    .reviewer-details__info-name {
+        font-weight: bold;
+    }
+    @media(max-width: 900px){
+        .testimonial-wrapper{
+            margin-bottom: 30px;
+        }
+    }
+  </style>
+
+{% capture quote_svg %}<svg width="20" height="15" viewBox="0 0 20 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M4.78055 14.7764C3.60074 14.7764 2.62512 14.3453 1.8537 13.4832C1.12766 12.621 0.764641 11.305 0.764641 9.53531C0.764641 7.22105 1.35455 5.17907 2.53436 3.40934C3.75956 1.59424 5.64273 0.459803 8.18387 0.00602794L8.45613 1.77575C5.59735 2.54717 4.16796 3.88581 4.16796 5.79166C4.16796 6.60846 4.55367 7.08492 5.32508 7.22106C7.54858 7.58408 8.66033 8.80927 8.66033 10.8966C8.66033 12.1218 8.27462 13.0748 7.50321 13.7554C6.77716 14.4361 5.86961 14.7764 4.78055 14.7764ZM15.3989 14.7764C14.2191 14.7764 13.2435 14.3453 12.472 13.4832C11.746 12.621 11.383 11.305 11.383 9.53531C11.383 7.22105 11.9729 5.17907 13.1527 3.40934C14.3779 1.59424 16.2611 0.459803 18.8022 0.00602794L19.0745 1.77575C16.2157 2.54717 14.7863 3.88581 14.7863 5.79166C14.7863 6.60846 15.172 7.08492 15.9434 7.22106C18.1669 7.58408 19.2787 8.80927 19.2787 10.8966C19.2787 12.1218 18.893 13.0748 18.1215 13.7554C17.3955 14.4361 16.488 14.7764 15.3989 14.7764Z" fill="#314438"/>
+    </svg>{% endcapture %}
+
+  <section class="testimonial-section" >
+    <div class="container-smaller container-extra-small">
+      <div class="content one-whole medium-down--one-whole">
+          <div class="wrap grid justify-content-center large--justify-content-evenly">
+            {%- for block in section.blocks -%}
+                <div class="grid__item large--five-twelfths medium--seven-twelfths small--one-whole "> 
+                    <div class="testimonial-wrapper ">
+                        {{quote_svg}}
+                        <h5 class="testimonial-text" style="background-color: {{section.settings.review_container_background}};"> {{block.settings.title}}</h5>	
+                        <div class="testimonial-wrapper__reviewer-details grid justify-content-end text-right align-items-center">
+                            <div class="reviewer-details__info grid__item large--five-twelfths  medium--six-twelfths">
+                                <div class="reviewer-details__info-name">{{block.settings.reivewer_name}}</div>
+                                <div class="reviewer-details__info-title">{{block.settings.reivewer_designation}}</div>
+                            </div>
+                            {% if block.settings.reivewer_image != blank %}
+                                <div class="reviewer-details__image grid__item  large--two-twelfths  medium--two-twelfths small--three-twelfths">
+                                    <div class="image-wrapper">
+                                        <img src="{{ block.settings.reivewer_image | img_url: 'x600' }}" loading="lazy"/>
+                                    </div>
+                                </div>
+                            {% elsif block.settings.company_image != blank %}
+                                <div class="reviewer-company__image grid__item  large--three-twelfths  medium--three-twelfths small--three-twelfths">
+                                    <div class="image-wrapper">
+                                        <img src="{{ block.settings.company_image | img_url: 'x600' }}" loading="lazy"/>
+                                    </div>
+                                </div>
+                            {% endif %} 
+                        </div>
+                    </div>
+                </div>
+              {%- endfor -%}
+          </div>
+      </div>
+    </div>
+  </section>
+
+  <script>
+      
+  </script>
+
+  {% schema %}
+    {
+      "name": "Testimonial Custom",
+      "presets": [
+        {
+          "name": "Testimonial Custom",
+          "category": "Custom"
+        }
+      ],
+      "settings": [
+           {
+               "type": "color",
+               "id": "review_container_background",
+               "label": "Review Container Background",
+               "default": "#F3EEEA"
+           }
+        ],
+        "blocks":[
+            {
+                "type": "testimonial",
+                "name": "Testimonial",
+                "settings": [
+                    {
+                        "type": "textarea",
+                        "id": "title",
+                        "label": "Review Text",
+                        "default": "I see a lot of offices in my line of work. Branch sets a new standard in value for office furnishing."
+                    },
+                    {
+                        "type": "header",
+                        "content": "Reviewer Details"
+                    },
+
+                    {
+                        "type": "text",
+                        "id": "reivewer_name",
+                        "label": "Reviewer Name"
+                    },
+                    {
+                        "type": "text",
+                        "id": "reivewer_designation",
+                        "label": "Reviewer Designation"
+                    },
+                    {
+                        "type": "image_picker",
+                        "id": "reivewer_image",
+                        "label": "Reviewer Image"
+                    },
+                    {
+                        "type": "image_picker",
+                        "id": "company_image",
+                        "label": "Company Image",
+                       "info": "Use this image if the reviewer data is not available"
+                    }
+                ]
+            }
+        ]
+    }
+  {% endschema %}

@@ -1,0 +1,322 @@
+<style>
+  #footer {width: 100%; color: {{section.settings.text_color}}; margin: 0; background-color: {{ section.settings.bg_color }}; {% if section.settings.border_color != blank %}border-top: 1px solid {{ section.settings.border_color }};{% endif %} }
+  #footer .container {max-width: 77.5em;}
+  #footer .wrapper {width: 100%; }
+  
+  #footer .top {padding: {{section.settings.section_padding_desktop}};}
+  .isNotMobile #footer a:hover {color: {{settings.content_third_color}};}
+ 
+  #footer .title {line-height: 150%; font-weight: 500; letter-spacing: 0.05em; font-size: 1.3em; margin-bottom: 0.2em; text-transform: uppercase;}
+  
+  #footer .links {width: 16%; padding-right: 1em;}
+  #footer .links.last {margin-right: 2em;}
+  #footer .links .item {display: block; padding: 0; font-family: inherit;}
+  #footer .links .item.title {position: relative;}
+  #footer .links .item.title .plus {font-size: 0.8em; position: absolute; right: 9%; top: 50%; -webkit-transform: translateY(-50%); transform: translateY(-50%);}
+  #footer .links .item.title .plus path {fill: {{section.settings.text_color}};}
+  
+  #footer .mailing-list {padding-right: 2em;}
+  #footer .mailing-list label {display: block; padding: 0; color: {{section.settings.text_color}};}
+  #footer .mailing-list p {color: inherit; margin: 0;}
+  #footer .mailing-list .form-wrap {margin-top: 1.5em; position: relative; width: 100%; max-width: 23em;}
+  #footer .mailing-list input[type="email"] {flex: 1; margin-right: 1em; padding: 0.7em 1em; background: {{section.settings.text_color}}; border: none;}
+  #footer .mailing-list .btn {padding: 0 1em; width: 100%; max-width: 9em;}
+  #footer .mailing-list input[type="email"]::-webkit-input-placeholder {color: #bbb1aa;}
+  #footer .mailing-list input[type="email"]:-moz-placeholder {color: #bbb1aa;}
+  #footer .mailing-list input[type="email"]::-moz-placeholder {color: #bbb1aa;}
+  #footer .mailing-list input[type="email"]:-ms-input-placeholder {color: #bbb1aa;}
+  #footer .mailing-list .success-msg {font-size: 1.5em; margin-top: 0.5em;}
+  #footer .mailing-list .error-msg {margin-bottom: -1em;}
+  
+  #footer .right-section {color: {{settings.content_third_color}};}
+  #footer .right-section * {line-height: 150%;}
+  #footer .social-links {margin-bottom: 1em;}
+  #footer .social-links a {font-size: 1.3em; line-height: 150%;}
+  #footer .social-links a:not(:last-child) {margin-right: 1.5em;}
+  #footer .social-links svg path {fill: {{settings.content_third_color}};}
+  .isNotMobile #footer .social-links a:hover svg path {fill: {{section.settings.text_color}};}
+  #footer .right-section .address {margin-bottom: 0.8em;}
+  
+  @media all and (max-width: 900px){
+    #footer {text-align: center;}
+    #footer * {line-height: 150%;}
+    #footer .mailing-list {order: -1; padding: 0 15px; margin-bottom: 1em;}
+    #footer .mailing-list .form-wrap {margin: 1.5em auto 0;}
+    #footer .mailing-list input[type="email"] {padding: 1em;}
+    #footer .mailing-list .btn {padding: 0; max-width: 8em;}
+    #footer .top {padding: {{section.settings.section_padding_mobile}};}
+    #footer .container {padding: 0;}
+/*     #footer .links {width: 100%; margin: 0 !important; padding: 0;}
+    #footer .links .item.title {padding: 0.8em 0; border-bottom: 1px solid #979797;}
+    #footer .links .sublinks {display: none; padding: 1em 0;}
+    #footer .links .sublinks .item {padding: 0.3em 0;} */
+    #footer .right-section {width: 100%; margin-top: 2em;}
+/*     #footer .social-links {-webkit-box-pack: center;-ms-flex-pack: center;justify-content: center;}
+    #footer .social-links a {font-size: 2em;}
+    #footer .social-links a:not(:last-child) {margin-right: 0.8em;} */
+  }
+</style>
+
+<div id="footer">
+  <div class="top">
+    <div class="container">
+      <div class="wrapper flex medium-down--flex-wrap">
+        
+        <div class="right-section">
+          <div class="custom-footer-flex-container">
+            <div class="custom-footer-flex-item1">
+              {% if section.settings.logo %}
+              <a href="/">
+              <img src="{{ section.settings.logo | img_url: 'master' }}" width="254" height="60" alt="" class="custom-footer-logo" loading="lazy"/>
+              </a>
+              {% endif %}
+              {%- if section.settings.address != "" -%}
+              <div class="address">{{section.settings.address}}</div>
+              {%- endif -%}
+              &copy; {{ 'now' | date: "%Y" }} {{shop.name}}
+            </div>
+            <div class="custom-footer-flex-item2">
+              {%- if section.settings.show_social -%}
+              {%- include 'social_links' -%}
+              {%- endif -%}
+            </div>
+          </div>
+        </div>
+        
+        
+        {%- for link in linklists[section.settings.section_linklist].links -%}
+        <div class="links {{ settings.menu_font}} {% if forloop.last %}last{% endif %}">
+          <div class="group">
+            <a class="item title" {% if link.url contains "#" %}href="javascript:void(0)"{% else %}href="{{ link.url }}"{% endif %}>
+              {{ link.title | escape }}
+              {%- if link.links -%}
+              <i class="plus hide medium-down--show">
+                {%- include 'icons', icon: 'plus' -%}
+              </i>
+              {%- endif -%}
+            </a>
+            {%- if link.links -%}
+            <div class="sublinks">
+              {%- for link in link.links -%}
+              <a class="item" href="{{ link.url }}">{{ link.title | escape }}</a>
+              {%- endfor -%}
+            </div>
+            {%- endif -%}
+          </div>
+        </div>
+        {%- endfor -%}
+    
+
+        <div class="mailing-list flex-1">
+          <label class="title" for="footer-signup-email">{{section.settings.mailing_list_label}}</label>
+          {%- if section.settings.mailing_list_text != "" -%}<p>{{section.settings.mailing_list_text}}</p>{%- endif -%}
+          {%- if settings.use_mailchimp_form -%}
+          <form method="post" action="//{{settings.mailchimp_domain}}/subscribe/post-json?u={{settings.mailchimp_user}}&id={{settings.mailchimp_id}}&c=?">
+            <div class="success-msg">{{section.settings.mailing_list_success}}</div>
+            <div class="error-msg"></div>
+            <div class="form-wrap flex">
+              <input id="footer-signup-email" type="email" placeholder="Email address" name="EMAIL" class="required email" aria-required="true" aria-label="Email address" autocomplete="email" />
+              <button class="btn v4" type="submit">{% include 'custom-footer-arrow' %}</button>
+            </div>
+          </form>
+          {%- elsif settings.use_klaviyo_form -%}
+          <form action="//manage.kmail-lists.com/subscriptions/subscribe" data-ajax-submit="//manage.kmail-lists.com/ajax/subscriptions/subscribe" method="GET" target="_blank" novalidate="novalidate">
+            <div class="success-msg">{{section.settings.mailing_list_success}}</div>
+            <div class="error-msg"></div>
+            <div class="form-wrap">
+              <div class="flex">
+                <input type="hidden" name="g" value="{{settings.klaviyo_list_id}}">
+                <input type="hidden" name="$fields" value="source">
+                <input type="hidden" name="source" value="Shopify footer">
+                <input type="email" placeholder="Email address" id="footer-signup-email" name="email" class="required email" aria-label="Email address" aria-required="true" />
+                <button class="btn v4" type="submit">{% include 'custom-footer-arrow' %}</button>
+              </div>
+            </div>
+          </form>
+          {%- else -%}
+          {%- form 'customer' -%}
+          <div class="success-msg" {% if form.posted_successfully? %}style="display: block"{% endif %}>{{section.settings.mailing_list_success}}</div>
+          <div class="error-msg"></div>
+          <div class="form-wrap flex">
+            <input type="hidden" name="contact[tags]" value="prospect,newsletter"/>
+            <input id="footer-signup-email" type="email" placeholder="Email address" name="contact[email]" class="required email" aria-required="true" aria-label="Email Address" autocomplete="email" />
+            <button class="btn v4" type="submit">Submit</button>
+          </div>
+          {%- endform -%}
+          {%- endif -%}
+        </div>
+
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  window.addEventListener('load', function() {
+    if (document.location.href.indexOf('/pages/quiz-results') != -1) {
+      gtag('event', 'conversion', {'send_to': 'AW-771034636/u4pfCI69sIsCEIyc1O8C'});
+    }
+  });
+
+</script>
+
+<script>
+  $(function(){
+//     if($(window).width() < 900){
+//       $('#footer .links .item.title').click(function(){
+//       	$(this).closest('.group').toggleClass('active');
+//         $(this).parent().find('.sublinks').slideToggle();
+//         return false;
+//       });
+//     }
+    
+  	$('#footer .mailing-list form').submit(function(e){
+      e.preventDefault();
+      e.stopImmediatePropagation();
+      var form = $(this);
+      var error = false;
+      
+      form.find('.error-msg').hide();
+      form.find('.error').removeClass('error');
+
+      form.find('.required').each(function(){
+        if($(this).val()=="") {
+          error = true;
+          $(this).addClass('error');
+        }
+      });
+      if(error){
+          form.find('.error-msg').show().text('Please complete all the required fields.');
+      }else{
+        if(!Simplistic.validateEmail(form.find('.email').val())) {
+          error = true;
+          form.find('.email').addClass('error');
+          form.find('.error-msg').show().text('Please provide a valid email address.');
+        }
+      }
+      if(!error) {
+        $.ajax({
+          data: form.serialize(),
+          {%- if settings.use_mailchimp_form -%}
+            url: form.attr('action'),
+            dataType: 'jsonp',
+          {%- elsif settings.use_klaviyo_form -%}
+          	url: form.data('ajax-submit'),
+          {%- else -%}
+          	url: form.attr('action'),
+          {%- endif -%}
+          type: 'POST'
+        }).done(function(data){
+          if (typeof(data)=='string' && data.indexOf('property="og:title" '+'content="Challenge"')>-1) {
+            form.unbind("submit");
+            form.submit();
+          } else {
+            form.find('.form-wrap').hide();
+            form.find('.success-msg').show();
+          }
+        }).error(function(){
+          form.unbind("submit");
+          form.submit();
+        });
+      }
+    });
+  });
+</script>
+
+{% schema %}
+  {
+    "name": "Footer",
+    "presets": [
+      {
+        "name": "Footer",
+        "category": "Footer"
+      }
+    ],
+    "settings": [
+{
+        "type": "image_picker",
+        "id": "logo",
+        "label": "Footer Logo"
+      },
+      {
+        "type": "text",
+        "id": "section_padding_desktop",
+        "label": "Padding (Desktop)",
+        "default": "4em 0"
+      },
+      {
+        "type": "text",
+        "id": "section_padding_mobile",
+        "label": "Padding (Mobile)",
+        "default": "3em 0"
+      },
+      {
+        "type": "color",
+        "id": "bg_color",
+        "label": "Background",
+        "default": "#ffffff"
+      },
+      {
+        "type": "color",
+        "id": "border_color",
+        "label": "Border Color",
+        "default": "#ffffff"
+      },
+      {
+        "type": "color",
+        "id": "text_color",
+        "label": "Text Color",
+        "default": "#314438"
+      },
+      {
+        "type": "link_list",
+        "id": "section_linklist",
+        "label": "Linklist",
+        "default": "footer"
+      },
+      {
+        "type": "header",
+        "content": "Mailing List"
+      },
+      {
+        "type": "text",
+        "id": "mailing_list_label",
+        "label": "Title",
+        "default": "Join our mailing list"
+      },
+      {
+        "type": "text",
+        "id": "mailing_list_text",
+        "label": "Text",
+        "default": "our new furniture, exclusive sales and more."
+      },
+      {
+        "type": "text",
+        "id": "mailing_list_success",
+        "label": "Success Message",
+        "default": "Thank You!"
+      },
+      {
+        "type": "header",
+        "content": "Social Links"
+      },
+      {
+        "type": "checkbox",
+        "id": "show_social",
+        "label": "Show Social Icons?",
+        "default": true
+      },
+      {
+        "type": "header",
+        "content": "Address"
+      },
+      {
+        "type": "text",
+        "id": "address",
+        "label": "Address",
+        "default": "45 W 28th Street<br/>New York, NY 10001"
+      }
+    ]
+  }
+{% endschema %}

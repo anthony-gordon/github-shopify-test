@@ -1,0 +1,16 @@
+{%- if iconColor == blank -%}
+  {%- assign iconColor = settings.content_text_color -%}
+{%- endif -%}
+{%- if iconAriaHidden == blank -%}
+  {%- assign iconAriaHidden = 'true' -%}
+{%- endif -%}
+{%- if iconTabIndex == blank -%}
+  {%- assign iconTabIndex = '-1' -%}
+{%- endif -%}
+{%- if iconRole == blank -%}
+  {%- assign iconRole = 'presentation' -%}
+{%- endif -%}
+<svg aria-hidden="{{iconAriaHidden}}" tabindex="{{iconTabIndex}}" role="{{iconRole}}" class="icon custom-menu-cross" width="24" height="24" style="height: 24px; width: 24px; display: none;" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M6.34326 4.92896L19.0712 17.6569L17.657 19.0711L4.92905 6.34317L6.34326 4.92896Z" fill="#314438"/>
+<path d="M4.92896 17.6569L17.6569 4.92894L19.0711 6.34315L6.34317 19.0711L4.92896 17.6569Z" fill="#314438"/>
+</svg>

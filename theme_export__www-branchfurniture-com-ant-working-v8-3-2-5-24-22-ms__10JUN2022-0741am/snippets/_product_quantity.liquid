@@ -1,0 +1,9 @@
+{%- if currentProduct.available -%}
+<div class="quantity-box">
+  <div class="flex justify-content-center small--justify-content-between">
+    <button class="minus animation" aria-label="Decrease the quantity"><span>-</span></button>
+    <input type="number" step="1" name="quantity" value="1" title="Qty" min="1" max="{{ available }}" aria-label="Quantity" />
+    <button class="plus animation" aria-label="Increase the quantity"><span>+</span></button>
+  </div>
+</div>
+{%- endif -%}

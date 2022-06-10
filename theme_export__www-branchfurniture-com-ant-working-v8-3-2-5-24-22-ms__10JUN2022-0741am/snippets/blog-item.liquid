@@ -1,0 +1,27 @@
+    <div class="article {% if forloop.first and paginate.current_page == 1 %}main-article {% endif %} grid__item one-third medium--one-half small--one-whole">
+      <div class="pic-wrapper">
+        <a href="{{ article.url }}" aria-hidden="true" tabindex="-1">
+          <div class="image">
+            <div class="img ease-animation-slow {% if article.image %}lazyload{% endif %}" {% if article.image %}data-bgset="{% include 'lazy_src', image: article.image  %}"{% endif %}></div>
+          </div>
+        </a>
+      </div>
+      <div class="text-wrapper">
+        <div class="tag">
+          {%- for tag in article.tags -%}
+          <a href="{{ blog.url }}/tagged/{{ tag | handle }}" tabindex="-1" aria-hidden="true">{{ tag }}</a>
+          {%- endfor -%}
+        </div>
+        <a href="{{ article.url }}" aria-label="{{ article.title }}">
+          <h2>{{ article.title }}</h2>
+          <div class="separator"></div>
+          <div class="content">
+            {%- assign article_excerpt = article.excerpt -%}
+            {%- unless article.excerpt.size > 0 -%}
+            {%- assign article_excerpt = article.content | strip_html | truncatewords: 30 -%}
+            {%- endunless -%}
+            {{- article_excerpt -}}
+          </div>
+        </a>
+      </div>
+    </div>

@@ -1,0 +1,146 @@
+<style>
+  .progress-container {
+  width: 100%;
+  height: 6px;
+  background: transparent;
+}
+
+.progress-bar {
+  height: 6px;
+  background:#314438;
+  width: 0%;
+}
+  
+</style>
+
+
+{% comment %}
+<div class="header header-drop ease-animation-slow hide {% if section.settings.drop_header %}large--show{% endif %} {% if section.settings.drop_header_mobile %}medium-down--show{% endif %}">
+  <div class="hlxn-backdrop"></div>
+  <div class="container custom-header-container">
+    <div class="main-content flex flex-wrap justify-content-between align-items-center">
+      <div class="hide medium-down--show flex-1 custom-logo-container">
+        <a href="#menu-mobile" class="menu-mobile-button flex align-items-center" aria-hidden="true" focusable="false" tabindex="-1">{% comment %}{% include 'icons', icon: 'hamburger' %}{% endcomment %}{% include 'custom-hamburger' %}{% include 'custom-menu-cross' %}</a>
+        <a href="/"  class="logo logo-mob">
+          {%- if section.settings.logo != blank -%}
+          <img src="{{section.settings.logo | img_url: '600x'}}" width="135" height="34" alt="{{shop.name}}" />
+          {%- else -%}
+          <div class="shop-name heading_font">{{shop.name}}</div>
+          {%- endif -%}
+        </a>
+      </div>
+      
+      <div class="custom-new-header-flex">
+      <a href="/" class="logo logo-desk" aria-hidden="true" focusable="false" tabindex="-1">
+        {%- if section.settings.logo != blank -%}
+        <img src="{{section.settings.logo | img_url: '600x'}}" alt="{{shop.name}}" />
+        {%- else -%}
+        <div class="shop-name heading_font">{{shop.name}}</div>
+        {%- endif -%}
+      </a>
+      <nav class="main-menu flex align-items-center justify-content-end medium-down--hide {{ section.settings.menu_font}}" role="navigation">
+          {%- include 'menu_main' -%}
+        </nav>
+      </div>
+      
+      <div class="nav-wrapper flex align-items-center justify-content-end medium-down--flex-1">
+        {% comment %}
+        <div class="main-menu flex align-items-center justify-content-end medium-down--hide {{ section.settings.menu_font}}">
+        </div>
+        {% endcomment %}
+        <nav class="main-menu flex custom-header-drop2 align-items-center justify-content-end medium-down--hide {{ section.settings.menu_font}}" role="navigation" style="padding-right: 85px;">
+          {%- include 'menu_main2' -%}
+        </nav>
+        {%- for block in section.blocks -%}
+          {%- if block.type == 'top_utils' -%}
+            {%- if block.settings.show -%}
+              <div class="flex align-items-center justify-content-end">
+                {%- include 'top_utils', headerDrop: true -%}
+              </div>
+            {%- endif -%}
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+    </div>
+  </div>
+  
+  {% if template contains 'article' %}
+    <div class="progress-container">
+    <div class="progress-bar" id="myBar"></div>
+  </div> 
+  {% endif %}
+  
+</div>
+{% endcomment %}
+
+<div class="header header-drop ease-animation-slow hide {% if section.settings.drop_header %}large--show{% endif %} {% if section.settings.drop_header_mobile %}medium-down--show{% endif %}">
+  
+  <div class="container custom-header-container">
+    <div class="main-content flex flex-wrap justify-content-between align-items-center">
+      <div class="hide medium-down--show flex-1 custom-logo-container">
+        <a href="#menu-mobile" class="menu-mobile-button flex align-items-center" aria-hidden="true" focusable="false" tabindex="-1">{% comment %}{% include 'icons', icon: 'hamburger' %}{% endcomment %}{% include 'custom-hamburger' %}{% include 'custom-menu-cross' %}</a>
+        <a href="/"  class="logo logo-mob">
+          {%- if section.settings.logo != blank -%}
+          <img src="{{section.settings.logo | img_url: '600x'}}" alt="{{shop.name}}" />
+          {%- else -%}
+          <div class="shop-name heading_font">{{shop.name}}</div>
+          {%- endif -%}
+        </a>
+      </div>
+      
+      <div class="custom-new-header-flex">
+
+        <div class="logo-container">
+        <a href="/" class="logo logo-desk" aria-hidden="true" focusable="false" tabindex="-1">
+          {%- if section.settings.logo != blank -%}
+          <img src="{{section.settings.logo | img_url: '600x'}}" alt="{{shop.name}}" />
+          {%- else -%}
+          <div class="shop-name heading_font">{{shop.name}}</div>
+          {%- endif -%}
+        </a>
+        </div>
+
+        <nav class="main-menu custom-header-mid flex align-items-center justify-content-end medium-down--hide {{ section.settings.menu_font}}" role="navigation">
+          {%- include 'menu_main' -%}
+        </nav>
+
+        <div class="nav-wrapper custom-header-right flex align-items-center justify-content-end medium-down--flex-1">
+          {%- for block in section.blocks -%}
+          {%- if block.type == 'top_utils' -%}
+          {%- if block.settings.show -%}
+          <div class="flex align-items-center justify-content-end">
+            {%- include 'top_utils', headerDrop: true -%}
+          </div>
+          {%- endif -%}
+          {%- endif -%}
+          {%- endfor -%}
+        </div>
+
+      </div>
+
+
+    </div>
+  </div>
+  
+  {% if template contains 'article' %}
+    <div class="progress-container">
+    <div class="progress-bar" id="myBar"></div>
+  </div> 
+  {% endif %}
+  
+</div>
+
+
+
+{% if template contains 'article' %}
+<script>
+// When the user scrolls the page, execute myFunction 
+window.addEventListener('scroll', myFunction2);
+function myFunction2() {
+  var winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+  var height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+  var scrolled = (winScroll / height) * 100;
+  document.getElementById("myBar").style.width = scrolled + "%";
+}
+</script>
+{% endif %}

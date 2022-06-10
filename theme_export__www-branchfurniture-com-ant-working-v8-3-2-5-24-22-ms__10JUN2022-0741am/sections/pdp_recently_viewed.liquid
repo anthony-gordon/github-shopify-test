@@ -1,0 +1,137 @@
+{%- if section.settings.show -%}
+<script>
+  $(function(){
+    Shopify.Products.recordRecentlyViewed();
+  });
+</script>
+<style>  
+  #shopify-section-{{ section.id }} .recently-viewed {text-align: center; background: {{section.settings.section_bg}}; padding: {{section.settings.padding_desktop}};}
+  .recently-viewed {display: none;}
+  .recently-viewed .container {padding: 0 6em; max-width: 1150px;}
+  .recently-viewed .main-title {margin-bottom: 3em;}
+  .recently-viewed .btn {margin-top: 5em;}
+  .recently-viewed .slick-slider .slick-arrow {top: 39%;}
+  
+  @media all and (max-width: 900px) {
+    #shopify-section-{{ section.id }} .recently-viewed {padding: {{section.settings.padding_mobile}};}
+    .recently-viewed .main-title {margin-bottom: 1em;}
+  }
+  
+  @media all and (max-width: 600px) {
+    .recently-viewed .main-title {font-size: 2em; padding: 0 15px; margin-bottom: 1em;}
+    .recently-viewed .container {padding: 0;}
+    .recently-viewed .slick-slider .slick-arrow.left-arrow {left: 0.5em;}
+    .recently-viewed .slick-slider .slick-arrow.right-arrow {right: 0.5em;}
+    .recently-viewed .product-carousel {padding: 0;}
+    .recently-viewed .btn {margin-top: 1.5em;}
+  }
+</style>
+
+  {{ 'jquery.products.js' | asset_url | script_tag }}
+  <div class="recently-viewed">
+    <div class="container">
+      {%- if section.settings.title != "" -%}
+      	<h2 class="main-title">{{section.settings.title}}</h2>
+      {%- endif -%}
+      <div id="recently-viewed-products"></div>
+    </div>
+  </div>
+  <script>
+    $(function(){
+      Shopify.Products.showRecentlyViewed({
+        howManyToShow: 6, 
+        onComplete: function(){
+          if($('#recently-viewed-products .product-item').length > 0) {
+            $('.recently-viewed').show();
+            $('#recently-viewed-products').slick({
+              autoplay: true,
+              speed: 700,
+              slidesToShow: 3,
+              pauseOnHover: false,
+              slidesToScroll: 3,
+              prevArrow: '{% include 'icons', icon: 'arrow-left' %}',
+              nextArrow: '{% include 'icons', icon: 'arrow-right' %}',
+              responsive: [
+                {
+                  breakpoint: 600,
+                  settings: {
+                    slidesToShow: 1,
+                    slidesToScroll: 1,
+                    arrows: false,
+                    centerMode: true,
+                    centerPadding: '20%'
+                  }
+                },
+                {
+                  breakpoint: 900,
+                  settings: {
+                    slidesToShow: 2,
+                    slidesToScroll: 2,
+                    arrows: false,
+                    centerMode: true,
+                    centerPadding: '15%'
+                  }
+                }
+              ]
+            });
+          }
+        }
+      });
+    });
+  </script>
+
+{%- endif -%}
+
+{% schema %}
+  {
+    "name": "Recently Viewed Products",
+    "presets": [
+      {
+        "name": "Recently Viewed Products",
+        "category": "PDP"
+      }
+    ],
+    "settings": [
+	  {
+        "type": "checkbox",
+        "id": "show",
+        "label": "Show section?",
+        "default": true
+      },
+	  {
+        "type": "color",
+        "id": "section_bg",
+        "label": "Background Color",
+        "default": "#ffffff"
+      },
+	  {
+        "type": "text",
+        "id": "padding_desktop",
+        "label": "Section Padding (Desktop)",
+        "default": "6em 0"
+      },
+      {
+        "type": "text",
+        "id": "padding_mobile",
+        "label": "Section Padding (Mobile)",
+        "default": "4em 0"
+      },
+	  {
+        "type": "text",
+        "id": "title",
+        "label": "Title",
+		"default": "Recently Viewed"
+      },
+      {
+        "type": "text",
+        "id": "button",
+        "label": "Button"
+      },
+      {
+        "type": "url",
+        "id": "link",
+        "label": "Link"
+      }
+    ]
+  }
+{% endschema %}

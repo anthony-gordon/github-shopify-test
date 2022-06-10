@@ -1,0 +1,173 @@
+{% assign paginateLimit = settings.pagination_limit | plus: 0 %}
+{% include 'shogun-products', content: collection %}
+{{collection.metafields.shogun.above}}
+
+{% include 'swatch-styles' %}
+
+{{ 'collection-new.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'collection.js' | asset_url }}" defer="defer"></script>
+
+<section class="collection-wrapper collection-{{collection.handle}}">
+  <h1 class="visuallyhidden">{{collection.title}}</h1>
+  
+  <!-- HERO -->
+  {% section 'collection--hero' %}
+
+  <!-- Filter -->
+  <div class="container collection--filters">
+    <div class="filter-wrapper">
+      <div class="category-filter">
+        <label for="category">CATEGORY</label>
+        <div class="goto">
+          <button class="trigger flex align-items-center">
+            {{ collection.title }}
+            <svg aria-hidden="true" tabindex="-1" role="presentation" class=" icon icon-arrow-down down-arrow" viewBox="0 0 32 32"><path fill="#314438" d="M26.985,8.5l1.516,1.617L16.001,23.5l-12.5-13.383L5.009,8.5l10.992,11.758L26.985,8.5z"></path></svg>
+          </button>
+          <div class="links">
+            {%- for link in linklists['collections-list'].links -%}
+            {%- assign col = link.object -%}
+            {% unless col.handle == collection.handle %}
+              <a class="item" href="{{ col.url }}">{{ col.title }}</a>
+            {% endunless %}
+            {%- endfor -%}
+          </div>
+        </div>        
+      </div>
+      
+      <div class="price-filter">
+        <label for="SortBy">SORT BY</label>
+        
+        <div class="goto">
+          <button class="trigger flex align-items-center">
+            {% assign selected_sort_by = 'best-selling' %}
+            {% if collection.sort_by == blank %}
+              BEST SELLING
+            {% else %}
+            {% assign selected_sort_by = collection.sort_by %}
+            {% endif %}
+            {% for option in collection.sort_options %}
+              {% if option.value == collection.sort_by %}
+                {{ option.name }}
+              {% endif %}
+            {% endfor %}
+            <svg aria-hidden="true" tabindex="-1" role="presentation" class=" icon icon-arrow-down down-arrow" viewBox="0 0 32 32"><path fill="#314438" d="M26.985,8.5l1.516,1.617L16.001,23.5l-12.5-13.383L5.009,8.5l10.992,11.758L26.985,8.5z"></path></svg>
+          </button>
+          <div class="links">
+            {% for option in collection.sort_options %}
+            {% if option.value == 'best-selling' or option.value == 'price-ascending' or option.value == 'price-descending' %}
+              {% if selected_sort_by != option.value %}
+              <a class="item" href="{{ collection.url }}?sort_by={{ option.value }}">{{ option.name }}</a>
+              {% endif %}
+            {% endif %}
+            {%- endfor -%}
+          </div>
+        </div>        
+      </div>
+      
+    </div>
+  </div>
+  
+  <!-- PRODUCTS LIST -->
+  <div class="container products--list">
+    {% paginate collection.products by paginateLimit %}
+    {% assign paginationOffset = pagination.current_offset %}
+
+    {%- if collection.products.size > 0 -%}
+      <div class="grid">
+        {%- for product in collection.products -%}
+          {%- include 'product_item_custom_new', currentProduct: product, quickview: settings.allow_quick_view -%}
+        {%- endfor -%}
+      </div>
+      <hr />
+      {%- include 'pagination' -%}
+    {%- else -%} 
+    <div class="empty">
+      <div class="head">{% include 'icons', icon: 'product-tag' %}</div>
+      <div class="title">This Collection is currently empty. Please come back later.</div>
+      <a href="/collections/all" class="btn">Check out our products</a>
+    </div>
+    {%- endif -%}
+        <script>  
+      let paginateBy = {{ paginateLimit }};
+      var products = {{ collection.products | json }}; 
+
+      {% for product in collection.products limit: paginateLimit offset: paginationOffset %}
+      var product = {{ product | json }};
+      var selected_variant = {{ product.selected_or_first_available_variant | json }};
+      product.selected_variant = selected_variant;
+      product.options_with_values = {{ product.options_with_values | json }};
+
+
+      // Update input radio groups
+      document.querySelectorAll('.swatches-shop-now[data-product-handle="' + product.handle + '"] input[type=radio]').forEach(function(item) {
+        var $input = item;
+        var name = item.getAttribute('name') + '-' + product.id;
+        $input.setAttribute('name', name);
+      });
+
+      var productSelector = '[data-product-handle="' + product.handle + '"]';
+
+
+      selected_variant.options.forEach(function(option, index) {
+        var swatch_selector = '[data-option-index="' + index + '"] .swatch-element[data-value="' + option + '"]';
+
+        var $swatch = document.querySelector(productSelector).querySelector(swatch_selector);
+
+        if ($swatch != null) {
+          $swatch.classList.add('selected');
+        }
+      });    
+     
+  {% endfor %}
+</script>
+    {%- endpaginate -%}    
+  </div>
+  
+  <!-- IMAGE WITH TEXT -->
+  {% section 'collection--custom-image-with-text' %}
+
+  <!-- FAQ -->
+  {% section 'collection--custom-faq' %}  
+  
+  <!-- Image with Links blocks -->
+  {% section 'collection--image-links' %}      
+  
+  <!-- Press quotes and Links -->
+  {% section 'collection--press-page-quotes' %}  
+  
+  <!-- IMAGE WITH TEXT - Meet Branch -->
+  {% section 'collection--custom-meet-branch' %}  
+  
+  <!-- Value USPs -->
+  {% section 'collection--value-USPs' %}  
+</section>
+
+{{collection.metafields.shogun.below}}
+
+<script>
+  // Save existing sort parameters
+  Shopify.queryParams = {};
+  if(location.search.length) {
+    for(var aKeyValue, i = 0, aCouples = location.search.substr(1).split('&'); i < aCouples.length; i++) {
+      aKeyValue = aCouples[i].split('=');
+      if (aKeyValue.length > 1) {
+        Shopify.queryParams[decodeURIComponent(aKeyValue[0])] = decodeURIComponent(aKeyValue[1]);
+      }
+    }
+  }
+
+  // Add existing sort parameters to current URL
+  document.querySelector('#SortBy').addEventListener('change', function(e) {
+    var value = e.currentTarget.value;
+    Shopify.queryParams.sort_by = value;
+    location.search = new URLSearchParams(Shopify.queryParams).toString();
+  });
+</script>
+
+
+
+{% for product in collection.products %}
+  {% for media in product.media %}
+    <link rel="prefetch" href="{{ media.src | img_url: 'original' }}" as="image" />
+  {% endfor %}
+{% endfor %}

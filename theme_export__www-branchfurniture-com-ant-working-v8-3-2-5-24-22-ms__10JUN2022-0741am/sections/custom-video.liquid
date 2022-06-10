@@ -1,0 +1,87 @@
+<div class="c-v-section">
+  <div class="c-v-container">
+    {% if section.settings.video == blank %}
+    {% if section.settings.img %}
+    <img src="{{ section.settings.img | img_url: 'master' }}" alt="" class="c-v-img" loading="lazy"/>
+    {% endif %}
+    {% endif %}
+    {% if section.settings.video != blank %}
+    <video src="{{ section.settings.video }}" class="c-v-video" autoplay muted playsinline loop type="video/mp4"></video>
+    {% endif %}
+    <div class="c-v-overlay"></div>
+    <a data-fancybox="gallery" href="{{ section.settings.video_url }}" class="c-v-main-overlay"></a>
+    <span class="c-v-play mobile"><i class="fa fa-play"></i></span>
+    <div class="c-v-content">
+      <div class="c-v-text">
+        <span class="c-v-play desktop"><i class="fa fa-play"></i></span>
+        {% if section.settings.preheading != blank %}
+        <p class="c-v-preheading">{{ section.settings.preheading }}</p>
+        {% endif %}
+        {% if section.settings.heading != blank %}
+        <h3 class="c-v-heading">{{ section.settings.heading }}</h3>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+<script>
+  $('[data-fancybox="gallery"]').fancybox();
+</script>
+
+
+{% schema %}
+  {
+    "name": "Video",
+    "settings": [
+    {
+      "type": "header",
+      "content": "Image"
+    },
+{
+      "id": "video",
+      "type": "text",
+      "label": "Uploaded Video Url for background video"
+    },
+    {
+      "id": "img",
+      "type": "image_picker",
+      "label": "Image"
+    },
+	{
+      "id": "video_url",
+      "type": "url",
+      "label": "Video Url"
+    },
+    {
+      "type": "header",
+      "content": "Text"
+    },
+    {
+      "id": "preheading",
+      "type": "text",
+      "label": "Preheading",
+	  "default": "Work From home"
+    },
+    {
+      "id": "heading",
+      "type": "textarea",
+      "label": "Heading",
+      "default": "Make your home a unique place to work."
+    }
+	],
+  "presets": [
+    {
+      "name": "Video",
+      "category": "Custom"
+    }
+  ]
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

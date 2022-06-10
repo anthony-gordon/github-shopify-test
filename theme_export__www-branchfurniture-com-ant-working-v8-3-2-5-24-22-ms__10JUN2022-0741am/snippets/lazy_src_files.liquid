@@ -1,0 +1,41 @@
+{%- comment -%}
+snippet parameters: 
+interface 1) image:* [image object]
+             widthRanges:(optional) [string], comma separated numbers, a short list saves KB in the html generated
+
+interface 2) imgName:* [string], an image file name, example: 'desktop_banner_homepage.jpg'
+              imgWidth:* [number],
+              imgHeight:* [number]
+              widthRanges:(optional) [string], comma separated numbers, a short list saves KB in the html generated
+{%- endcomment -%}
+
+{%- if imgName == blank -%}
+    {%- assign imgWidth = image.width -%}
+    {%- assign imgHeight = image.height -%}
+{%- endif -%}
+{%- assign imgAspecRatio = imgWidth | times: 1.0 | divided_by: imgHeight -%}
+
+{%- if widthRanges == blank -%}
+	{%- assign widthRanges = '180,360,540,720,900,1080,1296,1512,1728,1950,2260,2450,2700,3000,3350,3750,4100' | split: ',' -%}
+{%- endif -%}
+{%- assign widthRanges = widthRanges | split: ',' -%}
+
+{%- for lazyWidth in _widthRanges -%}
+    {%- assign width = lazyWidth | times: 1 -%}
+    {%- assign filter = lazyWidth | append: 'x' -%}
+	{%- if imgName == blank -%}
+    	{%- if imgWidth > width -%}{{ image | img_url: filter }} {{width}}w {{ width | divided_by: _imgAspecRatio | round }}h,{%- else -%}{%- break -%}{%- endif -%}
+	{%- else -%}
+		{%- if imgWidth > width -%}{{ imgName | file_img_url: filter }} {{width}}w {{ width | divided_by: _imgAspecRatio | round }}h,{%- else -%}{%- break -%}{%- endif -%}
+	{%- endif -%}
+{%- endfor -%}
+{%- if imgName == blank -%}
+	{{ image | img_url: 'master' }} {{ imgWidth }}w {{ imgHeight }}h
+{%- else -%}
+	{{ imgName | file_img_url: 'master' }} {{ imgWidth }}w {{ imgHeight }}h
+{%- endif -%}
+{%- assign imgName = nil -%}
+{%- assign imgWidth = nil -%}
+{%- assign imgHeight = nil -%}
+{%- assign imgAspecRatio = nil -%}
+{%- assign widthRanges = nil -%}

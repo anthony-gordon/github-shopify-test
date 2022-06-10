@@ -1,0 +1,11 @@
+<a class="wrap" href="{{block.settings.link}}" target="_blank">
+  <div class="img ease-animation-slow lazyload" data-bgset="{% include 'lazy_src', image: block.settings.image %}"></div>
+  <div class="info flex align-items-end justify-content-between">
+    <div class="text ease-animation">
+      {{block.settings.info}}
+    </div>
+    <div class="icon ease-animation-slow">
+      {% include 'icons', icon: 'arrow-right' %}
+    </div>
+  </div>
+</a>

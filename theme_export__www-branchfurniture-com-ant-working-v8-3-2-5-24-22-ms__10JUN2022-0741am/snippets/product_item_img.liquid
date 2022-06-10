@@ -1,0 +1,73 @@
+<style>
+  .product-item .product-image {overflow: hidden; text-align: center; position: relative; background: {{settings.content_second_color}};}
+.product-item .product-image .img {display: block; width: 100%; padding-top: 100%; background-size: cover; background-position: center; background-repeat: no-repeat;}
+.product-item .product-image.show-second-image .second-img {position:absolute; top: 0; left: 0; @include opacity(0); }
+.isNotMobile .product-item .image.show-second-image:hover .img {@include opacity(0);}
+.isNotMobile .product-item .image.show-second-image:hover .img.second-img {@include opacity(100); }
+/* .product-item .product-image .sale, .product-item .image .sold-out {font-size: 0.9em; text-transform: capitalize; height:4em; width:4em; background-color: {{settings.content_main_color}}; color:#fff; font-weight: 700; display: flex; display: -webkit-flex; justify-content: center; align-items: center; line-height: 100%; right: 10px; top: 10px; position: absolute; border-radius:50%;} */
+.product-item .product-image .sold-out {background-color: #ffffff; position: absolute; top: 13px; right: 14px; padding: 4px 8px; text-transform: uppercase; font-size: 12px; line-height: 18px; font-family: Quicksand; font-weight: bold; color: #979797; letter-spacing: 0.06em;}
+.product-item .product-image .sale {background-color: #8CC1D2; position: absolute; top: 13px; left: 14px; padding: 4px 8px; text-transform: uppercase; font-size: 12px; line-height: 18px; font-family: Quicksand; font-weight: bold; color: #ffffff; letter-spacing: 0.06em;}
+  
+  .product-image {
+    display: none;
+  }
+  
+  .shown {
+    display: block;
+  }
+  
+</style>
+
+{% assign sale_text = '' %}
+{%- if currentProduct.available and currentProduct.price_min <  currentProduct.compare_at_price_min -%}
+	{% assign sale_text = currentProduct.compare_at_price_min | minus:  currentProduct.price_min | times: 100.0 | divided_by:  currentProduct.compare_at_price_min | round | prepend: "save " | append: "%" %}
+{% endif %}
+{% assign highest_savings = 0 %}
+{% assign potential_highest_savings = 0 %}
+{% assign savings_count = 0 %}
+{% for c_variant in currentProduct.variants %}
+	{%- if c_variant.available and c_variant.price <  c_variant.compare_at_price -%}
+      {% assign savings_count = savings_count | plus: 1 %}
+      {% assign potential_savings = c_variant.compare_at_price  | minus: c_variant.price | times: 100.0 | divided_by: c_variant.compare_at_price | round %}
+      {% if highest_savings < potential_savings %}
+	  	{% assign highest_savings = potential_savings %}
+	  {% endif %}
+	{% endif %}
+{% endfor %}
+{% if highest_savings > 0 and savings_count != currentProduct.variants.size and currentProduct.variants.size > 1 %}
+	{% assign sale_text = highest_savings | append: '%' | prepend: 'save up to ' %}
+{% endif %}
+{% for c_variant in currentProduct.variants %}
+	{% if c_variant.available %}
+      {% if c_variant.metafields.variant.sale %}
+          {% assign sale_text = c_variant.metafields.variant.sale %}
+		  {% break %}
+      {% endif %}
+    {% endif %}
+{% endfor %}
+
+{% comment %}SV-3.29.21 - removed br from sale labels{% endcomment %}
+
+{%- if template.suffix == 'quiz-results' and item.variant.image -%}
+  <div class="product-image shown" data-title="{{ currentProduct.title }}" data-variant="{{ item.variant.title }}">
+    <div class="img lazyload lazypreload" data-bgset="{% include 'lazy_src', image: item.variant.image %}"></div>
+    {%- if sale_text != blank -%}
+      <div class="sale">{{sale_text}}</div>
+    {%- endif -%}
+    {%- unless currentProduct.available -%}
+      <div class="sold-out">out of stock</div>
+    {%- endunless -%}
+  </div>
+{% else %}
+  {% for variant in currentProduct.variants %}
+  <div class="product-image {% if forloop.index == 1 %}shown{% endif %}" data-title="{{ currentProduct.title }}" data-variant="{{ variant.title }}">
+    <div class="img lazyload lazypreload" data-bgset="{% include 'lazy_src', image: variant.image %}"></div>
+    {%- if sale_text != blank -%}
+      <div class="sale">{{sale_text}}</div>
+    {%- endif -%}
+    {%- unless currentProduct.available -%}
+      <div class="sold-out">out of stock</div>
+    {%- endunless -%}
+  </div>
+  {% endfor %}
+{% endif %}

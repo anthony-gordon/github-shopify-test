@@ -1,0 +1,88 @@
+<div class="c-iwt-section">
+  <div class="c-iwt-container">
+    <div class="c-iwt-flex-container" style="{% if section.settings.swap %}flex-direction: row-reverse;{% endif %}">
+      <div class="c-iwt-flex-item">
+        {% if section.settings.heading != blank %}
+        <h3 class="c-iwt-heading">{{ section.settings.heading }}</h3>
+        {% endif %}
+        {% if section.settings.text != blank %}
+        <p class="c-iwt-text">{{ section.settings.text }}</p>
+        {% endif %}
+        {% if section.settings.btn-text %}
+        <div class="c-iwt-btn-container">
+          <a href="{{ section.settings.btn-link }}" class="c-iwt-btn">{{ section.settings.btn-text }}</a>
+        </div>
+        {% endif %}
+      </div>
+      <div class="c-iwt-flex-item">
+        {% if section.settings.img %}
+	        <img src="{{ section.settings.img | img_url: 'master' }}" alt="" class="c-iwt-img" loading="lazy"/>
+        {% else %}
+	        {% render "_homepage_savings_chart" %}
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+  {
+    "name": "Image With Text",
+    "settings": [
+	{
+      "id": "swap",
+      "type": "checkbox",
+      "label": "Swap"
+    },
+    {
+      "type": "header",
+      "content": "Image"
+    },
+    {
+      "id": "img",
+      "type": "image_picker",
+      "label": "Image"
+    },
+    {
+      "type": "header",
+      "content": "Text"
+    },
+    {
+      "id": "heading",
+      "type": "textarea",
+      "label": "Heading",
+	  "default": "Premium office furniture used to be expensive. Well... not anymore."
+    },
+    {
+      "id": "text",
+      "type": "textarea",
+      "label": "Text",
+      "default": "Cutting out middlemen and maintaining a lean line of modular inventory. We help you save you up to 50% compared to premium office furniture of comparable quality."
+    },
+    {
+      "id": "btn-text",
+      "type": "text",
+      "label": "Button Text",
+      "default": "Our story"
+    },
+    {
+      "id": "btn-link",
+      "type": "url",
+      "label": "Button Url",
+      "default": "/"
+    }
+	],
+  "presets": [
+    {
+      "name": "Image With Text",
+      "category": "Custom"
+    }
+  ]
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

@@ -1,0 +1,78 @@
+<style>
+  /**** Blog LIST layout ****/
+  #blog .template-list h2 {text-align: left;}
+  #blog .template-list .article {position: relative; }
+  .isNotMobile #blog .template-list .articles-wrapper > a:hover {color: inherit;}
+  #blog .template-list .article hr {border: none; border-bottom: 1px solid {{settings.bg_color}}; margin: 40px 0;}
+  #blog .template-list .pic-wrapper {width: 100%; position: relative;}
+  #blog .template-list .pic-wrapper .img {width: 100%; height: 1px; padding-top: 45%; background-size: cover; background-position: center; background-repeat: no-repeat;}
+  #blog .template-list .text-wrapper {width: 100%; margin: 1.2em 0 0 0;}
+  #blog .template-list .text-wrapper .content {margin-bottom: 1.2em;}
+  #blog .template-list .article-date {background-color: #fff; border: 4px solid {{settings.content_main_color}}; position: absolute; left: -20px;  top: 6em; text-transform: uppercase;  color: {{settings.content_main_color}};  width: 5em;  height: 5em; font-size: 1em;  text-align: center; display: flex; display: -webkit-flex; flex-wrap: wrap; justify-content: center; align-content: center;}
+  #blog .template-list .article-date span {display: block; width: 100%; position: relative; line-height: 100%;}
+  #blog .template-list .article-date span.day {font-size: 2em; margin-bottom: 2px;}
+  .isNotMobile #blog .template-list .article:hover .article-date {background-color: {{settings.content_main_color}}; color: #fff;}
+  
+  @media all and (max-width: 900px){
+    #blog .template-grid .text-wrapper .continue {display: block;} 
+  }
+  
+  @media all and (max-width: 600px){
+    #blog .template-list h2 {text-align: center;}
+    #blog .template-list .articles-wrapper {width: 100%; float: none;}
+    #blog .template-list .article-date {display: none;}
+  }
+</style>
+
+<div class="blog-container container clearfix">
+{%- if search.results == empty -%}
+  <div id="blog" class="blog-content left three-quarters small--one-whole">
+    <div class="articles-wrapper">
+      <div class="article">
+        <h2 class="animation">Search Results</h2>
+        <div class="text-wrapper">
+          <div class="content">
+            <p class="note">Your search for "{{search.terms | escape}}" did not yield any results.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{%- else -%} 
+  <div id="blog" class="blog-content left three-quarters small--one-whole">
+    {%- paginate search.results by 10 -%}
+    <div class="articles-wrapper template-list">
+      {%- for item in search.results -%}
+      {%- assign article = item -%}
+      <a href="{{ article.url }}">
+        <div class="article">
+          <h2>{{ article.title }}</h2>
+          <div class="pic-wrapper">
+            <div class="img {% if article.image %}lazyload{% endif %}" {% if article.image %}style="background-image: url({{ 'placeholder.png' | asset_url }});" data-bgset="{% include 'lazy_src', image: article.image  %}"{% endif %}></div>
+            <div class="article-date animation">
+              <span class="day"><strong>{{ article.published_at | date: "%d" }}</strong></span>
+              <span class="month">{{ article.published_at | date: "%b" }}</span>
+            </div>
+            <!-- <time datetime="{{ article.published_at | date: '%Y %m %d' }}">{{ article.published_at | date: format: 'month_day_year' }}</time> -->
+          </div>
+          <div class="text-wrapper">
+            <div class="content">
+              {%- if article.excerpt.size > 0 -%}
+              <p>{{ article.excerpt | strip_html | truncatewords: 70 }}</p>
+              {%- else -%}
+              <p>{{ article.content | strip_html | truncatewords: 70 }}</p>
+              {%- endif -%}
+            </div>
+            <span class="btn">Continue reading</span>
+          </div>
+          {%- unless forloop.last -%}<hr />{%- endunless -%}
+        </div>
+      </a>
+      {%- endfor -%}
+    </div>
+    {%- include 'pagination' -%}
+    {%- endpaginate -%}
+  </div>
+{%- endif -%} 
+{%- include 'blog_sidebar' -%}
+</div>

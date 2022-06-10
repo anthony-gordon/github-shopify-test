@@ -1,0 +1,127 @@
+{% assign selectedHero = section.settings.selected_hero  %}
+{% assign desktopHero =  section.settings.img %}
+{% assign desktopHero =  section.settings.mobile_img %}
+
+{% case selectedHero %}
+{% when 'helixian-hero' %}
+  {% render "hlxn-featured-image-hero" %}
+{% when 'original-hero' %}
+  {% render "featured-image-hero" %}
+{% endcase %}
+
+<style>
+  @media only screen and (max-width: 699px) {
+    #branch-hero {
+		display: none;
+    }
+    .hlxn-img-container {
+    	min-height: 600px;
+    }
+  }
+  @media only screen and (min-width: 700px) {
+  	#branch-hero-mobile {
+		display: none;
+  	}
+  }
+</style>
+
+<div class="hlxn-fi-section">    
+      <div class="hlxn-fi-content-text">
+        {% if section.settings.title != blank %}
+        <h1 class="hlxn-fi-title">{{ section.settings.title }}</h1>
+        {% endif %}
+        {% if section.settings.heading != blank %}
+        <p class="hlxn-fi-heading">{{ section.settings.heading }}</p>
+        {% endif %}
+        {% if section.settings.link_text != blank %}
+        <a href="{{ section.settings.link }}" class="c-fi-link hlxn-c-fi-link">{{ section.settings.link_text }}</a>
+        {% endif %}
+        {% if section.settings.subheading != blank %}
+        <div class="hlxn-fi-subheading">{{ section.settings.subheading }}</div>
+        {% endif %}
+      </div>
+      {% if section.settings.img %}
+      <div class="hlxn-img-container">
+        <img id="branch-hero" src="{{ section.settings.img | img_url: 'master' }}" alt="Branch Hero Image" class="hlxn-fi-img"/>
+        <img id="branch-hero-mobile" src="{{ section.settings.mobile_img | img_url: 'master' }}" alt="Branch Hero Image" class="hlxn-fi-img"/>
+      </div>
+      {% endif %}  
+</div>
+
+{% schema %}
+  {
+    "name": "Feature Image",
+    "settings": [
+    {
+      "type": "header",
+      "content": "Image"
+    },
+{
+      "id": "bg_color",
+      "type": "color",
+      "label": "Bg Color",
+	  "default": "#e8e7e3"
+    },
+    {
+      "id": "img",
+      "type": "image_picker",
+      "label": "Desktop Hero Image"
+    },
+    {
+      "id": "mobile_img",
+      "type": "image_picker",
+      "label": "Mobile Hero Image"
+    },
+    {
+      "type": "header",
+      "content": "Text"
+    },
+    {
+      "id": "title",
+      "type": "textarea",
+      "label": "Title",
+	  "default": "Exceptional Office<br>Furniture, <i>Half The Price.</i>"
+    },
+    {
+      "id": "heading",
+      "type": "textarea",
+      "label": "Heading",
+      "default": "Build a beautiful office without breaking the bank."
+    },
+    {
+      "id": "link_text",
+      "type": "text",
+      "label": "Button Text",
+      "default": "Shop now"
+    },
+    {
+      "id": "link",
+      "type": "url",
+      "label": "Button Link",
+      "default": "/"
+    },
+    {
+      "id": "subheading",
+      "type": "richtext",
+      "label": "Subheading",
+	  "default": "<p>Are you a team? Build your office</p>"
+    },
+		  {
+            "type": "select",
+            "id": "selected_hero",
+            "label": "Hero Select:",
+            "options": [
+              {"value": "original-hero", "label": "Original Hero"},
+              {"value": "helixian-hero", "label": "Helixian Hero"}
+            ],
+            "default": "original-hero"
+          }
+	],
+  "presets": [
+    {
+      "name": "Feature Image",
+      "category": "Custom"
+    }
+  ]
+  }
+{% endschema %}

@@ -1,0 +1,15 @@
+{%- if iconColor == blank -%}
+  {%- assign iconColor = settings.content_text_color -%}
+{%- endif -%}
+{%- if iconAriaHidden == blank -%}
+  {%- assign iconAriaHidden = 'true' -%}
+{%- endif -%}
+{%- if iconTabIndex == blank -%}
+  {%- assign iconTabIndex = '-1' -%}
+{%- endif -%}
+{%- if iconRole == blank -%}
+  {%- assign iconRole = 'presentation' -%}
+{%- endif -%}
+<svg aria-hidden="{{iconAriaHidden}}" tabindex="{{iconTabIndex}}" role="{{iconRole}}" class="icon custom-minus" style="display: none; height: 15px;" width="14" height="2" viewBox="0 0 14 2" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M14 0H8H6H0V2H6H8H14V0Z" fill="#314438"/>
+</svg>

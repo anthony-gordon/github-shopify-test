@@ -1,0 +1,86 @@
+<style>
+  .blog-container {margin: 2em auto;}
+
+  .blog-sidebar h3 {font-size: 1.3em; text-align: left; border-bottom: 1px solid #eee; padding-bottom: 1em; margin-bottom: 1.4em;}
+  .blog-sidebar > div {margin-bottom: 3em;}
+  .blog-sidebar a {display: block; margin-bottom: 1em;}
+  .blog-sidebar .art-sub {font-size: 0.85em; opacity: 0.5;}
+  .blog-sidebar span {display: block;}
+  .blog-sidebar form {position: relative;}
+  .blog-sidebar form input[type="text"] {padding-right: 3em;}
+  .blog-sidebar form button {position: absolute; font-size: 1.3em; top: 50%; right: 1em; line-height: 100%; -webkit-transform: translateY(-50%); transform: translateY(-50%);}
+  .blog-sidebar form button svg {display: block;}
+  
+  {%- if settings.blog_show_featured -%}
+  .blog-sidebar .featured-posts {padding-bottom:0; padding-right:0;}
+  .blog-sidebar .featured-posts li {margin-bottom: 20px;}
+  .blog-sidebar .featured-posts li a {display: block;}
+  .blog-sidebar .featured-posts .art-thumb {display: block; width: 20%; max-width: 20%; padding-top: 20%; max-height: 54px; float:left;background-repeat: no-repeat; background-size: cover; background-position: center;}
+  .blog-sidebar .featured-posts .art-title {font-size: 14px; font-weight: 700; display: block; width: 80%; padding-left: 10px; float: left;}
+  .blog-sidebar .featured-posts .art-sub {display: block; width: 80%; padding-left: 10px; float: left; font-size: 11px; font-weight: 300; color: #999;}
+  {%- endif -%}
+</style>
+
+<aside class="blog-sidebar right one-fifth small--hide">
+  {%- if settings.blog_show_featured and template != 'search.blog' -%}
+  <div class="featured-posts">
+    <h3>Featured Articles</h3>
+    <div class="wrap">
+    {%- for i in (1..5) -%}
+      {%- assign featuredShow = "featured_article_" | append: i | append:"_show" -%}
+      {%- assign featuredArticle = "featured_article_" | append: i -%}
+      {%- if settings[featuredShow] -%}
+        {%- assign featured = articles[settings[featuredArticle]] -%}
+        <a href="{{ featured.url }}" class="clearfix">
+          {% if featured.image != blank %}<div class="art-thumb" style="background-image:url('{{featured.image.src | img_url: '100x'}}');"></div>{% endif %}
+          <span class="art-title">{{featured.title}}</span>
+          <span class="art-sub">{{ featured.published_at | date: "%B %d, %Y" }}</span>
+        </a>
+      {%- endif -%}
+    {%- endfor -%}
+    </div>
+  </div>
+  {%- endif -%}
+
+  <div class="search">
+    <h3>Search</h3>
+    <form class="wrap" method="get" action="/search" class="clearfix" role="search">
+      <input class="searchBox field" type="text" name="q"{% if search.performed %} value="{{ search.terms | escape | downcase }}"{% endif %} /> 
+      <input type="hidden" name="type" value="article" />
+      <input type="hidden" name="view" value="blog" />
+      <button type="submit" aria-label="Submit">
+        {%- include 'icons', icon: 'search' -%}
+      </button>
+    </form>
+  </div>
+
+  {%- if settings.blog_show_recent and template != 'search.blog' -%}
+  <div class="recent-posts">
+    <h3>Recent Posts</h3>
+    <div class="wrap">
+    {%- for art in blog.articles limit:10 -%}
+      <a href="{{ art.url }}">
+        <span class="art-title">{{ art.title }}</span>
+      	<span class="art-sub">{{ art.published_at | date: "%a, %b %d, %y" }}</span>
+      </a>
+    {%- endfor -%}
+    </div>
+  </div>
+  {%- endif -%}
+
+  {%- if blog.all_tags.size > 0 and template != 'search.blog' -%}
+  <div class="categories">
+    <h3>Categories</h3>
+    <div class="wrap">
+      <a href="{{ blog.url }}">All</a>
+      {%- for tag in blog.all_tags -%}
+        {%- if current_tags contains tag -%}
+          {{ tag }}
+        {%- else -%}
+          {{ tag | link_to_tag: tag }}
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+  </div>
+  {%- endif -%}
+</aside>

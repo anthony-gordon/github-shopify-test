@@ -1,0 +1,353 @@
+{% render 'shogun-products', content: article %}
+
+<style>
+  #shopify-section-article .hero-banner {position: relative; overflow: hidden; padding: 12em 0 0; background-color: #ffffff;}
+  #shopify-section-article .hero-banner:before {content: ''; position: absolute; left: 0; top: 0; width: 100%; height: 79%; background-color: #f3eeea;}
+  #shopify-section-article .hero-banner .content {position: relative;}
+  #shopify-section-article .hero-banner .title {font-size: 3.2em; margin: 0.25em auto .5em; color: #314438;}
+  #shopify-section-article .hero-banner .text {color: #314438;}
+  #shopify-section-article .hero-banner .wrap {position: relative; margin: auto; max-width: 40em; padding: 2em 2em 3.2em 5em;}
+  .hero-banner img {width: 100%;}
+  .hero-banner .img {width: 100%; height: 100%; background-size: cover; background-position: center; background-repeat: no-repeat;}
+  .hero-banner .text {font-size: 1.25em;}
+  .hero-banner p {color: inherit;}
+  .hero-banner p:last-child {margin: 0;}
+  #shopify-section-article .hero-banner .buttons {position: relative; padding-top: 8.5em; width: 110%; margin-left: -5%;}
+  .hero-banner .buttons:before {content: ''; position: absolute; left: 50%; margin-left: -1px; border-right: 2px solid #aa6f58; top: 0.8em; bottom: 5em;}
+  .hero-banner .btn {min-width: 45%; white-space: nowrap; margin: 0.5em 2.5%; padding-left: 2em !important; padding-right: 2em !important;}
+
+  @media all and (min-width: 901px){
+    #shopify-section-article .hero-banner .image-wrap {width: 57%;}
+    .hero-banner .text {margin-bottom: 20px;}
+  }
+
+  @media all and (max-width: 1172px) and (min-width: 960px){
+    #shopify-section-article .hero-banner .title {font-size: 3.2em}
+    .hero-banner .text {font-size: 1.2em;}
+  }
+  @media all and (max-width: 960px) and (min-width: 900px){
+    #shopify-section-article .hero-banner .title {font-size: 2.6em}
+    .hero-banner .text {font-size: 1.1em;}
+  }
+  
+  @media all and (max-width: 1227px) {
+    #shopify-section-article .hero-banner:before {height: 78%;}
+    #shopify-section-article .hero-banner .buttons {padding-top: 1em; flex-direction: column-reverse; align-items: center;}
+    .hero-banner .buttons:before {display: none;}
+    .hero-banner .btn {width: 100%; max-width: 19em; min-width: 1px;}
+    #shopify-section-article .hero-banner .wrap {padding-left: 2em; padding-right: 0;}
+    #shopify-section-article .hero-banner .grid.row-reverse .wrap {padding-right: 2em; padding-left: 0;}
+  }
+  
+  @media all and (max-width: 900px){
+    #shopify-section-article .hero-banner .title {max-width: 12em; font-size: 3.2em; margin-bottom: 0.3em; line-height: 100%; margin-left: 0;}
+    #shopify-section-article .hero-banner:before {height: 32%;}
+    #shopify-section-article .hero-banner .wrap {width: 100% !important; padding: 1em 0;}
+    #shopify-section-article .hero-banner .block {padding: 0.5em 0 0;}
+    .hero-banner .grid-full.normal {padding-left: 0;}
+    .hero-banner .grid-full.row-reverse {padding-right: 0;}
+    #shopify-section-article .hero-banner {padding: 0.5em 0 0;}
+    .hero-banner .wrapper {padding: 0;}
+    #shopify-section-article .hero-banner .image-wrap {padding: 0;}
+    #shopify-section-article .hero-banner .img {height: 0; padding-top: 50%;}
+    .hero-banner .text {font-size: 1em; margin-bottom: 20px;}
+  }
+  
+  @media all and (max-width: 600px){
+    #shopify-section-article .hero-banner:before {height: 20em;}
+    .hero-banner .image-wrap {margin: auto;}
+    #shopify-section-article .hero-banner .img {padding-top: 23em;}
+    #shopify-section-article .hero-banner .buttons {padding-top: 0.5em;}
+  }
+
+  .pin-social-share-right {
+    position: absolute;
+    right: 0;
+  }
+
+  .heading-ar-left{
+    font-weight:bold;
+    margin-bottom: 10px;
+  }
+
+  .flexer-icons-ar a{
+    background: #314438;
+    height: 40px;
+    width: 40px;
+    padding: 10px;
+    border-radius: 50%;
+    text-align: center;
+    vertical-align: middle;
+    margin-right: 10px;
+  }
+  
+  .flexer-icons-ar a:hover{
+    background:#8dc0d2;
+  }
+  
+  .flexer-icons-ar a svg.icon path{
+    fill: #ffffff;
+  }
+  
+  .gol-with-author{
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:flex-start;
+    align-items:center;
+  }
+  
+  .real-gol-ar {
+    height: 40px;
+    width: 40px;
+    text-align: center;
+    background: #314438;
+    color: white;
+    font-weight: bold;
+    border-radius: 50%;
+    position:relative;
+  }
+  
+  .cobra-text-ar{
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width:100%;
+    text-align:center;
+  }
+  
+  .autor-name-ar{
+    color:#314438;
+    padding-left: 10px;
+  }
+
+  .article-tag {
+    color: #8dc0d2;
+    font-weight: bold;
+    font-size: 16px !important;
+    text-transform: uppercase;
+  }
+
+  .inside-article-main-content {
+    width: 50%;
+    margin: 0 auto;
+    padding: 20px 0px;
+    overflow: hidden;
+    margin-top: 15px;
+  }
+
+  @media all and (max-width: 900px) {
+    .inside-article-main-content {
+      width: 80%;
+    }
+  }
+
+  #related {
+    margin-top: 60px;
+  }
+
+  #related .related-title h2 {
+    text-align:center; font-size: 2.429em; margin-bottom: 1em;
+  }
+
+  /* ========== back to top btn =========== */
+  #myBtn {
+    display: none; /* Hidden by default */
+    position: fixed; /* Fixed/sticky position */
+    top: 50%;
+    transform: translateY(-50%);
+    right: -20px; /* Place the button 20px from the right */
+    z-index: 99; /* Make sure it does not overlap */
+    border: none; /* Remove borders */
+    outline: none; /* Remove outline */
+    color: #314438; /* Text color */
+    cursor: pointer; /* Add a mouse pointer on hover */
+    font-size: 14px; /* Increase font size */
+    transform: rotate(-90deg);
+    /* Legacy vendor prefixes that you probably don't need... */
+
+    /* Safari */
+    -webkit-transform: rotate(-90deg);
+
+    /* Firefox */
+    -moz-transform: rotate(-90deg);
+
+    /* IE */
+    -ms-transform: rotate(-90deg);
+
+    /* Opera */
+    -o-transform: rotate(-90deg);
+  }
+  /* ========== back to top btn =========== */
+</style>
+
+<div id="shopify-section-article" class="shopify-section">
+   <section class="hero-banner">
+      <div class="container">
+         <div class="grid-full content normal">
+            <div class="grid__item image-wrap medium-down--one-whole">
+              <div class="img lazyload" {% if section.settings.image_mobile != blank %}data-bgset="{% include 'lazy_src', image: article.image.src, small_image: article.image.src %}"{% else %}data-bgset="{% include 'lazy_src', image: article.image.src %}"{% endif %}></div>
+            </div>
+            <div class="grid__item wrapper large--flex-1 medium--flex-1 medium-down--one-whole">
+               <div class="wrap">
+                  <div class="article-tag">{% for tag in article.tags %}{{ tag }}{% if forloop.index > 0 %}{% if forloop.last == true %} {% else %}, {% endif %}{% endif %}{% endfor %}</div>
+                  <h1 class="title">{{ article.title }}</h1>
+                  <div class="text">
+                     <p>{{article.excerpt}}</p>
+                  </div>
+                  <br/>
+                  <br/>
+                  <div class="flex">
+                    <!--  =============AUTHOR START=========== -->
+                    {% capture author_abbrev %}
+                      {% assign aboutWords = article.author | split:' ' %}    
+                      {{ article.author | slice: 0 }}   
+                      {% assign words = article.author | split: ' ' %}
+                      {% for word in words %}
+                      {% if word.size > 1 %}
+                      {% if forloop.index == 2 %}   
+                      {{ word | slice: 0 }}
+                      {% endif %}
+                      {% endif %} 
+                      {% if word.size > 2 %}
+                      {% if forloop.index == 3 %}   
+                      {{ word | slice: 0 }}
+                      {% endif %}
+                      {% endif %}  
+                      {% if word.size > 3 %}
+                      {% if forloop.index == 4 %}   
+                      {{ word | slice: 0 }}
+                      {% endif %}
+                      {% endif %}
+                      {% endfor %}
+                    {% endcapture %}
+                    <div class="share-ar block-left-ar">
+                      <div class="heading-ar-left">AUTHOR</div>
+                      <div class="gol-with-author">
+                        <div class="real-gol-ar">
+                          <div class="cobra-text-ar">{{ author_abbrev }}</div>
+                        </div>
+                        <div class="autor-name-ar">{{ article.author }}</div>
+                      </div>
+                    </div>
+                    <!--  =============AUTHOR END=========== -->
+
+                    <!-- =========SHARE START========= -->
+                    <div>
+                      <div class="share-ar block-left-ar pin-social-share-right">
+                      <div class="heading-ar-left">SHARE</div>
+                        <div class="flex align-items-center flexer-icons-ar">
+                          <a class="facebook-share" target="_blank" aria-label="Share this post on Facebook" href="https://www.facebook.com/sharer/sharer.php?u={{ shop.url }}{{ article.url }}&text={{ article.title }}">{% include 'icons', icon: 'facebook' %}</a>
+                          <a class="twitter-share" target="_blank" aria-label="Share this post on Twitter" href="https://twitter.com/share?url={{ shop.url }}{{ article.url }}&title={{ article.title }}&description={{ article.content | strip_html }}">{% include 'icons', icon: 'twitter' %}</a>
+                          <a class="pinterest-share" target="_blank" aria-label="Share this post on Pinterest" href="//pinterest.com/pin/create/button/?url={{ shop.url }}{{ article.url }}&media={{ article.image.src | img_url: 'master' }}&description={{ article.title | strip_html }}">{% include 'icons', icon: 'pinterest' %}</a>
+                        </div>
+                      </div>
+                    </div>
+                    <!--  =============SHARE END=========== -->
+
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </section>
+   <div class="inside-article-main-content">
+    {{article.content}}
+    </div>
+  
+      <!-- ===============MAILING LIST START================ -->
+  {% section 'mailing_list' %}
+    <style>
+      #shopify-section-mailing_list {max-width: 800px; margin: 4em auto;}
+      #shopify-section-mailing_list .mailing-list {text-align: center;}
+      #shopify-section-mailing_list .mailing-list .form-wrap {width: 31.6em;max-width: 100%; margin-left: auto; margin-right: auto;}
+      #shopify-section-mailing_list .mailing-list label {font-size: 2.429em;margin-bottom: 0.4em; letter-spacing: 0.027em; line-height: 120%}
+      #shopify-section-mailing_list .mailing-list p {font-size: 1.286em; font-weight: 500; line-height: 120%}
+      #shopify-section-mailing_list .mailing-list .success-msg {font-size: 2em;}
+      @media (max-width: 600px) {
+        #shopify-section-mailing_list .mailing-list label {font-size: 1.85em;}
+      }
+    </style>
+        <!-- ===============MAILING LIST END================ -->
+
+    <!-- ===============RELATED START================ -->
+     <div id="related" style="display: none;">
+        <div class="related-title">
+          <h2>Related Posts</h2>
+        </div>
+        <div class="related-list articles-wrapper template-grid container flex justify-content-center">
+          <div class="grid one-whole justify-content-center"></div>
+        </div>
+      </div>
+    <!-- ===============RELATED END================ -->
+   <button onclick="topFunction()" id="myBtn" title="Go to top">Back to Top &#8594;</button>
+</div>
+
+<script>
+  $(function(){
+    $(document).ready(function(){
+      var url = "{{blog.url}}/tagged/";
+      var currentArticleId = '{{ article.id }}';
+      var articlesIds = [];
+      var articles = [];
+      var waiting = 0;
+      {% for tag in article.tags %}
+      waiting++;
+      $.ajax({
+        url: url + "{{ tag | handleize }}?view=related-articles",
+        cache: false
+      }).success(function(data){
+        waiting--;
+        var dataJson = jQuery.parseJSON(data);
+        $.each(dataJson["articles"], function(i, item) {
+          var found = jQuery.inArray(item.id, articlesIds)
+          if(found == -1 && parseInt(item.id) != parseInt(currentArticleId)) {
+            // Element was not found, add it.
+            articles.push(item);
+            articlesIds.push(item.id);
+          }
+        });
+        if(waiting == 0){
+          if ( articles.length > 0) { //related articles found
+            articles.sort(function(obj1, obj2) {
+              return obj2.created_at - obj1.created_at;
+            });
+            $.each(articles, function(i, item) {
+              if(i < 10){
+                $("#related .grid").append(item.html);
+              }
+            });
+            
+            $('#related').show();
+            
+            
+          }
+        }
+      });
+      {% endfor %}
+    });
+  });
+</script>  
+
+<script>
+  //Get the button:
+  mybutton = document.getElementById("myBtn");
+
+  // When the user scrolls down 500px from the top of the document, show the button
+  window.addEventListener('scroll', scrollFunction);
+
+  function scrollFunction() {
+    if (document.body.scrollTop > 500 || document.documentElement.scrollTop > 500) {
+      mybutton.style.display = "block";
+    } else {
+      mybutton.style.display = "none";
+    }
+  }
+
+  // When the user clicks on the button, scroll to the top of the document
+  function topFunction() {
+    document.body.scrollTop = 0; // For Safari
+    document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+  }
+</script>
+
+
