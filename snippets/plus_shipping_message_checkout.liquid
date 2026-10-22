@@ -2,7 +2,7 @@
 {%- assign currentDate = 'now' | date: '%Y-%m-%d' | json -%}
 {%- assign defaultShippingProcessingMessage = 'default' -%}
 
-{%- capture 'date_processing_data' -%}
+{%- capture date_processing_data -%}
   {%- for line_item in checkout.line_items -%}
     {%- if line_item.variant.metafields.variant.date_available -%}
       {%- assign dateAvailable = line_item.variant.metafields.variant.date_available | date: '%Y-%m-%d' | json -%}
@@ -17,7 +17,7 @@
   {% endfor %}
 {%- endcapture -%}
 
-{%- capture 'line_item_messages' -%}
+{%- capture line_item_messages -%}
   {%- for line_item in checkout.line_items -%}
     {%- assign message = "" -%}
     {%- for p in line_item.properties -%}
@@ -161,4 +161,16 @@
     document.addEventListener('page:load', window.Plus.product.insertShippingProcessingMessages); 
     document.addEventListener('page:change', window.Plus.product.insertShippingProcessingMessages); 
   })()		  	
-</script>
+</script>{%- comment -%}
+
+This file has been rewritten to preserve the original behavior.
+
+---
+Changes:
+- from: "{%- capture 'date_processing_data' -%}"
+  to: "{%- capture date_processing_data -%}"
+  position: 239..275
+- from: "{%- capture 'line_item_messages' -%}"
+  to: "{%- capture line_item_messages -%}"
+  position: 1227..1261
+{%- endcomment -%}

@@ -4,7 +4,7 @@
 {%- assign currentDate = 'now' | date: '%Y-%m-%d' | json -%}
 {% assign allBundleConstituentsHaveProductHandleSpecified = true %}
 
-{%- capture 'date_processing_data' -%}
+{%- capture date_processing_data -%}
 {%- for variant in product.variants -%}
   {%- for bundle_product in variant.metafields.variant.bundle_products -%}
     {%- for specialVariant in all_products[bundle_product.productHandle].variants -%}
@@ -29,7 +29,7 @@
 {%- endfor -%}
 {%- endcapture -%}
 
-{%- capture 'constituent_products' -%}
+{%- capture constituent_products -%}
 {%- for variant in product.variants -%}
   {%- for bundle_product in variant.metafields.variant.bundle_products -%}
   {% if bundle_product.productHandle == blank %}
@@ -55,7 +55,7 @@
 {%- endfor %}
 {%- endcapture -%}
 
-{%- capture 'bundleInfo' -%}
+{%- capture bundleInfo -%}
 {%- for variant in product.variants -%}
 {{- variant.id | json -}}: {{- variant.metafields.variant.bundle_products | json -}}
 {%- unless forloop.last -%},{%- endunless -%} 
@@ -353,4 +353,19 @@
   	  		  	
 </script>
 
-{%- endif -%}
+{%- endif -%}{%- comment -%}
+
+This file has been rewritten to preserve the original behavior.
+
+---
+Changes:
+- from: "{%- capture 'date_processing_data' -%}"
+  to: "{%- capture date_processing_data -%}"
+  position: 288..324
+- from: "{%- capture 'constituent_products' -%}"
+  to: "{%- capture constituent_products -%}"
+  position: 1789..1825
+- from: "{%- capture 'bundleInfo' -%}"
+  to: "{%- capture bundleInfo -%}"
+  position: 3028..3054
+{%- endcomment -%}

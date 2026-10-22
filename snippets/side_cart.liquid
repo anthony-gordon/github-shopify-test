@@ -144,7 +144,7 @@
                 </div>
                 <div class="price">
                   <div class="pri">
-                    {% if item.original_line_price and item.original_line_price != item.line_price and (item.properties._igLineItemDiscount == "0" or item.properties._igLineItemDiscount == blank or item.properties._igLineItemDiscount == nil) %}
+                    {% if item.original_line_price and item.original_line_price != item.line_price and item.properties._igLineItemDiscount == "0" or item.properties._igLineItemDiscount == blank or item.properties._igLineItemDiscount == nil %}
                     	<span style="text-decoration:line-through;">{{ item.original_line_price | money  }}</span><br>
                     {% endif %}
                     {{ item.line_price | money }}{% if item.message and item.message != "" and item.message != "intelligems" %}<br><span>({{ item.message }})</span>{% endif %}</div>
@@ -198,4 +198,17 @@
 
 <script>
   
-</script>
+</script>{%- comment -%}
+
+This file has been rewritten to preserve the original behavior.
+
+---
+Changes:
+- from: '{% if item.original_line_price and item.original_line_price != item.line_price
+    and (item.properties._igLineItemDiscount == "0" or item.properties._igLineItemDiscount
+    == blank or item.properties._igLineItemDiscount == nil) %}'
+  to: '{% if item.original_line_price and item.original_line_price != item.line_price
+    and item.properties._igLineItemDiscount == "0" or item.properties._igLineItemDiscount
+    == blank or item.properties._igLineItemDiscount == nil %}'
+  position: 7734..7956
+{%- endcomment -%}

@@ -491,7 +491,7 @@
 
           <div id="atc-cta" class="qty-btn-wrap flex flex-wrap medium-down--justify-content-center">
             {%- include '_product_quantity' -%}
-            {%- include '_product_buttons', newPdp:true, shipDate: {{product.selected_or_first_available_variant.metafields.variant.shipping}} -%}
+            {%- include '_product_buttons', newPdp: true, shipDate: product.selected_or_first_available_variant.metafields.variant.shipping -%}
           </div>
           {%- endif -%}
 
@@ -511,7 +511,7 @@
 
             <div id="atc-cta" class="qty-btn-wrap flex flex-wrap medium-down--justify-content-center">
               {%- include '_product_quantity' -%}
-              {%- include '_product_buttons', newPdp:true, shipDate: {{product.selected_or_first_available_variant.metafields.variant.shipping}} -%}
+              {%- include '_product_buttons', newPdp: true, shipDate: product.selected_or_first_available_variant.metafields.variant.shipping -%}
             </div>
 
 
@@ -655,7 +655,7 @@
           
         </div>
         <div class="btn-side">
-          {%- include '_product_buttons', newPdp:true, shipDate: {{product.selected_or_first_available_variant.metafields.variant.shipping}} -%}
+          {%- include '_product_buttons', newPdp: true, shipDate: product.selected_or_first_available_variant.metafields.variant.shipping -%}
         </div>
       </div>
     {% comment %}
@@ -682,3 +682,25 @@
 
 
 
+{% comment %}
+
+This file has been rewritten to preserve the original behavior.
+
+---
+Changes:
+- from: "{%- include '_product_buttons', newPdp:true, shipDate: {{product.selected_or_first_available_variant.metafields.variant.shipping}}
+    -%}"
+  to: "{%- include '_product_buttons', newPdp: true, shipDate: product.selected_or_first_available_variant.metafields.variant.shipping
+    -%}"
+  position: 33308..33439
+- from: "{%- include '_product_buttons', newPdp:true, shipDate: {{product.selected_or_first_available_variant.metafields.variant.shipping}}
+    -%}"
+  to: "{%- include '_product_buttons', newPdp: true, shipDate: product.selected_or_first_available_variant.metafields.variant.shipping
+    -%}"
+  position: 34836..34967
+- from: "{%- include '_product_buttons', newPdp:true, shipDate: {{product.selected_or_first_available_variant.metafields.variant.shipping}}
+    -%}"
+  to: "{%- include '_product_buttons', newPdp: true, shipDate: product.selected_or_first_available_variant.metafields.variant.shipping
+    -%}"
+  position: 59145..59276
+{% endcomment %}

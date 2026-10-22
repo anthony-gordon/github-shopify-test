@@ -79,7 +79,7 @@ epigraph-ar::part(default-ar-button) {
 }
 
 @media only screen and (max-width: 900px) {
-  {% if currentProduct.variants | size >= 1 %}
+  {% if currentProduct.variants %}
   :not(.slideVisible) + .slideVisible epigraph-ar.__desktop__ {
       display: none;
   }
@@ -120,3 +120,13 @@ epigraph-ar::part(default-ar-button) {
   };
 }
 </style>
+{% comment %}
+
+This file has been rewritten to preserve the original behavior.
+
+---
+Changes:
+- from: "{% if currentProduct.variants | size >= 1 %}"
+  to: "{% if currentProduct.variants %}"
+  position: 2291..2323
+{% endcomment %}

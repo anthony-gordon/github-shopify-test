@@ -3,7 +3,7 @@
 {%- assign defaultProcessingTimeDifference = settings.plus_product_page_shipping_message_default_processing_time -%}
 {%- assign currentDate = 'now' | date: '%Y-%m-%d' | json -%}
 
-{%- capture 'date_processing_data' -%}
+{%- capture date_processing_data -%}
   {%- for variant in product.variants -%}
 	{%- if variant.metafields.variant.date_available -%}
 		{%- assign dateAvailable = variant.metafields.variant.date_available | date: '%Y-%m-%d' | json -%}
@@ -135,4 +135,13 @@
     plusShippingProcessingInput.value = shippingMessage;
   }
   	  		  	
-</script>
+</script>{%- comment -%}
+
+This file has been rewritten to preserve the original behavior.
+
+---
+Changes:
+- from: "{%- capture 'date_processing_data' -%}"
+  to: "{%- capture date_processing_data -%}"
+  position: 220..256
+{%- endcomment -%}
